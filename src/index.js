@@ -2,16 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "@material-ui/styles";
 import { CssBaseline } from "@material-ui/core";
-
+import store from './Redux/_store';
+import { Provider } from "react-redux";
 import Themes from "./themes";
 import App from './App';
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
+  <Provider store={store}>
+  <LayoutProvider>
+    <UserProvider>
       <ThemeProvider theme={Themes.default}>
         <CssBaseline />
         <App />
-      </ThemeProvider>,
+      </ThemeProvider>
+    </UserProvider>
+  </LayoutProvider>
+  </Provider>
+  ,
   document.getElementById("root"),
 );
 
