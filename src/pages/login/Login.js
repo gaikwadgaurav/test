@@ -8,7 +8,7 @@ import {
   Tabs,
   Tab,
   TextField,
-  Fade
+  Fade,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import classnames from "classnames";
@@ -19,8 +19,9 @@ import styles from "./styles";
 // logo
 import logo from "./logo.svg";
 import google from "../../images/google.svg";
-import { signIn } from "../../Redux/_actions/user.action";
-
+import { signIn, signUp } from "../../Redux/_actions/user.action";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // context
 // import { useUserDispatch, loginUser } from "../../context/UserContext";
 
@@ -36,6 +37,11 @@ class SignInForm extends React.Component {
       nameValue: "",
       email: "",
     };
+
+    toast.configure({
+      autoClose: 5000,
+      draggable: true,
+    });
   }
 
   setValue(e) {
@@ -55,13 +61,51 @@ class SignInForm extends React.Component {
     dispatch(signIn(arg));
   }
 
+  registerUser() {
+    const { dispatch } = this.props;
+    const { activeTabId, error, isLoading, loginValue, ...arg } = this.state;
+    dispatch(signUp(arg));
+  }
+
   componentDidUpdate() {
     const { userData, history } = this.props;
     if (userData.status === "SUCCESS" && userData.userData !== "") {
       localStorage.setItem("userData", JSON.stringify(userData.userData));
       history.push("/app/dashboard");
+      toast.success(userData.successMessage, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
+
+    if (userData.status === "SUCCESS" && userData.signUp !== "") {
+      toast.success(userData.successMessage, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
+
+  notifyB = () => {
+    toast.success("Success Notification !", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+
+    toast.error("Error Notification !", {
+      position: toast.POSITION.TOP_LEFT,
+    });
+
+    toast.warn("Warning Notification !", {
+      position: toast.POSITION.BOTTOM_LEFT,
+    });
+
+    toast.info("Info Notification !", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
+
+    toast("Custom Style Notification with css class!", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      className: "foo-bar",
+    });
+  };
 
   render() {
     const {
@@ -248,7 +292,7 @@ class SignInForm extends React.Component {
                     <CircularProgress size={26} />
                   ) : (
                     <Button
-                      // onClick={() => this.loginUser()}
+                      onClick={() => this.registerUser()}
                       disabled={
                         password.length === 0 ||
                         nameValue.length === 0 ||
@@ -285,7 +329,6 @@ class SignInForm extends React.Component {
                   />
                   &nbsp;Sign in with Google
                 </Button>
-
               </React.Fragment>
             )}
           </div>

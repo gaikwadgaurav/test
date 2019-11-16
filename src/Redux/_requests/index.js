@@ -1,6 +1,6 @@
 import axios from "axios";
 import qs from 'qs';
-import { isAuthenticated } from "../../common/isAuthanticated";
+import { isAuthenticated } from "../../common/isAuthenticated";
 
 export const axiosRequest = (requestMethod, url, headers, params, body) => new Promise((resolve, reject) => {
     const baseUrl = `/api/v1/${url}`;
