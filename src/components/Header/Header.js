@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -33,7 +33,11 @@ import {
   useLayoutDispatch,
   toggleSidebar,
 } from "../../context/LayoutContext";
-import { useUserDispatch, signOut } from "../../context/UserContext";
+// import { useUserDispatch } from "../../context/UserContext";
+import { connect } from "react-redux";
+import { signOut, clearMsg } from "../../Redux/_actions/user.action";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const messages = [
   {
@@ -88,13 +92,23 @@ const notifications = [
   },
 ];
 
-export default function Header(props) {
-  var classes = useStyles();
+function logOut(props) {
+  const dispatch = props.store.dispatch;
+  const isAuthenticatedUser = JSON.parse(localStorage.getItem("userData"));
+  const isAuthenticatedToken = isAuthenticatedUser.authentication_token;
+  dispatch(signOut(isAuthenticatedToken));
+}
 
+export function Header(props) {
+  var classes = useStyles();
+  toast.configure({
+    autoClose: 5000,
+    draggable: true,
+  });
   // global
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
-  var userDispatch = useUserDispatch();
+  // var userDispatch = useUserDispatch();
 
   // local
   var [mailMenu, setMailMenu] = useState(null);
@@ -103,6 +117,28 @@ export default function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
+
+  function signOutSuccess(props) {
+    const propsData = props.userData;
+    const dispatch = props.store.dispatch;
+    if (propsData.isSignOut) {
+      props.history.push("/login");
+      localStorage.removeItem("userData");
+      toast.success(propsData.successMessage, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      dispatch(clearMsg());
+    }
+
+    if (propsData.errorMessage) {
+      toast.error(propsData.errorMessage, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+  useEffect(() => {
+    signOutSuccess(props);
+  });
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -326,7 +362,7 @@ export default function Header(props) {
             <Typography
               className={classes.profileMenuLink}
               color="primary"
-              onClick={() => signOut(userDispatch, props.history)}
+              onClick={() => logOut(props)}
             >
               Sign Out
             </Typography>
@@ -336,3 +372,11 @@ export default function Header(props) {
     </AppBar>
   );
 }
+
+const mapStateToProps = function(state) {
+  return {
+    userData: state.userData,
+  };
+};
+
+export default connect(mapStateToProps)(Header);

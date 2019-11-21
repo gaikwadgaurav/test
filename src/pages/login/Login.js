@@ -11,17 +11,25 @@ import {
   Fade,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
-import classnames from "classnames";
+// import classnames from "classnames";
 
 // styles
 import styles from "./styles";
 
 // logo
 import logo from "./logo.svg";
-import google from "../../images/google.svg";
-import { signIn, signUp } from "../../Redux/_actions/user.action";
+// import google from "../../images/google.svg";
+import {
+  signIn,
+  signUp,
+  clearMsg,
+  signInWithGoogle,
+} from "../../Redux/_actions/user.action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import GoogleLogin from "react-google-login";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+// import Loader from "react-loader-spinner";
 // context
 // import { useUserDispatch, loginUser } from "../../context/UserContext";
 
@@ -68,43 +76,46 @@ class SignInForm extends React.Component {
   }
 
   componentDidUpdate() {
-    const { userData, history } = this.props;
+    const { userData, history, dispatch } = this.props;
     if (userData.status === "SUCCESS" && userData.userData !== "") {
       localStorage.setItem("userData", JSON.stringify(userData.userData));
       history.push("/app/dashboard");
       toast.success(userData.successMessage, {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.TOP_RIGHT,
       });
+      dispatch(clearMsg());
     }
 
     if (userData.status === "SUCCESS" && userData.signUp !== "") {
       toast.success(userData.successMessage, {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.TOP_RIGHT,
       });
+      dispatch(clearMsg());
+    }
+
+    if (
+      userData.status === "FAILED" &&
+      (userData.userData === "" || userData.signUp === "")
+    ) {
+      toast.error(userData.errorMessage, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      dispatch(clearMsg());
     }
   }
 
-  notifyB = () => {
-    toast.success("Success Notification !", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-
-    toast.error("Error Notification !", {
-      position: toast.POSITION.TOP_LEFT,
-    });
-
-    toast.warn("Warning Notification !", {
-      position: toast.POSITION.BOTTOM_LEFT,
-    });
-
-    toast.info("Info Notification !", {
-      position: toast.POSITION.BOTTOM_CENTER,
-    });
-
-    toast("Custom Style Notification with css class!", {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      className: "foo-bar",
-    });
+  onAuthSuccess = async response => {
+    if (response) {
+      const { dispatch } = this.props;
+      const formData = {
+        token: response.tokenId,
+        googleid: response.googleId,
+      };
+      dispatch(signInWithGoogle(formData));
+    }
+  };
+  onAuthFailure = response => {
+    console.log("google failure response--->", response);
   };
 
   render() {
@@ -120,6 +131,13 @@ class SignInForm extends React.Component {
     const { classes } = this.props;
     return (
       <Grid container className={classes.container}>
+        {/* <Loader
+          type="TailSpin"
+          color="purple"
+          height={100}
+          width={100}
+          timeout={3000}
+        /> */}
         <div className={classes.logotypeContainer}>
           <img src={logo} alt="logo" className={classes.logotypeImage} />
           <Typography className={classes.logotypeText}>CHURN APP</Typography>
@@ -144,14 +162,16 @@ class SignInForm extends React.Component {
                 <Typography variant="h1" className={classes.greeting}>
                   Good Morning, User
                 </Typography>
-                <Button size="large" className={classes.googleButton}>
-                  <img
-                    src={google}
-                    alt="google"
-                    className={classes.googleIcon}
-                  />
-                  &nbsp;Sign in with Google
-                </Button>
+                <GoogleLogin
+                  size="large"
+                  className={classes.googleButton}
+                  clientId="992530099214-iv0pkqf9olksdob64ik5qkop4tohf8fk.apps.googleusercontent.com"
+                  buttonText="Sign in with Google"
+                  onSuccess={this.onAuthSuccess}
+                  onFailure={this.onAuthFailure}
+                  cookiePolicy={"single_host_origin"}
+                />
+
                 <div className={classes.formDividerContainer}>
                   <div className={classes.formDivider} />
                   <Typography className={classes.formDividerWord}>
@@ -315,20 +335,15 @@ class SignInForm extends React.Component {
                   </Typography>
                   <div className={classes.formDivider} />
                 </div>
-                <Button
+                <GoogleLogin
                   size="large"
-                  className={classnames(
-                    classes.googleButton,
-                    classes.googleButtonCreating,
-                  )}
-                >
-                  <img
-                    src={google}
-                    alt="google"
-                    className={classes.googleIcon}
-                  />
-                  &nbsp;Sign in with Google
-                </Button>
+                  className={classes.googleButton}
+                  clientId="992530099214-iv0pkqf9olksdob64ik5qkop4tohf8fk.apps.googleusercontent.com"
+                  buttonText="Sign in with Google"
+                  onSuccess={this.onAuthSuccess}
+                  onFailure={this.onAuthFailure}
+                  cookiePolicy={"single_host_origin"}
+                />
               </React.Fragment>
             )}
           </div>
