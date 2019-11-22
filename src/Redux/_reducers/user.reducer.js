@@ -55,7 +55,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: FAILED,
-        errorMessage: action.data.message,
+        errorMessage: action.data,
         userData: "",
         signUp: "",
         isAuthenticated: false,
@@ -88,7 +88,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: FAILED,
-        errorMessage: action.data.message,
+        errorMessage: action.data,
         userData: "",
         signUp: "",
         isAuthenticated: false,
@@ -119,7 +119,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: FAILED,
-        errorMessage: action.data.message,
+        errorMessage: action.data,
         userData: "",
         signUp: "",
         successMessage: "",
@@ -153,7 +153,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: FAILED,
-        errorMessage: action.data.message,
+        errorMessage: action.data,
         userData: "",
         signUp: "",
         isAuthenticated: false,

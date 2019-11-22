@@ -1,4 +1,3 @@
-
 import themes from "../../themes";
 let theme = themes.default;
 export default {
@@ -41,6 +40,7 @@ export default {
   },
   formContainer: {
     width: "40%",
+    position: "relative",
     height: "100%",
     display: "flex",
     flexDirection: "column",
@@ -138,14 +138,16 @@ export default {
   loginLoader: {
     marginLeft: theme.spacing(4),
   },
+  cancelButton: {
+    marginLeft: theme.spacing(3),
+  },
   copyright: {
     marginTop: theme.spacing(4),
     whiteSpace: "nowrap",
     [theme.breakpoints.up("md")]: {
       position: "absolute",
-      top: 0,
-      left: 0,
+      // right: 110,
+      bottom: 10,
     },
-
   },
 };

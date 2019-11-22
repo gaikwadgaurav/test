@@ -47,7 +47,7 @@ export const signIn = payload => async dispatch => {
     } catch (error) {
       dispatch({
         type: SIGN_IN_FAILED,
-        data: { message: "Failed to signIn...!" },
+        data: error.messages,
       });
     }
   }
@@ -80,7 +80,7 @@ export const signInWithGoogle = payload => async dispatch => {
   } catch (error) {
     dispatch({
       type: SIGN_IN_WITH_GOOGLE_FAILED,
-      data: { message: "Failed to signIn...!" },
+      data: error.messages,
     });
   }
 };
@@ -118,7 +118,7 @@ export const signUp = payload => async dispatch => {
     } catch (error) {
       dispatch({
         type: SIGN_UP_FAILED,
-        data: { message: "Failed to signUp...!" },
+        data: error.messages,
       });
     }
   }
@@ -136,7 +136,6 @@ export const signOut = (payload) => async dispatch => {
         null,
         null,
       );
-      console.log(response)
       if (response.is_success) {
         dispatch({
           type: SIGN_OUT_SUCCESS,
@@ -154,11 +153,12 @@ export const signOut = (payload) => async dispatch => {
     } catch (error) {
       dispatch({
         type: SIGN_OUT_FAILED,
-        data: { message: "Failed to signOut...!" },
+        data: error.messages,
       });
     }
   }
 };
+
 
 export const clearMsg = () => dispatch => {
   dispatch({
