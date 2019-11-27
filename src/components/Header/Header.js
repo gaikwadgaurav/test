@@ -92,13 +92,6 @@ const notifications = [
   },
 ];
 
-function logOut(props) {
-  const dispatch = props.store.dispatch;
-  const isAuthenticatedUser = JSON.parse(localStorage.getItem("userData"));
-  const isAuthenticatedToken = isAuthenticatedUser.authentication_token;
-  dispatch(signOut(isAuthenticatedToken));
-}
-
 export function Header(props) {
   var classes = useStyles();
   toast.configure({
@@ -117,6 +110,13 @@ export function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
+
+  function logOut(props) {
+    const dispatch = props.store.dispatch;
+    const isAuthenticatedUser = JSON.parse(localStorage.getItem("userData"));
+    const isAuthenticatedToken = isAuthenticatedUser.token;
+    dispatch(signOut(isAuthenticatedToken));
+  }
 
   function signOutSuccess(props) {
     const propsData = props.userData;
