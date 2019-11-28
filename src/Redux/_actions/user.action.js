@@ -89,7 +89,8 @@ export const signUp = payload => async dispatch => {
   dispatch({ type: SIGN_UP_BEGIN });
   if (payload) {
     const formData = {
-      "company[name]": payload.nameValue,
+      "company[name]": payload.companyNameValue,
+      "user[name]": payload.nameValue,
       "user[email]": payload.email,
       "user[password]": payload.password,
     };

@@ -44,6 +44,7 @@ class SignInForm extends React.Component {
       password: "",
       confirm_password: "",
       isLoading: "",
+      companyNameValue: "",
       nameValue: "",
       email: "",
       showForgetPasswordForm: false,
@@ -187,6 +188,7 @@ class SignInForm extends React.Component {
         activeTabId: 0,
         password: "",
         email: "",
+        companyNameValue: "",
         nameValue: "",
       });
       dispatch(clearMsg());
@@ -228,6 +230,7 @@ class SignInForm extends React.Component {
       loginValue,
       password,
       confirm_password,
+      companyNameValue,
       nameValue,
       email,
       showForgetPasswordForm,
@@ -382,6 +385,21 @@ class SignInForm extends React.Component {
                       Something is wrong with your login or password :(
                     </Typography>
                   </Fade>
+                  <TextField
+                    id="companyNameValue"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    value={companyNameValue}
+                    onChange={e => this.setValue(e)}
+                    margin="normal"
+                    placeholder="Company Name"
+                    type="text"
+                    fullWidth
+                  />
                   <TextField
                     id="nameValue"
                     InputProps={{
