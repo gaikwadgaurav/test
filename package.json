@@ -25,6 +25,7 @@
     "classnames": "^2.2.6",
     "env-cmd": "^10.0.1",
     "font-awesome": "^4.7.0",
+    "http-proxy-middleware": "^0.20.0",
     "mdbreact": "^4.19.1",
     "mui-datatables": "^2.6.4",
     "node-sass": "^4.13.0",
