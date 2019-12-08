@@ -3,22 +3,35 @@ import qs from "qs";
 import { isAuthenticated } from "../../common/isAuthenticated";
 import { GOOGLEAUTH } from "../_constants/index";
 
-export const axiosRequest = (requestMethod, url, headers, params, body) =>
+export const axiosRequest = (
+  requestMethod,
+  url,
+  headers,
+  params,
+  body,
+  contentType = "json",
+) =>
   new Promise((resolve, reject) => {
-    const baseUrl = `/api/v1/${url}`;
-    let setHeaders = {};
+    const baseUrl = `${process.env.REACT_APP_SERVER_URL}${process.env.REACT_APP_BASE_URL}/${url}`;
+    let setHeaders = { "Content-Type": "application/json" };
+    // let setHeaders = { 'Content-Type': 'application/x-www-form-urlencoded' };
     const headerType = typeof headers;
     if (headerType === "string") {
       setHeaders = { Authorization: headers };
     }
     if (headers && headerType !== "string") {
       const isAuth = isAuthenticated();
-      setHeaders = { Authorization: isAuth.token };
+      setHeaders = { Authorization: "Bearer " + isAuth.token };
     }
+
+    if (contentType !== "json") {
+      setHeaders["Content-Type"] = "multipart/form-data";
+    }
+
     axios({
       method: requestMethod,
       url: baseUrl,
-      data: qs.stringify(body),
+      data: body,
       headers: setHeaders,
       params: params,
     })
@@ -45,7 +58,6 @@ export const googleAuth = params =>
       headers: GOOGLEAUTH.HEADERS,
     })
       .then(res => {
-
         // if (res.status === 200) {
         //   res.data["statusCode"] = true;
         //   resolve(res.data);

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-export const PublicRoute = ({ component: Component, ...rest }) => {
+export const PublicRoute = ({ component: Component, location, ...rest }) => {
   const userData = JSON.parse(localStorage.getItem("userData"));
   return (
     <Route
@@ -10,9 +10,7 @@ export const PublicRoute = ({ component: Component, ...rest }) => {
         !userData ? (
           <Component {...props} />
         ) : (
-          <Redirect
-            to={{ pathname: "/app/dashboard", state: { from: props.location } }}
-          />
+          <Redirect to={{ pathname: "/app/dashboard", location }} />
         )
       }
     />

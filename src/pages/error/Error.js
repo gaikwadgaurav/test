@@ -1,10 +1,13 @@
 import React from "react";
-import { Grid, Paper, Typography, Button } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 
 // styles
 import useStyles from "./styles";
+
+//components
+import { Button, Typography } from "../../components/Wrappers";
 
 // logo
 import logo from "./logo.svg";
@@ -16,7 +19,7 @@ export default function Error() {
     <Grid container className={classes.container}>
       <div className={classes.logotype}>
         <img className={classes.logotypeIcon} src={logo} alt="logo" />
-        <Typography variant="h3" color="white" className={classes.logotypeText}>
+        <Typography variant="h3" className={classes.logotypeText}>
           Material Admin
         </Typography>
       </div>
@@ -34,7 +37,7 @@ export default function Error() {
         <Typography
           variant="h6"
           color="text"
-          colorBrightness="secondary"
+          colorBrightness="hint"
           className={classnames(classes.textRow, classes.safetyText)}
         >
           But we're here to bring you back to safety

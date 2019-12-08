@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Box } from "@material-ui/core";
 import { Close as CloseIcon } from "@material-ui/icons";
 import { ToastContainer, toast } from "react-toastify";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import classnames from "classnames";
 
 // styles
@@ -11,10 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 import useStyles from "./styles";
 
 // components
-import Widget from "../../components/Widget/Widget";
-import PageTitle from "../../components/PageTitle/PageTitle";
+import Widget from "../../components/Widget";
 import Notification from "../../components/Notification";
-import { Typography, Button } from "../../components/Wrappers/Wrappers";
+import Code from "../../components/Code";
+import { Typography, Button } from "../../components/Wrappers";
 
 const positions = [
   toast.POSITION.TOP_LEFT,
@@ -22,7 +20,7 @@ const positions = [
   toast.POSITION.TOP_RIGHT,
   toast.POSITION.BOTTOM_LEFT,
   toast.POSITION.BOTTOM_CENTER,
-  toast.POSITION.BOTTOM_RIGHT,
+  toast.POSITION.BOTTOM_RIGHT
 ];
 
 export default function NotificationsPage(props) {
@@ -34,8 +32,7 @@ export default function NotificationsPage(props) {
 
   return (
     <>
-      <PageTitle title="Notifications" />
-      <Grid container spacing={8}>
+      <Grid container spacing={3}>
         <ToastContainer
           className={classes.toastsContainer}
           closeButton={
@@ -55,19 +52,19 @@ export default function NotificationsPage(props) {
                 <button
                   onClick={() => changeNotificationPosition(0)}
                   className={classnames(classes.layoutButton, {
-                    [classes.layoutButtonActive]: notificationsPosition === 0,
+                    [classes.layoutButtonActive]: notificationsPosition === 0
                   })}
                 />
                 <button
                   onClick={() => changeNotificationPosition(1)}
                   className={classnames(classes.layoutButton, {
-                    [classes.layoutButtonActive]: notificationsPosition === 1,
+                    [classes.layoutButtonActive]: notificationsPosition === 1
                   })}
                 />
                 <button
                   onClick={() => changeNotificationPosition(2)}
                   className={classnames(classes.layoutButton, {
-                    [classes.layoutButtonActive]: notificationsPosition === 2,
+                    [classes.layoutButtonActive]: notificationsPosition === 2
                   })}
                 />
               </div>
@@ -78,19 +75,19 @@ export default function NotificationsPage(props) {
                 <button
                   onClick={() => changeNotificationPosition(3)}
                   className={classnames(classes.layoutButton, {
-                    [classes.layoutButtonActive]: notificationsPosition === 3,
+                    [classes.layoutButtonActive]: notificationsPosition === 3
                   })}
                 />
                 <button
                   onClick={() => changeNotificationPosition(4)}
                   className={classnames(classes.layoutButton, {
-                    [classes.layoutButtonActive]: notificationsPosition === 4,
+                    [classes.layoutButtonActive]: notificationsPosition === 4
                   })}
                 />
                 <button
                   onClick={() => changeNotificationPosition(5)}
                   className={classnames(classes.layoutButton, {
-                    [classes.layoutButtonActive]: notificationsPosition === 5,
+                    [classes.layoutButtonActive]: notificationsPosition === 5
                   })}
                 />
               </div>
@@ -139,12 +136,7 @@ export default function NotificationsPage(props) {
                 react-toastify
               </a>
             </Typography>
-            <div className={classes.codeContainer}>
-              <SyntaxHighlighter
-                className={classes.codeComponent}
-                language="javascript"
-                style={docco}
-              >{`
+            <Code>{`
   // import needed components, functions and styles
   import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
@@ -157,11 +149,12 @@ export default function NotificationsPage(props) {
       </button>
     </div>
   };
-            `}</SyntaxHighlighter>
+            `}</Code>
+            <Box py={1}>
               <Typography variant="caption">
                 For more API information refer to the library documentation
               </Typography>
-            </div>
+            </Box>
           </Widget>
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
@@ -313,7 +306,7 @@ export default function NotificationsPage(props) {
         {...componentProps}
         className={classes.notificationComponent}
       />,
-      options,
+      options
     );
   }
 
@@ -322,11 +315,11 @@ export default function NotificationsPage(props) {
       type: "message",
       message: "Message was sent successfully!",
       variant: "contained",
-      color: "success",
+      color: "success"
     };
     toast.update(errorToastId, {
       render: <Notification {...componentProps} />,
-      type: "success",
+      type: "success"
     });
     setErrorToastId(null);
   }
@@ -342,7 +335,7 @@ export default function NotificationsPage(props) {
           type: "feedback",
           message: "New user feedback received",
           variant: "contained",
-          color: "primary",
+          color: "primary"
         };
         break;
       case "error":
@@ -352,7 +345,7 @@ export default function NotificationsPage(props) {
           variant: "contained",
           color: "secondary",
           extraButton: "Resend",
-          extraButtonClick: retryErrorNotification,
+          extraButtonClick: retryErrorNotification
         };
         break;
       default:
@@ -360,7 +353,7 @@ export default function NotificationsPage(props) {
           type: "shipped",
           message: "The item was shipped",
           variant: "contained",
-          color: "success",
+          color: "success"
         };
     }
 
@@ -369,7 +362,7 @@ export default function NotificationsPage(props) {
       position: positions[notificationsPosition],
       progressClassName: classes.progress,
       onClose: notificationType === "error" && (() => setErrorToastId(null)),
-      className: classes.notification,
+      className: classes.notification
     });
 
     if (notificationType === "error") setErrorToastId(toastId);

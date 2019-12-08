@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import MUIDataTable from "mui-datatables";
 
 // components
-import PageTitle from "../../components/PageTitle";
 import Widget from "../../components/Widget";
 import Table from "../dashboard/components/Table/Table";
 
@@ -27,13 +26,12 @@ const datatableData = [
   ["Anna Siranush", "Example Inc.", "Yonkers", "NY"],
   ["Avram Sylva", "Example Inc.", "Hartford", "CT"],
   ["Serafima Babatunde", "Example Inc.", "Tampa", "FL"],
-  ["Gaston Festus", "Example Inc.", "Tampa", "FL"],
+  ["Gaston Festus", "Example Inc.", "Tampa", "FL"]
 ];
 
 export default function Tables() {
   return (
     <>
-      <PageTitle title="Tables" />
       <Grid container spacing={4}>
         <Grid item xs={12}>
           <MUIDataTable
@@ -41,7 +39,7 @@ export default function Tables() {
             data={datatableData}
             columns={["Name", "Company", "City", "State"]}
             options={{
-              filterType: "checkbox",
+              filterType: "checkbox"
             }}
           />
         </Grid>

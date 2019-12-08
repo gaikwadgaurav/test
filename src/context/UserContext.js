@@ -17,7 +17,7 @@ function userReducer(state, action) {
 
 function UserProvider({ children }) {
   var [state, dispatch] = React.useReducer(userReducer, {
-    isAuthenticated: !!localStorage.getItem("id_token"),
+    isAuthenticated: !!localStorage.getItem("id_token")
   });
 
   return (
@@ -54,11 +54,14 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
   setIsLoading(true);
 
   if (!!login && !!password) {
-    setTimeout(() => {
+    setTimeout(e => {
       localStorage.setItem("id_token", "1");
-      dispatch({ type: "LOGIN_SUCCESS" });
+      // Setting up a default theme
+      localStorage.setItem("theme", "default");
       setError(null);
+      console.trace()
       setIsLoading(false);
+      dispatch({ type: "LOGIN_SUCCESS" });
 
       history.push("/app/dashboard");
     }, 2000);
@@ -70,7 +73,7 @@ function loginUser(dispatch, login, password, history, setIsLoading, setError) {
 }
 
 function signOut(dispatch, history) {
-  localStorage.removeItem("userData");
+  localStorage.removeItem("id_token");
   dispatch({ type: "SIGN_OUT_SUCCESS" });
   history.push("/login");
 }
