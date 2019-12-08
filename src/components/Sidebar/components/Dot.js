@@ -9,27 +9,33 @@ var useStyles = makeStyles(theme => ({
     height: 5,
     backgroundColor: theme.palette.text.hint,
     borderRadius: "50%",
-    transition: theme.transitions.create("background-color"),
+    transition: theme.transitions.create("background-color")
+  },
+  dotMedium: {
+    width: 8,
+    height: 8
   },
   dotLarge: {
-    width: 8,
-    height: 8,
-  },
+    width: 18,
+    height: 18
+  }
 }));
 
-export default function Dot({ size, color }) {
+export default function Dot({ size = "small", color, style }) {
   var classes = useStyles();
   var theme = useTheme();
 
   return (
     <div
       className={classnames(classes.dotBase, {
-        [classes.dotLarge]: size === "large",
-        [classes.dotSmall]: size === "small",
+        [classes.dotMedium]: size === "medium",
+        [classes.dotBase]: size === "small",
+        [classes.dotLarge]: size === "large"
       })}
       style={{
         backgroundColor:
           color && theme.palette[color] && theme.palette[color].main,
+        ...style
       }}
     />
   );

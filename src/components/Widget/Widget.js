@@ -4,10 +4,15 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Typography,
+  TextField as Input,
+  InputAdornment,
+  Box
 } from "@material-ui/core";
-import { MoreVert as MoreIcon } from "@material-ui/icons";
+import { MoreVert as MoreIcon, Search as SearchIcon } from "@material-ui/icons";
 import classnames from "classnames";
+
+//components
+import { Typography } from "../../components/Wrappers";
 
 // styles
 import useStyles from "./styles";
@@ -15,29 +20,83 @@ import useStyles from "./styles";
 export default function Widget({
   children,
   title,
+  subtitle,
   noBodyPadding,
   bodyClass,
   disableWidgetMenu,
   header,
+  inheritHeight,
+  searchField,
+  className,
+  style,
   ...props
 }) {
-  var classes = useStyles();
+  var classes = useStyles(props);
 
   // local
   var [moreButtonRef, setMoreButtonRef] = useState(null);
   var [isMoreMenuOpen, setMoreMenuOpen] = useState(false);
 
   return (
-    <div className={classes.widgetWrapper}>
-      <Paper className={classes.paper} classes={{ root: classes.widgetRoot }}>
-        <div className={classes.widgetHeader}>
-          {header ? (
-            header
-          ) : (
+    <div
+      className={classnames(
+        {
+          [classes.inheritHeight]: inheritHeight,
+          [classes.widgetWrapper]: !inheritHeight
+        },
+        className
+      )}
+      style={style}
+    >
+      <Paper
+        className={classnames(classes.paper, {
+          [props.className]: props.className
+        })}
+        classes={{ root: classes.widgetRoot }}
+      >
+        {!title ? (
+          <>
+            {header ? (
+              <div className={classes.widgetHeader}>{header}</div>
+            ) : null}
+          </>
+        ) : (
+          <div className={classes.widgetHeader}>
             <React.Fragment>
-              <Typography variant="h5" color="textSecondary">
-                {title}
-              </Typography>
+              <Box display={"flex"}>
+                <Typography
+                  variant="h6"
+                  color="text"
+                  colorBrightness={"secondary"}
+                >
+                  {title}
+                </Typography>
+                <Box alignSelf={"flex-end"} ml={1}>
+                  <Typography
+                    color="text"
+                    colorBrightness={"hint"}
+                    variant={"caption"}
+                  >
+                    {subtitle}
+                  </Typography>
+                </Box>
+              </Box>
+              {searchField && (
+                <Input
+                  id="search-field"
+                  className={classes.textField}
+                  label="Search"
+                  margin="dense"
+                  variant="outlined"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon className={classes.searchIcon} />
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              )}
               {!disableWidgetMenu && (
                 <IconButton
                   color="primary"
@@ -51,12 +110,13 @@ export default function Widget({
                 </IconButton>
               )}
             </React.Fragment>
-          )}
-        </div>
+          </div>
+        )}
         <div
           className={classnames(classes.widgetBody, {
             [classes.noPadding]: noBodyPadding,
-            [bodyClass]: bodyClass,
+            [classes.paddingTop]: !title && !noBodyPadding,
+            [bodyClass]: bodyClass
           })}
         >
           {children}

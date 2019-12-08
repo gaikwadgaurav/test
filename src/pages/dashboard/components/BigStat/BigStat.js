@@ -24,7 +24,9 @@ export default function BigStat(props) {
     <Widget
       header={
         <div className={classes.title}>
-          <Typography variant="h5">{product}</Typography>
+          <Typography variant="h5" color="text" colorBrightness={"secondary"}>
+            {product}
+          </Typography>
 
           <Select
             value={value}
@@ -43,19 +45,22 @@ export default function BigStat(props) {
           </Select>
         </div>
       }
-      upperTitle
     >
       <div className={classes.totalValueContainer}>
         <div className={classes.totalValue}>
-          <Typography size="xxl" color="text" colorBrightness="secondary">
+          <Typography
+            variant={"h2"}
+            weight={"medium"}
+            style={{ marginRight: 8 }}
+          >
             {total[value]}
           </Typography>
-          <Typography color={total.percent.profit ? "success" : "secondary"}>
+          <Typography color={total.percent.profit ? "success" : "error"}>
             &nbsp;{total.percent.profit ? "+" : "-"}
             {total.percent.value}%
           </Typography>
         </div>
-        <BarChart width={150} height={70} data={getRandomData()}>
+        <BarChart width={100} height={70} data={getRandomData()}>
           <Bar
             dataKey="value"
             fill={theme.palette[color].main}
@@ -67,42 +72,61 @@ export default function BigStat(props) {
       <div className={classes.bottomStatsContainer}>
         <div className={classnames(classes.statCell, classes.borderRight)}>
           <Grid container alignItems="center">
-            <Typography variant="h6">{registrations[value].value}</Typography>
+            <Typography
+              color={"text"}
+              weight="bold"
+              colorBrightness={"secondary"}
+              variant={"h6"}
+            >
+              {registrations[value].value}
+            </Typography>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
-                [!registrations[value].profit]: classes.profitArrowDanger,
+                [!registrations[value].profit]: classes.profitArrowDanger
               })}
             />
           </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
+          <Typography color="text" variant="caption" colorBrightness="hint">
             Registrations
           </Typography>
         </div>
         <div className={classes.statCell}>
           <Grid container alignItems="center">
-            <Typography variant="h6">{bounce[value].value}%</Typography>
+            <Typography
+              color={"text"}
+              weight="bold"
+              colorBrightness={"secondary"}
+              variant={"h6"}
+            >
+              {bounce[value].value}%
+            </Typography>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
-                [!registrations[value].profit]: classes.profitArrowDanger,
+                [!registrations[value].profit]: classes.profitArrowDanger
               })}
             />
           </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
+          <Typography color="text" variant="caption" colorBrightness="hint">
             Bounce Rate
           </Typography>
         </div>
         <div className={classnames(classes.statCell, classes.borderRight)}>
           <Grid container alignItems="center">
-            <Typography variant="h6">
+            <Typography
+              color={"text"}
+              weight="bold"
+              colorBrightness={"secondary"}
+              variant={"h6"}
+            >
               {registrations[value].value * 10}
             </Typography>
             <ArrowForwardIcon
               className={classnames(classes.profitArrow, {
-                [classes.profitArrowDanger]: !registrations[value].profit,
+                [classes.profitArrowDanger]: !registrations[value].profit
               })}
             />
           </Grid>
-          <Typography size="sm" color="text" colorBrightness="secondary">
+          <Typography color="text" variant="caption" colorBrightness="hint">
             Views
           </Typography>
         </div>

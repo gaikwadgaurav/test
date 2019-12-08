@@ -8,6 +8,7 @@ import {
   MenuItem,
   Fab,
 } from "@material-ui/core";
+import { useTheme } from "@material-ui/styles";
 import {
   Menu as MenuIcon,
   MailOutline as MailIcon,
@@ -19,11 +20,14 @@ import {
 } from "@material-ui/icons";
 import classNames from "classnames";
 
+//images
+import profile from "../../images/main-profile.png";
+
 // styles
 import useStyles from "./styles";
 
 // components
-import { Badge, Typography } from "../Wrappers/Wrappers";
+import { Badge, Typography, Avatar } from "../Wrappers/Wrappers";
 import Notification from "../Notification/Notification";
 import UserAvatar from "../UserAvatar/UserAvatar";
 
@@ -33,7 +37,8 @@ import {
   useLayoutDispatch,
   toggleSidebar,
 } from "../../context/LayoutContext";
-// import { useUserDispatch } from "../../context/UserContext";
+// import { useUserDispatch, signOut } from "../../context/UserContext";
+
 import { connect } from "react-redux";
 import { signOut, clearMsg } from "../../Redux/_actions/user.action";
 import { toast } from "react-toastify";
@@ -94,10 +99,8 @@ const notifications = [
 
 export function Header(props) {
   var classes = useStyles();
-  toast.configure({
-    autoClose: 5000,
-    draggable: true,
-  });
+  var theme = useTheme();
+
   // global
   var layoutState = useLayoutState();
   var layoutDispatch = useLayoutDispatch();
@@ -110,17 +113,18 @@ export function Header(props) {
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
+  const [isSmall, setSmall] = useState(false);
+  const isAuthenticatedUser = JSON.parse(localStorage.getItem("userData"));
 
   function logOut(props) {
-    const dispatch = props.store.dispatch;
-    const isAuthenticatedUser = JSON.parse(localStorage.getItem("userData"));
+    const dispatch = props.dispatch;
     const isAuthenticatedToken = isAuthenticatedUser.token;
     dispatch(signOut(isAuthenticatedToken));
   }
 
   function signOutSuccess(props) {
     const propsData = props.userData;
-    const dispatch = props.store.dispatch;
+    const dispatch = props.dispatch;
     if (propsData.isSignOut) {
       props.history.push("/login");
       localStorage.removeItem("userData");
@@ -140,6 +144,21 @@ export function Header(props) {
     signOutSuccess(props);
   });
 
+  useEffect(function() {
+    window.addEventListener("resize", handleWindowWidthChange);
+    handleWindowWidthChange();
+    return function cleanup() {
+      window.removeEventListener("resize", handleWindowWidthChange);
+    };
+  });
+
+  function handleWindowWidthChange() {
+    var windowWidth = window.innerWidth;
+    var breakpointWidth = theme.breakpoints.values.md;
+    var isSmallScreen = windowWidth < breakpointWidth;
+    setSmall(isSmallScreen);
+  }
+
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
@@ -151,7 +170,8 @@ export function Header(props) {
             classes.headerMenuButtonCollapse,
           )}
         >
-          {layoutState.isSidebarOpened ? (
+          {(!layoutState.isSidebarOpened && isSmall) ||
+          (layoutState.isSidebarOpened && !isSmall) ? (
             <ArrowBackIcon
               classes={{
                 root: classNames(
@@ -172,7 +192,7 @@ export function Header(props) {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          React Material Admin
+          React Material Admin Full
         </Typography>
         <div className={classes.grow} />
         <div
@@ -237,8 +257,22 @@ export function Header(props) {
           aria-controls="profile-menu"
           onClick={e => setProfileMenu(e.currentTarget)}
         >
-          <AccountIcon classes={{ root: classes.headerIcon }} />
+          <Avatar
+            alt="Robert Cotton"
+            src={profile}
+            classes={{ root: classes.headerIcon }}
+          />
         </IconButton>
+        <Typography
+          block
+          variant="body2"
+          style={{ display: "flex", alignItems: "center", marginLeft: 8 }}
+        >
+          Hi,&nbsp;
+          <Typography variant="body2" weight={"bold"}>
+            {isAuthenticatedUser.first_name}
+          </Typography>
+        </Typography>
         <Menu
           id="mail-menu"
           open={Boolean(mailMenu)}
@@ -323,7 +357,7 @@ export function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              John Smith
+              Robert Cotton
             </Typography>
             <Typography
               className={classes.profileMenuLink}
@@ -331,7 +365,7 @@ export function Header(props) {
               color="primary"
               href="https://flatlogic.com"
             >
-              Flalogic.com
+              Flatlogic.com
             </Typography>
           </div>
           <MenuItem

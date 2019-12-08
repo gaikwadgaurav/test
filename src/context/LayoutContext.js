@@ -42,11 +42,16 @@ function useLayoutDispatch() {
   return context;
 }
 
-export { LayoutProvider, useLayoutState, useLayoutDispatch, toggleSidebar };
-
-// ###########################################################
-function toggleSidebar(dispatch) {
+const toggleSidebar = dispatch => {
   dispatch({
-    type: "TOGGLE_SIDEBAR",
+    type: "TOGGLE_SIDEBAR"
   });
-}
+};
+
+export {
+  LayoutProvider,
+  useLayoutState,
+  useLayoutDispatch,
+  toggleSidebar,
+  LayoutStateContext
+};
