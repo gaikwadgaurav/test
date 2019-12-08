@@ -282,7 +282,7 @@ class SignInForm extends React.Component {
                   <GoogleLogin
                     size="large"
                     className={classes.googleButton}
-                    clientId="992530099214-iv0pkqf9olksdob64ik5qkop4tohf8fk.apps.googleusercontent.com"
+                    clientId={process.env.GOOGLE_APP_ID}
                     buttonText="Sign in with Google"
                     onSuccess={this.onAuthSuccess}
                     onFailure={this.onAuthFailure}
