@@ -282,7 +282,7 @@ class SignInForm extends React.Component {
                   <GoogleLogin
                     size="large"
                     className={classes.googleButton}
-                    clientId={process.env.GOOGLE_APP_ID}
+                    clientId={process.env.REACT_APP_GOOGLE_APP_ID}
                     buttonText="Sign in with Google"
                     onSuccess={this.onAuthSuccess}
                     onFailure={this.onAuthFailure}
@@ -473,7 +473,7 @@ class SignInForm extends React.Component {
                   <GoogleLogin
                     size="large"
                     className={classes.googleButton}
-                    clientId={process.env.GOOGLE_APP_ID}
+                    clientId={process.env.REACT_APP_GOOGLE_APP_ID}
                     buttonText="Sign in with Google"
                     onSuccess={this.onAuthSuccess}
                     onFailure={this.onAuthFailure}

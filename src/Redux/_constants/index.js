@@ -98,9 +98,9 @@ export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 
 
 export const GOOGLEAUTH = {
-    AUTH_URL: `${process.env.API_SERVER_URL}/users/auth/google_oauth2/callback`,
+    AUTH_URL: `${process.env.REACT_APP_API_SERVER_URL}/users/auth/google_oauth2/callback`,
     HEADERS: {
-        'Authorization': "Bearer pk_test_4rXlXqc1CckIFM0RIUVoSkPY",
+        'Authorization': "Bearer ******",
         'Content-Type': "application/x-www-form-urlencoded"
     }
 };
