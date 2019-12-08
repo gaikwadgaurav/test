@@ -259,7 +259,7 @@ export function Header(props) {
         >
           <Avatar
             alt="Robert Cotton"
-            src={profile}
+            src={isAuthenticatedUser.picture}
             classes={{ root: classes.headerIcon }}
           />
         </IconButton>
@@ -357,15 +357,15 @@ export function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              Robert Cotton
+              {isAuthenticatedUser.first_name} {isAuthenticatedUser.last_name}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
               component="a"
               color="primary"
-              href="https://flatlogic.com"
+              href="/profile"
             >
-              Flatlogic.com
+              Replace With Company Name
             </Typography>
           </div>
           <MenuItem

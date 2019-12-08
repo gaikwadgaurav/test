@@ -371,9 +371,6 @@ class SignInForm extends React.Component {
               !showForgetPasswordForm &&
               !showNewPasswordForm && (
                 <React.Fragment>
-                  <Typography variant="h1" className={classes.greeting}>
-                    Welcome!
-                  </Typography>
                   <Typography variant="h2" className={classes.subGreeting}>
                     Create your account
                   </Typography>
