@@ -156,7 +156,7 @@ function Layout(props) {
                     <Breadcrumbs aria-label="breadcrumb">
                       <Typography variant="h4">{c.label}</Typography>
                     </Breadcrumbs>
-                    {window.location.hash.includes("/") && (
+                    {window.location.hash.includes("/app/dashboard") && (
                       <Tabs
                         value={value}
                         onChange={handleChange}
@@ -196,7 +196,7 @@ function Layout(props) {
                 return null;
               }
             })}
-            {window.location.hash.includes("/") && (
+            {window.location.hash.includes("/app/dashboard") && (
               <Box display="flex" alignItems="center">
                 <CalendarIcon className={classes.calendarIcon} />
                 <Typography style={{ marginRight: 38 }}>
@@ -233,8 +233,8 @@ function Layout(props) {
           </Grid>
         </Widget>
         <Switch>
-          {/* <Route path="/" component={Dashboard} /> */}
-          <Route path="/typography" component={TypographyPage} />
+          <Route path="/" exact component={Dashboard} />
+          <Route path="/app/typography" component={TypographyPage} />
           <Route path="/app/core/grid" component={GridPage} />
           <Route path="/app/ui/notifications" component={Notifications} />
           <Route path="/app/forms/elements" component={FormsElements} />
