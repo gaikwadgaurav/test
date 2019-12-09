@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 // components
 import Layout from "./Layout";
@@ -20,9 +25,8 @@ export default function App() {
     <Router>
       <Switch>
         <Route path="/documentation" component={Documentation} />
-        {/* <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} /> */}
+        <PublicRoute exact path="/login" component={Login} />
         <PrivateRoute path="/" component={Layout} />
-        <PublicRoute path="/login" component={Login} />
         <Route component={Error} />
       </Switch>
     </Router>

@@ -78,9 +78,14 @@ class SignInForm extends React.Component {
     const {
       activeTabId,
       error,
+      confirm_password,
       isLoading,
+      companyNameValue,
       nameValue,
       email,
+      showForgetPasswordForm,
+      showNewPasswordForm,
+      resetPasswordToken,
       ...arg
     } = this.state;
     dispatch(signIn(arg));
@@ -169,7 +174,7 @@ class SignInForm extends React.Component {
     const { userData, history, dispatch } = this.props;
     if (userData.status === "SUCCESS" && userData.userData !== "") {
       localStorage.setItem("userData", JSON.stringify(userData.userData));
-      history.push("/app/dashboard");
+      history.push("/");
       toast.success(userData.successMessage, {
         position: toast.POSITION.TOP_RIGHT,
       });
@@ -239,13 +244,6 @@ class SignInForm extends React.Component {
     const { classes } = this.props;
     return (
       <Grid container className={classes.container}>
-        {/* <Loader
-          type="TailSpin"
-          color="purple"
-          height={100}
-          width={100}
-          timeout={3000}
-        /> */}
         <div className={classes.logotypeContainer}>
           <img src={logo} alt="logo" className={classes.logotypeImage} />
           <Typography className={classes.logotypeText}>CHURN APP</Typography>

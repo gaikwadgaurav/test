@@ -128,9 +128,11 @@ export function Header(props) {
     if (propsData.isSignOut) {
       props.history.push("/login");
       localStorage.removeItem("userData");
-      toast.success(propsData.successMessage, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      if (propsData.successMessage) {
+        toast.success(propsData.successMessage, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
       dispatch(clearMsg());
     }
 

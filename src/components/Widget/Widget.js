@@ -6,7 +6,7 @@ import {
   MenuItem,
   TextField as Input,
   InputAdornment,
-  Box
+  Box,
 } from "@material-ui/core";
 import { MoreVert as MoreIcon, Search as SearchIcon } from "@material-ui/icons";
 import classnames from "classnames";
@@ -37,20 +37,21 @@ export default function Widget({
   var [moreButtonRef, setMoreButtonRef] = useState(null);
   var [isMoreMenuOpen, setMoreMenuOpen] = useState(false);
 
+  console.log("props", props);
   return (
     <div
       className={classnames(
         {
           [classes.inheritHeight]: inheritHeight,
-          [classes.widgetWrapper]: !inheritHeight
+          [classes.widgetWrapper]: !inheritHeight,
         },
-        className
+        className,
       )}
       style={style}
     >
       <Paper
         className={classnames(classes.paper, {
-          [props.className]: props.className
+          [props.className]: props.className,
         })}
         classes={{ root: classes.widgetRoot }}
       >
@@ -93,7 +94,7 @@ export default function Widget({
                       <InputAdornment position="start">
                         <SearchIcon className={classes.searchIcon} />
                       </InputAdornment>
-                    )
+                    ),
                   }}
                 />
               )}
@@ -116,7 +117,7 @@ export default function Widget({
           className={classnames(classes.widgetBody, {
             [classes.noPadding]: noBodyPadding,
             [classes.paddingTop]: !title && !noBodyPadding,
-            [bodyClass]: bodyClass
+            [bodyClass]: bodyClass,
           })}
         >
           {children}

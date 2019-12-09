@@ -14,6 +14,7 @@ import {
   SIGN_OUT_FAILED,
 } from "../_constants";
 import { axiosRequest } from "../_requests";
+import qs from "qs";
 
 export const signIn = payload => async dispatch => {
   dispatch({ type: SIGN_IN_BEGIN });
@@ -27,8 +28,8 @@ export const signIn = payload => async dispatch => {
         "POST",
         "sign_in",
         false,
-        null,
-        formData,
+        undefined,
+        qs.parse(formData),
       );
       if (response.is_success) {
         dispatch({
@@ -125,10 +126,10 @@ export const signUp = payload => async dispatch => {
   }
 };
 
-export const signOut = (payload) => async dispatch => {
+export const signOut = payload => async dispatch => {
   dispatch({ type: SIGN_OUT_BEGIN });
   if (payload) {
-    const header = payload
+    const header = payload;
     try {
       const response = await axiosRequest(
         "DELETE",
@@ -137,7 +138,7 @@ export const signOut = (payload) => async dispatch => {
         null,
         null,
       );
-      if (response.is_success) {
+      if (response) {
         dispatch({
           type: SIGN_OUT_SUCCESS,
           data: {
@@ -159,7 +160,6 @@ export const signOut = (payload) => async dispatch => {
     }
   }
 };
-
 
 export const clearMsg = () => dispatch => {
   dispatch({

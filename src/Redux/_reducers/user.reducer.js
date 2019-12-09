@@ -153,12 +153,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: FAILED,
-        errorMessage: action.data,
+        errorMessage: "",
         userData: "",
         signUp: "",
         isAuthenticated: false,
-        successMessage: "",
-        isSignOut: false,
+        successMessage: "Sign out successfully...!",
+        isSignOut: true,
       };
 
     case CLEAR_MESSAGE:
@@ -169,7 +169,7 @@ export default (state = initialState, action) => {
         userData: state.userData,
         signUp: state.signUp,
         successMessage: "",
-        isSignOut: false
+        isSignOut: false,
       };
 
     default:
