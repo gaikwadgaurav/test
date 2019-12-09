@@ -169,7 +169,7 @@ class SignInForm extends React.Component {
     const { userData, history, dispatch } = this.props;
     if (userData.status === "SUCCESS" && userData.userData !== "") {
       localStorage.setItem("userData", JSON.stringify(userData.userData));
-      history.push("/app/dashboard");
+      history.push("/");
       toast.success(userData.successMessage, {
         position: toast.POSITION.TOP_RIGHT,
       });

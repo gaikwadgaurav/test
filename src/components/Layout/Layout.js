@@ -156,7 +156,7 @@ function Layout(props) {
                     <Breadcrumbs aria-label="breadcrumb">
                       <Typography variant="h4">{c.label}</Typography>
                     </Breadcrumbs>
-                    {window.location.hash.includes("/app/dashboard") && (
+                    {window.location.hash.includes("/") && (
                       <Tabs
                         value={value}
                         onChange={handleChange}
@@ -196,7 +196,7 @@ function Layout(props) {
                 return null;
               }
             })}
-            {window.location.hash.includes("/app/dashboard") && (
+            {window.location.hash.includes("/") && (
               <Box display="flex" alignItems="center">
                 <CalendarIcon className={classes.calendarIcon} />
                 <Typography style={{ marginRight: 38 }}>
@@ -233,8 +233,8 @@ function Layout(props) {
           </Grid>
         </Widget>
         <Switch>
-          <Route path="/app/dashboard" component={Dashboard} />
-          <Route path="/app/core/typography" component={TypographyPage} />
+          {/* <Route path="/" component={Dashboard} /> */}
+          <Route path="/typography" component={TypographyPage} />
           <Route path="/app/core/grid" component={GridPage} />
           <Route path="/app/ui/notifications" component={Notifications} />
           <Route path="/app/forms/elements" component={FormsElements} />
@@ -254,13 +254,13 @@ function Layout(props) {
           <Route path="/app/charts/line" component={LineCharts} />
           <Route path="/app/charts/bar" component={BarCharts} />
           <Route path="/app/charts/pie" component={PieCharts} />
-          <Route exact path="/app/ecommerce/management" component={Ecommerce} />
+          <Route exact path="/variables" component={Ecommerce} />
           <Route
-            path="/app/ecommerce/management/create"
+            path="/variable/create"
             component={CreateVariable}
           />
           <Route
-            path="/app/ecommerce/management/edit/:id"
+            path="/variable/edit/:id"
             component={CreateVariable}
           />
           <Route path="/app/ecommerce/product/:id" component={Product} />

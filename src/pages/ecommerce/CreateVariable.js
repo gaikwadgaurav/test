@@ -24,7 +24,7 @@ const CreateVariable = props => {
   const dispatch = useDispatch();
   function goToVariableList() {
     const { history } = props;
-    history.push("/app/ecommerce/management");
+    history.push("/variables");
   }
 
   function variableOperation() {
@@ -34,7 +34,9 @@ const CreateVariable = props => {
     };
     if (variableName && defaultValue) {
       if (variableId) {
-        dispatch(updateVariable(true, variableId, null, qs.stringify(formData)));
+        dispatch(
+          updateVariable(true, variableId, null, qs.stringify(formData)),
+        );
       } else {
         dispatch(addVariable(true, null, qs.stringify(formData)));
       }
@@ -79,6 +81,10 @@ const CreateVariable = props => {
   }, [variableId]);
 
   useEffect(() => {
+    toast.configure({
+      autoClose: 4000,
+      draggable: true,
+    });
     variableOperationSuccess(props);
   }, [props]);
 

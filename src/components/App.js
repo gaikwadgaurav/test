@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 // components
 import Layout from "./Layout";
@@ -13,6 +18,8 @@ import Login from "../pages/login";
 // import { useUserState } from "../context/UserContext";
 import { PrivateRoute } from "./privateRoute";
 import { PublicRoute } from "./publicRoute";
+import Ecommerce from "../pages/ecommerce/Ecommerce";
+import CreateVariable from "../pages/ecommerce/CreateVariable";
 export default function App() {
   // global
   // var { isAuthenticated } = useUserState();
@@ -20,10 +27,7 @@ export default function App() {
     <Router>
       <Switch>
         <Route path="/documentation" component={Documentation} />
-        <Route exact path="/" render={() => <Redirect to="/app/dashboard" />} />
-        <PrivateRoute path="/app" component={Layout} />
-        <PublicRoute path="/login" component={Login} />
-        <PrivateRoute path="/app/dashboard" component={Layout} />
+        <PrivateRoute path="/" component={Layout} />
         <PublicRoute path="/login" component={Login} />
         <Route component={Error} />
       </Switch>

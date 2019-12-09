@@ -278,7 +278,7 @@ export function EcommercePage(props) {
   function editVariable(variableId) {
     if (variableId) {
       const { history } = props;
-      history.push("/app/ecommerce/management/edit/" + variableId + "");
+      history.push("/variable/edit/" + variableId + "");
     }
   }
 
@@ -325,20 +325,22 @@ export function EcommercePage(props) {
     }
   }
 
+  const variables = props && props.variablesList;
+
   useEffect(() => {
     if (!variables.length) {
       fetchVariablesList(props);
+      toast.configure({
+        autoClose: 4000,
+        draggable: true,
+      });
     }
     variableOperationSuccess(props);
-    console.log("without props");
   }, []);
 
   useEffect(() => {
     variableOperationSuccess();
-    console.log("inporps props");
   }, [props && props.variables]);
-
-  const variables = props && props.variablesList;
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === "desc";
@@ -402,7 +404,7 @@ export function EcommercePage(props) {
             <Button
               variant={"contained"}
               component={Link}
-              to={"/app/ecommerce/management/create"}
+              to={"/variable/create"}
               color={"success"}
             >
               Create Variable

@@ -12,7 +12,11 @@ export const axiosRequest = (
   contentType = "json",
 ) =>
   new Promise((resolve, reject) => {
-    const baseUrl = `${process.env.REACT_APP_API_SERVER_URL}${process.env.REACT_APP_API_BASE_URL}/${url}`;
+    let baseUrl = "";
+    if (process.env.NODE_ENV === "production") {
+      baseUrl += process.env.REACT_APP_API_SERVER_URL;
+    }
+    baseUrl = `${process.env.REACT_APP_API_BASE_URL}/${url}`;
     let setHeaders = { "Content-Type": "application/json" };
     // let setHeaders = { 'Content-Type': 'application/x-www-form-urlencoded' };
     const headerType = typeof headers;
