@@ -185,7 +185,7 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
   const classes = useToolbarStyles();
-
+  console.log("numSelected", numSelected);
   return (
     <Toolbar
       className={cn(classes.root, {
@@ -209,10 +209,11 @@ const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon
-              onClick={() => multiVariableDeletion(selected, dispatch)}
-            />
+          <IconButton
+            aria-label="delete"
+            onClick={() => multiVariableDeletion(selected, dispatch)}
+          >
+            <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
@@ -250,7 +251,7 @@ const multiVariableDeletion = (selected, dispatch) => {
     let formData = new FormData();
     if (selected.length) {
       selected.map(select => {
-        formData.append("id[]", select);
+        formData.append("ids[]", select);
       });
 
       sweetAlert(text, buttonText).then(result => {
@@ -287,7 +288,7 @@ export function EcommercePage(props) {
       const text = "You want to delete variable!";
       const buttonText = "Yes, delete it!";
       let formData = new FormData();
-      formData.append("id[]", variableId);
+      formData.append("ids[]", variableId);
       const variableIds = [variableId];
       sweetAlert(text, buttonText).then(result => {
         if (result.value) {
@@ -322,21 +323,20 @@ export function EcommercePage(props) {
         position: toast.POSITION.TOP_RIGHT,
       });
       dispatch(clearMsgForVariable());
+      setSelected([]);
     }
   }
 
   const variables = props && props.variablesList;
 
   useEffect(() => {
-    if (!variables.length) {
-      fetchVariablesList(props);
-      toast.configure({
-        autoClose: 4000,
-        draggable: true,
-      });
-    }
+    fetchVariablesList(props);
+    toast.configure({
+      autoClose: 4000,
+      draggable: true,
+    });
     variableOperationSuccess(props);
-  }, []);
+  }, [props.variableList]);
 
   useEffect(() => {
     variableOperationSuccess();
@@ -409,6 +409,7 @@ export function EcommercePage(props) {
             >
               Create Variable
             </Button>
+            {console.log('selected inside', selected)}
             <EnhancedTableToolbar
               numSelected={selected.length}
               selected={selected}

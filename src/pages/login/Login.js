@@ -75,27 +75,23 @@ class SignInForm extends React.Component {
     this.setState({
       isLoading: true,
     });
-    const {
-      activeTabId,
-      error,
-      confirm_password,
-      isLoading,
-      companyNameValue,
-      nameValue,
-      email,
-      showForgetPasswordForm,
-      showNewPasswordForm,
-      resetPasswordToken,
-      ...arg
-    } = this.state;
-    dispatch(signIn(arg));
+    const { loginValue, password } = this.state;
+    let formData = new FormData();
+    formData.append("sign_in[email]", loginValue);
+    formData.append("sign_in[password]", password);
+    dispatch(signIn(formData));
   }
 
   registerUser() {
     const { dispatch } = this.props;
-    const { activeTabId, error, isLoading, loginValue, ...arg } = this.state;
+    const { companyNameValue, nameValue, email, password } = this.state;
     this.setState({ isLoading: true });
-    dispatch(signUp(arg));
+    let formData = new FormData();
+    formData.append("company[name]", companyNameValue);
+    formData.append("user[name]", nameValue);
+    formData.append("user[email]", email);
+    formData.append("user[password]", password);
+    dispatch(signUp(formData));
   }
 
   async forgetPassword() {

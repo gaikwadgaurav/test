@@ -16,20 +16,23 @@ import {
   AddCircle as AddSectionIcon,
   FolderOpen as FolderIcon,
   Description as DocumentationIcon,
+  ShoppingCart as CartIcon,
 } from "@material-ui/icons";
 import { useTheme, makeStyles } from "@material-ui/styles";
-
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import AppsIcon from '@material-ui/icons/Apps';
+import TouchAppIcon from '@material-ui/icons/TouchApp';
 // components
 import { Typography } from "../Wrappers/Wrappers";
 import Dot from "./components/Dot";
 
 const structure = [
   { id: 0, label: "Dashboard", link: "/", icon: <HomeIcon /> },
-  { id: 1, label: "Retention Flows", link: "/flows", icon: <HomeIcon /> },
-  { id: 2, label: "Variables", link: "/variables", icon: <HomeIcon /> },
-  { id: 3, label: "Analytics", link: "/analytics", icon: <HomeIcon /> },
-  { id: 4, label: "Settings", link: "/settings", icon: <HomeIcon /> },
-  { id: 5, label: "Installation", link: "/install", icon: <HomeIcon /> },
+  { id: 1, label: "Retention Flows", link: "/flows", icon: <CartIcon /> },
+  { id: 2, label: "Variables", link: "/variables", icon: <DescriptionIcon /> },
+  { id: 3, label: "Analytics", link: "/analytics", icon: <TrendingUpIcon /> },
+  { id: 4, label: "Settings", link: "/settings", icon: <AppsIcon /> },
+  { id: 5, label: "Installation", link: "/install", icon: <TouchAppIcon /> },
   // {
   //   id: 1,
   //   label: "E-commerce",

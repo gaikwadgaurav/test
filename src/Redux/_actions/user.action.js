@@ -14,22 +14,17 @@ import {
   SIGN_OUT_FAILED,
 } from "../_constants";
 import { axiosRequest } from "../_requests";
-import qs from "qs";
 
 export const signIn = payload => async dispatch => {
   dispatch({ type: SIGN_IN_BEGIN });
   if (payload) {
-    const formData = {
-      "sign_in[email]": payload.loginValue,
-      "sign_in[password]": payload.password,
-    };
     try {
       const response = await axiosRequest(
         "POST",
         "sign_in",
         false,
         undefined,
-        qs.parse(formData),
+        payload,
       );
       if (response.is_success) {
         dispatch({
@@ -89,19 +84,13 @@ export const signInWithGoogle = payload => async dispatch => {
 export const signUp = payload => async dispatch => {
   dispatch({ type: SIGN_UP_BEGIN });
   if (payload) {
-    const formData = {
-      "company[name]": payload.companyNameValue,
-      "user[name]": payload.nameValue,
-      "user[email]": payload.email,
-      "user[password]": payload.password,
-    };
     try {
       const response = await axiosRequest(
         "POST",
         "sign_up",
         false,
         null,
-        formData,
+        payload,
       );
       if (response.is_success) {
         dispatch({
