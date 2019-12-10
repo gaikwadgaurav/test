@@ -55,11 +55,12 @@ export default function SidebarLink({
   }
 
   onLogin.clickName = "onLogin";
-
   var classes = useStyles(isOpen);
   const classes2 = useStyles2();
   var isLinkActive =
-    link && (location.pathname === link || location.pathname.includes(link));
+    link &&
+    (location.pathname === link ||
+      (location.pathname.includes(link) && label && label !== "Dashboard"));
 
   if (type === "title")
     return (

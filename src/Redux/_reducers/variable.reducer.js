@@ -2,6 +2,7 @@ import {
   SUCCESS,
   FAILED,
   PENDING,
+  DELETE_SUCCESS,
   FETCH_VARIABLE_LIST_SUCCESS,
   FETCH_VARIABLE_LIST_BEGIN,
   FETCH_VARIABLE_LIST_FAILED,
@@ -136,7 +137,7 @@ export default (state = initialState, action) => {
       }
       return {
         ...state,
-        status: SUCCESS,
+        status: DELETE_SUCCESS,
         variableList: variableList,
         errorMessage: "",
         successMessage: action.data.messages,

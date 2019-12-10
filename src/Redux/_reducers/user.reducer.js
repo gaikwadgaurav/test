@@ -9,6 +9,8 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILED,
   CLEAR_MESSAGE,
+  SESSION_EXPIRED,
+  SESSION_EXPIRED_SUCCESS,
   SIGN_IN_WITH_GOOGLE_BEGIN,
   SIGN_IN_WITH_GOOGLE_SUCCESS,
   SIGN_IN_WITH_GOOGLE_FAILED,
@@ -19,7 +21,6 @@ import {
 
 const initialState = {
   status: "",
-  signUp: "",
   userData: "",
   errorMessage: "",
   successMessage: "",
@@ -33,7 +34,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: PENDING,
-        signUp: "",
         userData: "",
         errorMessage: "",
         isAuthenticated: false,
@@ -45,7 +45,6 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         userData: action.data.userData,
-        signUp: "",
         errorMessage: "",
         isAuthenticated: true,
         successMessage: action.data.messages,
@@ -57,7 +56,6 @@ export default (state = initialState, action) => {
         status: FAILED,
         errorMessage: action.data,
         userData: "",
-        signUp: "",
         isAuthenticated: false,
         successMessage: "",
       };
@@ -66,7 +64,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: PENDING,
-        signUp: "",
         userData: "",
         errorMessage: "",
         isAuthenticated: false,
@@ -78,7 +75,6 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         userData: action.data.userData,
-        signUp: "",
         errorMessage: "",
         isAuthenticated: true,
         successMessage: action.data.messages,
@@ -90,7 +86,6 @@ export default (state = initialState, action) => {
         status: FAILED,
         errorMessage: action.data,
         userData: "",
-        signUp: "",
         isAuthenticated: false,
         successMessage: "",
       };
@@ -99,7 +94,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: PENDING,
-        signUp: "",
         userData: "",
         errorMessage: "",
         successMessage: "",
@@ -109,10 +103,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: SUCCESS,
-        userData: "",
-        signUp: action.data.userData,
+        userData: action.data.userData,
         errorMessage: "",
-        successMessage: action.data.messages,
+        successMessage: "Sign in successfully...!",
       };
 
     case SIGN_UP_FAILED:
@@ -120,8 +113,6 @@ export default (state = initialState, action) => {
         ...state,
         status: FAILED,
         errorMessage: action.data,
-        userData: "",
-        signUp: "",
         successMessage: "",
       };
 
@@ -129,7 +120,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         status: PENDING,
-        signUp: "",
         userData: "",
         errorMessage: "",
         isAuthenticated: false,
@@ -142,7 +132,6 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         userData: action.data.userData,
-        signUp: "",
         errorMessage: "",
         isAuthenticated: false,
         successMessage: action.data.message,
@@ -155,10 +144,9 @@ export default (state = initialState, action) => {
         status: FAILED,
         errorMessage: "",
         userData: "",
-        signUp: "",
         isAuthenticated: false,
-        successMessage: "Sign out successfully...!",
-        isSignOut: true,
+        successMessage: "",
+        isSignOut: false,
       };
 
     case CLEAR_MESSAGE:
@@ -166,10 +154,18 @@ export default (state = initialState, action) => {
         ...state,
         status: "",
         errorMessage: "",
-        userData: state.userData,
-        signUp: state.signUp,
         successMessage: "",
         isSignOut: false,
+      };
+
+    case SESSION_EXPIRED:
+      return {
+        ...state,
+        status: SESSION_EXPIRED_SUCCESS,
+        errorMessage: "Access denied!. Token has expired.",
+        userData: "",
+        successMessage: "",
+        isSignOut: true,
       };
 
     default:

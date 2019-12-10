@@ -2,6 +2,7 @@ import axios from "axios";
 import qs from "qs";
 import { isAuthenticated } from "../../common/isAuthenticated";
 import { GOOGLEAUTH } from "../_constants/index";
+import { sessionExpired } from "../_actions/user.action";
 
 export const axiosRequest = (
   requestMethod,
@@ -10,6 +11,7 @@ export const axiosRequest = (
   params,
   body,
   contentType = "json",
+  dispatch = null,
 ) =>
   new Promise((resolve, reject) => {
     let baseUrl = "";
@@ -49,6 +51,15 @@ export const axiosRequest = (
         }
       })
       .catch(err => {
+        if (
+          err &&
+          err.response &&
+          err.response &&
+          err.response.status &&
+          err.response.status === 401
+        ) {
+          dispatch(sessionExpired());
+        }
         reject(err.response.data);
       });
   });

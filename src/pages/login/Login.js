@@ -167,38 +167,27 @@ class SignInForm extends React.Component {
   }
 
   componentDidUpdate() {
+    this.logInSuccessAction();
+  }
+
+  logInSuccessAction() {
     const { userData, history, dispatch } = this.props;
-    if (userData.status === "SUCCESS" && userData.userData !== "") {
-      localStorage.setItem("userData", JSON.stringify(userData.userData));
-      history.push("/");
-      toast.success(userData.successMessage, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      this.setState({
-        isLoading: false,
-      });
-      dispatch(clearMsg());
-    }
-
-    if (userData.status === "SUCCESS" && userData.signUp !== "") {
-      toast.success(userData.successMessage, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-      this.setState({
-        isLoading: false,
-        activeTabId: 0,
-        password: "",
-        email: "",
-        companyNameValue: "",
-        nameValue: "",
-      });
-      dispatch(clearMsg());
-    }
-
     if (
-      userData.status === "FAILED" &&
-      (userData.userData === "" || userData.signUp === "")
+      userData.status === "SUCCESS" &&
+      (userData.userData !== "" || userData.signUp !== "")
     ) {
+      localStorage.setItem("userData", JSON.stringify(userData.userData));
+      history.push("/home");
+      toast.success(userData.successMessage, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      this.setState({
+        isLoading: false,
+      });
+      dispatch(clearMsg());
+    }
+
+    if (userData.status === "FAILED" && userData.userData === "") {
       toast.error(userData.errorMessage, {
         position: toast.POSITION.TOP_RIGHT,
       });

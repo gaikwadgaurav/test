@@ -13,7 +13,6 @@ import {
 } from "../../Redux/_actions/variable.action";
 import { axiosRequest } from "../../Redux/_requests";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import qs from "qs";
 
 const CreateVariable = props => {
@@ -28,6 +27,10 @@ const CreateVariable = props => {
   }
 
   function variableOperation() {
+    toast.configure({
+      autoClose: 4000,
+      draggable: true,
+    });
     const formData = {
       "variable[name]": variableName,
       "variable[default]": defaultValue,
@@ -81,10 +84,6 @@ const CreateVariable = props => {
   }, [variableId]);
 
   useEffect(() => {
-    toast.configure({
-      autoClose: 4000,
-      draggable: true,
-    });
     variableOperationSuccess(props);
   }, [props]);
 

@@ -12,6 +12,7 @@ import {
   SIGN_OUT_BEGIN,
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILED,
+  SESSION_EXPIRED
 } from "../_constants";
 import { axiosRequest } from "../_requests";
 
@@ -26,12 +27,12 @@ export const signIn = payload => async dispatch => {
         undefined,
         payload,
       );
-      if (response.is_success) {
+      if (response.status === 200) {
         dispatch({
           type: SIGN_IN_SUCCESS,
           data: {
             userData: response.data,
-            messages: response.messages,
+            messages: response.message,
           },
         });
       } else {
@@ -64,7 +65,7 @@ export const signInWithGoogle = payload => async dispatch => {
         type: SIGN_IN_WITH_GOOGLE_SUCCESS,
         data: {
           userData: response.data,
-          messages: response.messages,
+          messages: response.message,
         },
       });
     } else {
@@ -92,12 +93,12 @@ export const signUp = payload => async dispatch => {
         null,
         payload,
       );
-      if (response.is_success) {
+      if (response.status === 200) {
         dispatch({
           type: SIGN_UP_SUCCESS,
           data: {
             userData: response.data,
-            messages: response.messages,
+            messages: response.message,
           },
         });
       } else {
@@ -109,7 +110,7 @@ export const signUp = payload => async dispatch => {
     } catch (error) {
       dispatch({
         type: SIGN_UP_FAILED,
-        data: error.messages,
+        data: error.data,
       });
     }
   }
@@ -153,5 +154,11 @@ export const signOut = payload => async dispatch => {
 export const clearMsg = () => dispatch => {
   dispatch({
     type: CLEAR_MESSAGE,
+  });
+};
+
+export const sessionExpired = () => dispatch => {
+  dispatch({
+    type: SESSION_EXPIRED,
   });
 };

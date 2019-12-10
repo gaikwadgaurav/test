@@ -10,7 +10,7 @@ export const PublicRoute = ({ component: Component, location, ...rest }) => {
         !userData ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: "/", location }} />
+          <Redirect to={{ pathname: "/home", location }} />
         )
       }
     />

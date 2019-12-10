@@ -37,9 +37,8 @@ import {
   fetchVariables,
   deleteVariable,
 } from "../../Redux/_actions/variable.action";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { clearMsgForVariable } from "../../Redux/_actions/variable.action";
 import Swal from "sweetalert2";
 
@@ -185,7 +184,8 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
   const classes = useToolbarStyles();
-  console.log("numSelected", numSelected);
+
+  // const holders = useSelector(variables);
   return (
     <Toolbar
       className={cn(classes.root, {
@@ -271,7 +271,10 @@ export function EcommercePage(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const dispatch = useDispatch();
-
+  // toast.configure({
+  //   autoClose: 4000,
+  //   draggable: true,
+  // });
   function fetchVariablesList(props) {
     dispatch(fetchVariables(true, null, null));
   }
@@ -311,17 +314,21 @@ export function EcommercePage(props) {
     });
   }
 
-  function variableOperationSuccess(props) {
+  function variableOperationSuccess() {
     if (
       props &&
       props.variables &&
-      props.variables.status === "SUCCESS" &&
+      (props.variables.status === "SUCCESS" ||
+        props.variables.status === "DELETE_SUCCESS") &&
       props.variables.successMessage &&
       props.variables.successMessage !== ""
     ) {
-      toast.success(props.variables.successMessage, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.success(
+        props &&
+          props.variables &&
+          props.variables.successMessage &&
+          props.variables.successMessage,
+      );
       dispatch(clearMsgForVariable());
       setSelected([]);
     }
@@ -331,11 +338,7 @@ export function EcommercePage(props) {
 
   useEffect(() => {
     fetchVariablesList(props);
-    toast.configure({
-      autoClose: 4000,
-      draggable: true,
-    });
-    variableOperationSuccess(props);
+    // variableOperationSuccess();
   }, [props.variableList]);
 
   useEffect(() => {
@@ -409,7 +412,6 @@ export function EcommercePage(props) {
             >
               Create Variable
             </Button>
-            {console.log('selected inside', selected)}
             <EnhancedTableToolbar
               numSelected={selected.length}
               selected={selected}

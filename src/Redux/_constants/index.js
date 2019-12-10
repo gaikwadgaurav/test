@@ -7,6 +7,8 @@
 export const PENDING = "PENDING";
 export const SUCCESS = "SUCCESS";
 export const FAILED = "FAILED";
+export const DELETE_SUCCESS = "DELETE_SUCCESS";
+export const SESSION_EXPIRED_SUCCESS = "SESSION_EXPIRED_SUCCESS";
 
 /**
 |--------------------------------------------------
@@ -95,6 +97,7 @@ export const DELETE_VARIABLE_FAILED = "DELETE_VARIABLE_FAILED";
 */
 
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+export const SESSION_EXPIRED = "SESSION_EXPIRED";
 
 
 export const GOOGLEAUTH = {

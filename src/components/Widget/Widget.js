@@ -37,7 +37,6 @@ export default function Widget({
   var [moreButtonRef, setMoreButtonRef] = useState(null);
   var [isMoreMenuOpen, setMoreMenuOpen] = useState(false);
 
-  console.log("props", props);
   return (
     <div
       className={classnames(

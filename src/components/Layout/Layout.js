@@ -233,7 +233,6 @@ function Layout(props) {
           </Grid>
         </Widget>
         <Switch>
-          <Route path="/" exact component={Dashboard} />
           <Route path="/app/typography" component={TypographyPage} />
           <Route path="/app/core/grid" component={GridPage} />
           <Route path="/app/ui/notifications" component={Notifications} />
@@ -315,6 +314,7 @@ function Layout(props) {
           <Route path="/app/maps/google" component={MapsGoogle} />
           <Route path="/app/maps/vector" component={VectorMaps} />
           <Route path="/app/ui/icons" component={Icons} />
+          <Route path="/" exact component={Dashboard} />
         </Switch>
         <Fab
           color="primary"

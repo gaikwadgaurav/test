@@ -25,6 +25,8 @@ export const fetchVariables = (headers, params, body) => async dispatch => {
         headers,
         params,
         body,
+        undefined,
+        dispatch,
       );
       if (variableListResponse.status === 200) {
         dispatch({
@@ -59,6 +61,8 @@ export const addVariable = (headers, params, body) => async dispatch => {
         headers,
         params,
         body,
+        undefined,
+        dispatch,
       );
       if (addVariableResponse.status === 200) {
         dispatch({
@@ -98,6 +102,8 @@ export const updateVariable = (
         headers,
         params,
         body,
+        undefined,
+        dispatch,
       );
       if (updateVariableResponse.status === 200) {
         dispatch({
@@ -139,8 +145,9 @@ export const deleteVariable = (
         params,
         body,
         "formData",
+        dispatch,
       );
-      if (deleteVariableResponse.is_success) {
+      if (deleteVariableResponse.status === 200) {
         dispatch({
           type: DELETE_VARIABLE_SUCCESS,
           data: {
@@ -151,7 +158,7 @@ export const deleteVariable = (
       } else {
         dispatch({
           type: DELETE_VARIABLE_FAILED,
-          data: deleteVariableResponse.messages,
+          data: deleteVariableResponse.data,
         });
       }
     } catch (error) {

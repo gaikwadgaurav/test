@@ -135,7 +135,6 @@ export function Header(props) {
       }
       dispatch(clearMsg());
     }
-
     if (propsData.errorMessage) {
       toast.error(propsData.errorMessage, {
         position: toast.POSITION.TOP_RIGHT,
@@ -143,7 +142,9 @@ export function Header(props) {
     }
   }
   useEffect(() => {
-    signOutSuccess(props);
+    if (props && props.userData && props.userData.isSignOut) {
+      signOutSuccess(props);
+    }
   });
 
   useEffect(function() {
