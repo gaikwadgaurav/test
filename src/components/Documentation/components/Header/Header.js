@@ -123,7 +123,7 @@ const Header = props => {
             <Button
               color={"inherit"}
               style={{ marginRight: 16 }}
-              onClick={() => props.history.push("/app")}
+              onClick={() => props.history.push("/")}
             >
               Live Preview
             </Button>

@@ -1,21 +1,21 @@
 import React from "react";
 import {
   Home as HomeIcon,
-  FilterNone as UIElementsIcon,
-  BorderAll as TableIcon,
+  // FilterNone as UIElementsIcon,
+  // BorderAll as TableIcon,
   QuestionAnswer as SupportIcon,
   LibraryBooks as LibraryIcon,
   HelpOutline as FAQIcon,
-  BarChart as ChartIcon,
-  Map as MapIcon,
-  Apps as CoreIcon,
+  // BarChart as ChartIcon,
+  // Map as MapIcon,
+  // Apps as CoreIcon,
   Description as DescriptionIcon,
-  ShoppingCart as ShoppingCartIcon,
-  StarBorder as ExtraIcon,
+  // ShoppingCart as ShoppingCartIcon,
+  // StarBorder as ExtraIcon,
   Chat as ChatIcon,
   AddCircle as AddSectionIcon,
-  FolderOpen as FolderIcon,
-  Description as DocumentationIcon,
+  // FolderOpen as FolderIcon,
+  // Description as DocumentationIcon,
   ShoppingCart as CartIcon,
 } from "@material-ui/icons";
 import { useTheme, makeStyles } from "@material-ui/styles";
@@ -23,7 +23,7 @@ import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import AppsIcon from '@material-ui/icons/Apps';
 import TouchAppIcon from '@material-ui/icons/TouchApp';
 // components
-import { Typography } from "../Wrappers/Wrappers";
+// import { Typography } from "../Wrappers/Wrappers";
 import Dot from "./components/Dot";
 
 const structure = [

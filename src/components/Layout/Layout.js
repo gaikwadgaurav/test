@@ -107,9 +107,9 @@ function Layout(props) {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   // global
   var layoutState = useLayoutState();
@@ -125,7 +125,6 @@ function Layout(props) {
       "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-  
   return (
     <div className={classes.root}>
       <Header history={props.history} />
@@ -148,15 +147,19 @@ function Layout(props) {
             {SidebarStructure.map(c => {
               if (
                 !c.children &&
-                window.location.hash.includes(c.link) &&
+                (window.location.pathname.includes(c.link) ||
+                  (c.link === "/" && window.location.pathname === "")) &&
                 c.link
               ) {
                 return (
                   <Box display="flex" alignItems="center" key={c.id}>
                     <Breadcrumbs aria-label="breadcrumb">
-                      <Typography variant="h4">{c.label}</Typography>
+                      <Typography variant="h4">
+                        {window.location.pathname === c.link ? c.label : ""}
+                      </Typography>
                     </Breadcrumbs>
-                    {window.location.hash.includes("/app/dashboard") && (
+                    {(window.location.pathname === "/" ||
+                      window.location.pathname === "") && (
                       <Tabs
                         value={value}
                         onChange={handleChange}
@@ -175,7 +178,7 @@ function Layout(props) {
                 );
               } else if (c.children) {
                 return c.children.map(currentInner => {
-                  if (window.location.hash.includes(currentInner.link)) {
+                  if (window.location.pathname.includes(currentInner.link)) {
                     return (
                       <Breadcrumbs
                         separator={<NavigateNextIcon fontSize="small" />}
@@ -196,7 +199,7 @@ function Layout(props) {
                 return null;
               }
             })}
-            {window.location.hash.includes("/app/dashboard") && (
+            {window.location.pathname === "/" && (
               <Box display="flex" alignItems="center">
                 <CalendarIcon className={classes.calendarIcon} />
                 <Typography style={{ marginRight: 38 }}>
@@ -211,7 +214,7 @@ function Layout(props) {
                 </Button>
               </Box>
             )}
-            {window.location.hash.includes("/app/ecommerce") && (
+            {window.location.pathname !== "/" && (
               <Box display="flex" alignItems="center">
                 <Box>
                   <IconButton aria-label="chat">
@@ -254,14 +257,8 @@ function Layout(props) {
           <Route path="/app/charts/bar" component={BarCharts} />
           <Route path="/app/charts/pie" component={PieCharts} />
           <Route path="/variables" component={Ecommerce} />
-          <Route
-            path="/variable/create"
-            component={CreateVariable}
-          />
-          <Route
-            path="/variable/edit/:id"
-            component={CreateVariable}
-          />
+          <Route path="/variable/create" component={CreateVariable} />
+          <Route path="/variable/edit/:id" component={CreateVariable} />
           <Route path="/app/ecommerce/product/:id" component={Product} />
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid} />

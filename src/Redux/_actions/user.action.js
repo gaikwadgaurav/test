@@ -36,10 +36,10 @@ export const signIn = payload => async dispatch => {
           },
         });
       } else {
-        // dispatch({
-        //   type: SIGN_IN_FAILED,
-        //   data: response.messages,
-        // });
+        dispatch({
+          type: SIGN_IN_FAILED,
+          data: response.data,
+        });
       }
     } catch (error) {
       dispatch({
@@ -102,10 +102,10 @@ export const signUp = payload => async dispatch => {
           },
         });
       } else {
-        // dispatch({
-        //   type: SIGN_UP_FAILED,
-        //   data: response.messages,
-        // });
+        dispatch({
+          type: SIGN_UP_FAILED,
+          data: response.data,
+        });
       }
     } catch (error) {
       dispatch({
@@ -137,10 +137,10 @@ export const signOut = payload => async dispatch => {
           },
         });
       } else {
-        // dispatch({
-        //   type: SIGN_IN_FAILED,
-        //   data: response.messages,
-        // });
+        dispatch({
+          type: SIGN_IN_FAILED,
+          data: response.data,
+        });
       }
     } catch (error) {
       dispatch({

@@ -21,7 +21,7 @@ import {
 import classNames from "classnames";
 
 //images
-import profile from "../../images/main-profile.png";
+// import profile from "../../images/main-profile.png";
 
 // styles
 import useStyles from "./styles";

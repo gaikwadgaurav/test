@@ -127,9 +127,9 @@ export default (state = initialState, action) => {
       const selectedVariables = action.data.variableIds;
       if (selectedVariables.length) {
         selectedVariables.map(selectedVariable => {
-          const variableIndex = variableList.findIndex(
-            variable => variable.id === selectedVariable,
-          );
+          const variableIndex = variableList.findIndex(variable => {
+            return variable.id === selectedVariable;
+          });
           if (variableIndex > -1) {
             variableList.splice(variableIndex, 1);
           }

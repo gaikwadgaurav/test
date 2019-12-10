@@ -25,12 +25,14 @@ import Sidebar from "../../components/Sidebar";
 import structure from "./components/Sidebar/SidebarStructure";
 import Widget from "../Widget";
 
-import { Button, Typography } from "../Wrappers";
+// import { Button, Typography } from "../Wrappers";
+import { Typography } from "../Wrappers";
 import classnames from "classnames";
 
 //context
 import { useLayoutState } from "../../context/LayoutContext";
-import { Box, Breadcrumbs, Grid, IconButton } from "@material-ui/core";
+import { Box, Breadcrumbs, Grid } from "@material-ui/core";
+// import { Box, Breadcrumbs, Grid, IconButton } from "@material-ui/core";
 
 import { NavigateNext as NavigateNextIcon } from "@material-ui/icons";
 

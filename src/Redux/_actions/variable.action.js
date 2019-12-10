@@ -39,7 +39,7 @@ export const fetchVariables = (headers, params, body) => async dispatch => {
       } else {
         dispatch({
           type: FETCH_VARIABLE_LIST_FAILED,
-          data: variableListResponse.messages,
+          data: variableListResponse.data,
         });
       }
     } catch (error) {
@@ -75,7 +75,7 @@ export const addVariable = (headers, params, body) => async dispatch => {
       } else {
         dispatch({
           type: ADD_VARIABLE_FAILED,
-          data: addVariableResponse.messages,
+          data: addVariableResponse.data,
         });
       }
     } catch (error) {
@@ -117,7 +117,7 @@ export const updateVariable = (
       } else {
         dispatch({
           type: UPDATE_VARIABLE_FAILED,
-          data: updateVariableResponse.messages,
+          data: updateVariableResponse.data,
         });
       }
     } catch (error) {
