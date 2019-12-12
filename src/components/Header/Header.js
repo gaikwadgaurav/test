@@ -155,6 +155,11 @@ export function Header(props) {
     };
   });
 
+  function goToProfile() {
+    setProfileMenu(null);
+    props.history.push("/profile");
+  }
+
   function handleWindowWidthChange() {
     var windowWidth = window.innerWidth;
     var breakpointWidth = theme.breakpoints.values.md;
@@ -376,6 +381,7 @@ export function Header(props) {
               classes.profileMenuItem,
               classes.headerMenuItem,
             )}
+            onClick={goToProfile}
           >
             <AccountIcon className={classes.profileMenuIcon} /> Profile
           </MenuItem>

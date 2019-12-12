@@ -76,6 +76,7 @@ import Gallery from "../../pages/gallery";
 import Invoice from "../../pages/invoice";
 import CreateVariable from "../../pages/ecommerce/CreateVariable";
 import Calendar from "../../pages/calendar";
+import Installation from "../../pages/installation/installation";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -83,6 +84,7 @@ import { useThemeDispatch } from "../../context/ThemeContext";
 
 //Sidebar structure
 import structure from "../Sidebar/SidebarStructure";
+import Profile from "../../pages/profile/profile";
 
 // Tab styling
 
@@ -151,12 +153,10 @@ function Layout(props) {
                   (c.link === "/" && window.location.pathname === "")) &&
                 c.link
               ) {
-                return (
+                return window.location.pathname === c.link ? (
                   <Box display="flex" alignItems="center" key={c.id}>
                     <Breadcrumbs aria-label="breadcrumb">
-                      <Typography variant="h4">
-                        {window.location.pathname === c.link ? c.label : ""}
-                      </Typography>
+                      <Typography variant="h4">{c.label}</Typography>
                     </Breadcrumbs>
                     {(window.location.pathname === "/" ||
                       window.location.pathname === "") && (
@@ -175,7 +175,7 @@ function Layout(props) {
                       </Tabs>
                     )}
                   </Box>
-                );
+                ) : null;
               } else if (c.children) {
                 return c.children.map(currentInner => {
                   if (window.location.pathname.includes(currentInner.link)) {
@@ -259,6 +259,8 @@ function Layout(props) {
           <Route path="/variables" component={Ecommerce} />
           <Route path="/variable/create" component={CreateVariable} />
           <Route path="/variable/edit/:id" component={CreateVariable} />
+          <Route path="/install" component={Installation} />
+          <Route path="/profile" component={Profile} />
           <Route path="/app/ecommerce/product/:id" component={Product} />
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid} />

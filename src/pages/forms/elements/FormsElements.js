@@ -6,7 +6,7 @@ import {
   InputAdornment,
   Divider,
   MenuItem,
-  Select
+  Select,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import useStyles from "./styles";
@@ -25,7 +25,7 @@ import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import {
   AccountCircle,
   VpnKey as PasswordIcon,
-  AccountBalanceWallet as WalletIcon
+  AccountBalanceWallet as WalletIcon,
 } from "@material-ui/icons";
 
 // components
@@ -37,67 +37,67 @@ const GreenCheckbox = withStyles({
   root: {
     color: "green",
     "&$checked": {
-      color: "green"
-    }
-  }
+      color: "green",
+    },
+  },
 })(props => <Checkbox color="default" {...props} />);
 
 const GreenRadio = withStyles({
   root: {
     color: "green",
     "&$checked": {
-      color: "green"
-    }
-  }
+      color: "green",
+    },
+  },
 })(props => <Radio color="default" {...props} />);
 
 const SuccessInput = withStyles(theme => ({
   root: {
     "& .MuiInputLabel-root": {
-      color: "green"
+      color: "green",
     },
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        borderColor: "green"
+        borderColor: "green",
       },
       "&:hover fieldset": {
-        borderColor: "green"
+        borderColor: "green",
       },
       "&.Mui-focused fieldset": {
         borderColor: "green",
-        borderWidth: 2
-      }
-    }
-  }
+        borderWidth: 2,
+      },
+    },
+  },
 }))(props => <Input {...props} />);
 
 const actions = [
   {
     id: 0,
-    value: "Action"
+    value: "Action",
   },
   {
     id: 1,
-    value: "Another action"
+    value: "Another action",
   },
   {
     id: 2,
-    value: "Something else here"
+    value: "Something else here",
   },
   {
     id: 3,
-    type: "divider"
+    type: "divider",
   },
   {
     id: 4,
-    value: "Separated link"
-  }
+    value: "Separated link",
+  },
 ];
 
 export default function FormsElements() {
   const [isChecked, setChecked] = React.useState({
     default: false,
-    horizontal: false
+    horizontal: false,
   });
   const [action, setAction] = React.useState("Action");
 
@@ -194,7 +194,7 @@ export default function FormsElements() {
                         <InputAdornment position="start">
                           <AccountCircle />
                         </InputAdornment>
-                      )
+                      ),
                     }}
                     style={{ width: "100%" }}
                   />
@@ -212,7 +212,7 @@ export default function FormsElements() {
                         <InputAdornment position="start">
                           <PasswordIcon />
                         </InputAdornment>
-                      )
+                      ),
                     }}
                     style={{ width: "100%" }}
                   />
@@ -228,7 +228,7 @@ export default function FormsElements() {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="start">.00</InputAdornment>
-                      )
+                      ),
                     }}
                     style={{ width: "100%" }}
                   />
@@ -249,7 +249,7 @@ export default function FormsElements() {
                       ),
                       endAdornment: (
                         <InputAdornment position="start">.00</InputAdornment>
-                      )
+                      ),
                     }}
                     style={{ width: "100%" }}
                   />
@@ -360,7 +360,7 @@ export default function FormsElements() {
                       <MenuItem value={c.value} key={c.id}>
                         {c.value}
                       </MenuItem>
-                    )
+                    ),
                   )}
                 </Select>
               </Grid>
@@ -383,7 +383,7 @@ export default function FormsElements() {
                       <MenuItem value={c.value} key={c.id}>
                         {c.value}
                       </MenuItem>
-                    )
+                    ),
                   )}
                 </Select>
               </Grid>

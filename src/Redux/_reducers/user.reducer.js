@@ -17,6 +17,9 @@ import {
   SIGN_OUT_BEGIN,
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILED,
+  UPDATE_USER_PROFILE_BEGIN,
+  UPDATE_USER_PROFILE_FAILED,
+  UPDATE_USER_PROFILE_SUCCESS,
 } from "../_constants";
 
 const initialState = {
@@ -147,6 +150,31 @@ export default (state = initialState, action) => {
         isAuthenticated: false,
         successMessage: "",
         isSignOut: false,
+      };
+
+    case UPDATE_USER_PROFILE_BEGIN:
+      return {
+        ...state,
+        status: PENDING,
+        errorMessage: "",
+        successMessage: "",
+      };
+
+    case UPDATE_USER_PROFILE_SUCCESS:
+      return {
+        ...state,
+        status: SUCCESS,
+        userData: action.data.user,
+        errorMessage: "",
+        successMessage: action.data.success,
+      };
+
+    case UPDATE_USER_PROFILE_FAILED:
+      return {
+        ...state,
+        status: FAILED,
+        errorMessage: action.data,
+        successMessage: "",
       };
 
     case CLEAR_MESSAGE:

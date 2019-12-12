@@ -12,7 +12,10 @@ import {
   SIGN_OUT_BEGIN,
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILED,
-  SESSION_EXPIRED
+  SESSION_EXPIRED,
+  UPDATE_USER_PROFILE_BEGIN,
+  UPDATE_USER_PROFILE_SUCCESS,
+  UPDATE_USER_PROFILE_FAILED,
 } from "../_constants";
 import { axiosRequest } from "../_requests";
 
@@ -145,6 +148,42 @@ export const signOut = payload => async dispatch => {
     } catch (error) {
       dispatch({
         type: SIGN_OUT_FAILED,
+        data: error.messages,
+      });
+    }
+  }
+};
+
+export const updateUserProfile = (headers, params, body) => async dispatch => {
+  if (headers) {
+    dispatch({ type: UPDATE_USER_PROFILE_BEGIN });
+    try {
+      const updateProfileResponse = await axiosRequest(
+        "PATCH",
+        "users",
+        headers,
+        params,
+        body,
+        undefined,
+        dispatch,
+      );
+      if (updateProfileResponse.status === 200) {
+        dispatch({
+          type: UPDATE_USER_PROFILE_SUCCESS,
+          data: {
+            user: updateProfileResponse.data,
+            success: updateProfileResponse.message,
+          },
+        });
+      } else {
+        dispatch({
+          type: UPDATE_USER_PROFILE_FAILED,
+          data: updateProfileResponse.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: UPDATE_USER_PROFILE_FAILED,
         data: error.messages,
       });
     }

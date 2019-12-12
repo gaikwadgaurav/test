@@ -52,6 +52,16 @@ export const SIGN_IN_WITH_GOOGLE_FAILED = "SIGN_IN_WITH_GOOGLE_FAILED";
 
 /**
 |--------------------------------------------------
+| UPDATE USER PROFILE
+|--------------------------------------------------
+*/
+
+export const UPDATE_USER_PROFILE_BEGIN = "UPDATE_USER_PROFILE_BEGIN";
+export const UPDATE_USER_PROFILE_SUCCESS = "UPDATE_USER_PROFILE_SUCCESS";
+export const UPDATE_USER_PROFILE_FAILED = "UPDATE_USER_PROFILE_FAILED";
+
+/**
+|--------------------------------------------------
 | FETCH VARIABLES LIST
 |--------------------------------------------------
 */

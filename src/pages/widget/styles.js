@@ -5,4 +5,8 @@ export default makeStyles(theme => ({
     margin: "24px 0",
     backgroundColor: "#f3f3f3",
   },
+  pointer: {
+    cursor: "pointer",
+    color: "#536DFE",
+  },
 }));
