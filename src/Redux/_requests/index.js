@@ -1,6 +1,6 @@
 import axios from "axios";
 import qs from "qs";
-import { isAuthenticated } from "../../common/isAuthenticated";
+import { isAuthenticatedToken } from "../../common/isAuthenticated";
 import { GOOGLEAUTH } from "../_constants/index";
 import { sessionExpired } from "../_actions/user.action";
 
@@ -11,7 +11,7 @@ export const axiosRequest = (
   params,
   body,
   contentType = "json",
-  dispatch = null,
+  dispatch = null
 ) =>
   new Promise((resolve, reject) => {
     let baseUrl = "";
@@ -26,8 +26,8 @@ export const axiosRequest = (
       setHeaders = { Authorization: headers };
     }
     if (headers && headerType !== "string") {
-      const isAuth = isAuthenticated();
-      setHeaders = { Authorization: "Bearer " + isAuth.token };
+      const token = isAuthenticatedToken();
+      setHeaders = { Authorization: "Bearer " + token };
     }
 
     if (contentType !== "json") {
@@ -39,7 +39,7 @@ export const axiosRequest = (
       url: baseUrl,
       data: body,
       headers: setHeaders,
-      params: params,
+      params: params
     })
       .then(res => {
         if (res.status === 200) {
@@ -70,7 +70,7 @@ export const googleAuth = params =>
       method: "POST",
       url: GOOGLEAUTH.AUTH_URL,
       data: qs.stringify(params),
-      headers: GOOGLEAUTH.HEADERS,
+      headers: GOOGLEAUTH.HEADERS
     })
       .then(res => {
         // if (res.status === 200) {

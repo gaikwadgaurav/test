@@ -35,6 +35,7 @@ export const signIn = payload => async dispatch => {
           type: SIGN_IN_SUCCESS,
           data: {
             userData: response.data,
+            token: response.token,
             messages: response.message,
           },
         });
@@ -68,7 +69,8 @@ export const signInWithGoogle = payload => async dispatch => {
         type: SIGN_IN_WITH_GOOGLE_SUCCESS,
         data: {
           userData: response.data,
-          messages: response.message,
+            token: response.token,
+            messages: response.message,
         },
       });
     } else {

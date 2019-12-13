@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Grid,
   Box,
@@ -6,7 +6,7 @@ import {
   Tab,
   AppBar,
   Select,
-  MenuItem,
+  MenuItem
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import Widget from "../../components/Widget";
@@ -14,6 +14,8 @@ import { Typography, Button } from "../../components/Wrappers";
 import useStyles from "../widget/styles";
 import Code from "../../components/Code";
 import { isAuthenticated } from "../../common/isAuthenticated";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -35,7 +37,7 @@ function TabPanel(props) {
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    "aria-controls": `full-width-tabpanel-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`
   };
 }
 
@@ -43,34 +45,91 @@ export default function Installation(props) {
   const theme = useTheme();
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [option, setOption] = React.useState("Action");
+  const [option, setOption] = React.useState(0);
   const user = isAuthenticated();
+  toast.configure({
+    autoClose: 4000,
+    draggable: true
+  });
   const actions = [
     {
       id: 0,
-      value: "Action",
+      value: "Action"
     },
     {
       id: 1,
-      value: "Another action",
+      value: "Another action"
     },
     {
       id: 2,
-      value: "Something else here",
+      value: "Something else here"
     },
     {
       id: 4,
-      value: "Separated link",
-    },
+      value: "Separated link"
+    }
   ];
 
+  const generateTokenCode = [
+    {
+      id: 0,
+      value: `
+      raaft_secret = "Action",
+      subscription_id = "INSERT_SUBSCRIPTION_ID_HERE"
+
+      OpenSSL::HMAC.hexdigest('sha256'
+              raaft_secret,
+              subscription_id
+      )
+  `
+    },
+    {
+      id: 1,
+      value: `
+      raaft_secret = "Another action",
+      subscription_id = "INSERT_SUBSCRIPTION_ID_HERE"
+
+      OpenSSL::HMAC.hexdigest('sha256'
+              raaft_secret,
+              subscription_id
+      )
+  `
+    },
+    {
+      id: 2,
+      value: `
+      raaft_secret = "Something else here",
+      subscription_id = "INSERT_SUBSCRIPTION_ID_HERE"
+
+      OpenSSL::HMAC.hexdigest('sha256'
+              raaft_secret,
+              subscription_id
+      )
+  `
+    },
+    {
+      id: 4,
+      value: `
+      raaft_secret = "Separated link",
+      subscription_id = "INSERT_SUBSCRIPTION_ID_HERE"
+
+      OpenSSL::HMAC.hexdigest('sha256'
+              raaft_secret,
+              subscription_id
+      )
+  `
+    }
+  ];
+
+  const flowCode = `
+      <button onClick="raaft('startCancelFlow', {
+            authKey: '<insert-security-token>'      //generated in step 2
+            subscriptionId: '<insert-subscription-id>'
+      });">Cancel My Account</button>
+                      `;
   function handleChange(event, newValue) {
     setValue(newValue);
   }
-
-  // function handleChangeIndex(index) {
-  //   setValue(index);
-  // }
 
   function handleChangeSelection(e) {
     setOption(e.target.value);
@@ -93,11 +152,6 @@ export default function Installation(props) {
             <Tab label="3.INITIALIZE FLOW" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
-        {/* <SwipeableViews
-          axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-          index={value}
-          onChangeIndex={handleChangeIndex}
-        > */}
         <TabPanel value={value} index={0} dir={theme.direction}>
           <Code>
             {`
@@ -159,24 +213,27 @@ export default function Installation(props) {
               onChange={handleChangeSelection}
             >
               {actions.map(c => (
-                <MenuItem value={c.value} key={c.id}>
+                <MenuItem value={c.id} key={c.id}>
                   {c.value}
                 </MenuItem>
               ))}
             </Select>
           </Grid>
-          <Code>
-            {`
-            raaft_secret = "bd632dfe715",
-            subscription_id = "INSERT_SUBSCRIPTION_ID_HERE"
-
-            OpenSSL::HMAC.hexdigest('sha256'
-                        raaft_secret,
-                        subscription_id
-            )
-                   `}
-          </Code>
-          <span className={classes.pointer}>Copy Code</span>
+          {generateTokenCode.map(c => {
+            if (option === c.id) {
+              return (
+                <div key={c.id}>
+                  <Code>{c.value}</Code>
+                  <CopyToClipboard
+                    text={c.value}
+                    onCopy={() => toast.success("Code copied to clipboard!")}
+                  >
+                    <span className={classes.pointer}>Copy Code</span>
+                  </CopyToClipboard>
+                </div>
+              );
+            }
+          })}
           <Box display="flex" justifyContent={"flex-end"}>
             <Box m={1}>
               <Button
@@ -206,15 +263,13 @@ export default function Installation(props) {
             initializing your flow,visit our{" "}
             <u className={classes.pointer}>help center</u>.
           </span>
-          <Code>
-            {`
-                <button onClick="raaft('startCancelFlow', {
-                    authKey: '<insert-security-token>'  //generated in step 2
-                    subscriptionId: '<insert-subscription-id>'
-                });">Cancel My Account</button>
-                      `}
-          </Code>
-          <span className={classes.pointer}>Copy Code</span>
+          <Code>{flowCode}</Code>
+          <CopyToClipboard
+            text={flowCode}
+            onCopy={() => toast.success("Code copied to clipboard!")}
+          >
+            <span className={classes.pointer}>Copy Code</span>
+          </CopyToClipboard>
           <Box display="flex" justifyContent={"flex-end"}>
             <Box m={1}>
               <Button
@@ -232,7 +287,6 @@ export default function Installation(props) {
             </Box>
           </Box>
         </TabPanel>
-        {/* </SwipeableViews> */}
       </Widget>
     </Grid>
   );

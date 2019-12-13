@@ -12,13 +12,13 @@ import {
   TableSortLabel,
   Tooltip,
   Toolbar,
-  Box,
+  Box
 } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 // Material UI icons
 import {
   Delete as DeleteIcon,
-  FilterList as FilterListIcon,
+  FilterList as FilterListIcon
 } from "@material-ui/icons";
 // import { yellow } from "@material-ui/core/colors";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -33,7 +33,7 @@ import Widget from "../../components/Widget";
 import { Typography, Button } from "../../components/Wrappers";
 import {
   fetchVariables,
-  deleteVariable,
+  deleteVariable
 } from "../../Redux/_actions/variable.action";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
@@ -86,16 +86,16 @@ const headCells = [
     id: "id",
     numeric: true,
     disablePadding: true,
-    label: "ID",
+    label: "ID"
   },
   { id: "name", numeric: true, disablePadding: false, label: "Variable Name" },
   {
     id: "defaultValue",
     numeric: true,
     disablePadding: false,
-    label: "Default Value",
+    label: "Default Value"
   },
-  { id: "actions", numeric: true, disablePadding: false, label: "Actions" },
+  { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
 ];
 
 function EnhancedTableHead(props) {
@@ -106,7 +106,7 @@ function EnhancedTableHead(props) {
     orderBy,
     numSelected,
     rowCount,
-    onRequestSort,
+    onRequestSort
   } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
@@ -156,27 +156,27 @@ EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired
 };
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
+    paddingRight: theme.spacing(1)
   },
   highlight:
     theme.palette.type === "light"
       ? {
           color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85)
         }
       : {
           color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
+          backgroundColor: theme.palette.secondary.dark
         },
   title: {
-    flex: "1 1 100%",
-  },
+    flex: "1 1 100%"
+  }
 }));
 
 const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
@@ -186,7 +186,7 @@ const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
   return (
     <Toolbar
       className={cn(classes.root, {
-        [classes.highlight]: numSelected > 0,
+        [classes.highlight]: numSelected > 0
       })}
       style={{ marginTop: 8 }}
     >
@@ -225,7 +225,7 @@ const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
 };
 
 EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
+  numSelected: PropTypes.number.isRequired
 };
 
 const sweetAlert = (text, buttonText) => {
@@ -237,7 +237,7 @@ const sweetAlert = (text, buttonText) => {
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: buttonText,
+    confirmButtonText: buttonText
   });
 };
 
@@ -303,7 +303,7 @@ export function EcommercePage(props) {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: buttonText,
+      confirmButtonText: buttonText
     });
   }
 
@@ -316,14 +316,19 @@ export function EcommercePage(props) {
       props.variables.successMessage &&
       props.variables.successMessage !== ""
     ) {
-      toast.success(
-        props &&
-          props.variables &&
-          props.variables.successMessage &&
-          props.variables.successMessage,
-      );
+      toast.success(props.variables.successMessage);
       dispatch(clearMsgForVariable());
       setSelected([]);
+    }
+    if (
+      props &&
+      props.variables &&
+      props.variables.status === "FAILED" &&
+      props.variables.errorMessage &&
+      props.variables.errorMessage !== ""
+    ) {
+      toast.error(props.variables.errorMessage);
+      dispatch(clearMsgForVariable());
     }
   }
 
@@ -365,7 +370,7 @@ export function EcommercePage(props) {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
         selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
+        selected.slice(selectedIndex + 1)
       );
     }
 
@@ -430,7 +435,7 @@ export function EcommercePage(props) {
                     ? stableSort(variables, getSorting(order, orderBy))
                         .slice(
                           page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
                         )
                         .map((variable, variableIndex) => {
                           const isItemSelected = isSelected(variable.id);
@@ -505,10 +510,10 @@ export function EcommercePage(props) {
               rowsPerPage={rowsPerPage}
               page={page}
               backIconButtonProps={{
-                "aria-label": "previous page",
+                "aria-label": "previous page"
               }}
               nextIconButtonProps={{
-                "aria-label": "next page",
+                "aria-label": "next page"
               }}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
@@ -522,7 +527,7 @@ export function EcommercePage(props) {
 
 const mapStateToProps = state => ({
   variablesList: state.variables.variableList,
-  variables: state.variables,
+  variables: state.variables
 });
 
 export default connect(mapStateToProps, null)(EcommercePage);

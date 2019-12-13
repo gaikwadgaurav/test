@@ -19,16 +19,17 @@ import {
   SIGN_OUT_FAILED,
   UPDATE_USER_PROFILE_BEGIN,
   UPDATE_USER_PROFILE_FAILED,
-  UPDATE_USER_PROFILE_SUCCESS,
+  UPDATE_USER_PROFILE_SUCCESS
 } from "../_constants";
 
 const initialState = {
   status: "",
   userData: "",
+  token: "",
   errorMessage: "",
   successMessage: "",
   isAuthenticated: false,
-  isSignOut: false,
+  isSignOut: false
 };
 
 export default (state = initialState, action) => {
@@ -38,9 +39,10 @@ export default (state = initialState, action) => {
         ...state,
         status: PENDING,
         userData: "",
+        token: "",
         errorMessage: "",
         isAuthenticated: false,
-        successMessage: "",
+        successMessage: ""
       };
 
     case SIGN_IN_SUCCESS:
@@ -48,9 +50,10 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         userData: action.data.userData,
+        token: action.data.token,
         errorMessage: "",
         isAuthenticated: true,
-        successMessage: action.data.messages,
+        successMessage: action.data.messages
       };
 
     case SIGN_IN_FAILED:
@@ -59,8 +62,9 @@ export default (state = initialState, action) => {
         status: FAILED,
         errorMessage: action.data,
         userData: "",
+        token: "",
         isAuthenticated: false,
-        successMessage: "",
+        successMessage: ""
       };
 
     case SIGN_IN_WITH_GOOGLE_BEGIN:
@@ -70,7 +74,7 @@ export default (state = initialState, action) => {
         userData: "",
         errorMessage: "",
         isAuthenticated: false,
-        successMessage: "",
+        successMessage: ""
       };
 
     case SIGN_IN_WITH_GOOGLE_SUCCESS:
@@ -78,9 +82,9 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         userData: action.data.userData,
-        errorMessage: "",
+        token: action.data.token,
         isAuthenticated: true,
-        successMessage: action.data.messages,
+        successMessage: action.data.messages
       };
 
     case SIGN_IN_WITH_GOOGLE_FAILED:
@@ -90,7 +94,7 @@ export default (state = initialState, action) => {
         errorMessage: action.data,
         userData: "",
         isAuthenticated: false,
-        successMessage: "",
+        successMessage: ""
       };
 
     case SIGN_UP_BEGIN:
@@ -99,7 +103,7 @@ export default (state = initialState, action) => {
         status: PENDING,
         userData: "",
         errorMessage: "",
-        successMessage: "",
+        successMessage: ""
       };
 
     case SIGN_UP_SUCCESS:
@@ -108,7 +112,7 @@ export default (state = initialState, action) => {
         status: SUCCESS,
         userData: action.data.userData,
         errorMessage: "",
-        successMessage: "Sign in successfully...!",
+        successMessage: "Sign in successfully...!"
       };
 
     case SIGN_UP_FAILED:
@@ -116,7 +120,7 @@ export default (state = initialState, action) => {
         ...state,
         status: FAILED,
         errorMessage: action.data,
-        successMessage: "",
+        successMessage: ""
       };
 
     case SIGN_OUT_BEGIN:
@@ -127,7 +131,7 @@ export default (state = initialState, action) => {
         errorMessage: "",
         isAuthenticated: false,
         successMessage: "",
-        isSignOut: false,
+        isSignOut: false
       };
 
     case SIGN_OUT_SUCCESS:
@@ -138,7 +142,7 @@ export default (state = initialState, action) => {
         errorMessage: "",
         isAuthenticated: false,
         successMessage: action.data.message,
-        isSignOut: true,
+        isSignOut: true
       };
 
     case SIGN_OUT_FAILED:
@@ -149,7 +153,7 @@ export default (state = initialState, action) => {
         userData: "",
         isAuthenticated: false,
         successMessage: "",
-        isSignOut: false,
+        isSignOut: false
       };
 
     case UPDATE_USER_PROFILE_BEGIN:
@@ -157,7 +161,7 @@ export default (state = initialState, action) => {
         ...state,
         status: PENDING,
         errorMessage: "",
-        successMessage: "",
+        successMessage: ""
       };
 
     case UPDATE_USER_PROFILE_SUCCESS:
@@ -166,7 +170,7 @@ export default (state = initialState, action) => {
         status: SUCCESS,
         userData: action.data.user,
         errorMessage: "",
-        successMessage: action.data.success,
+        successMessage: action.data.success
       };
 
     case UPDATE_USER_PROFILE_FAILED:
@@ -174,7 +178,7 @@ export default (state = initialState, action) => {
         ...state,
         status: FAILED,
         errorMessage: action.data,
-        successMessage: "",
+        successMessage: ""
       };
 
     case CLEAR_MESSAGE:
@@ -183,7 +187,7 @@ export default (state = initialState, action) => {
         status: "",
         errorMessage: "",
         successMessage: "",
-        isSignOut: false,
+        isSignOut: false
       };
 
     case SESSION_EXPIRED:
@@ -193,7 +197,7 @@ export default (state = initialState, action) => {
         errorMessage: "Access denied!. Token has expired.",
         userData: "",
         successMessage: "",
-        isSignOut: true,
+        isSignOut: true
       };
 
     default:

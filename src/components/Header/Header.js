@@ -6,7 +6,7 @@ import {
   InputBase,
   Menu,
   MenuItem,
-  Fab,
+  Fab
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import {
@@ -16,7 +16,7 @@ import {
   Person as AccountIcon,
   Search as SearchIcon,
   Send as SendIcon,
-  ArrowBack as ArrowBackIcon,
+  ArrowBack as ArrowBackIcon
 } from "@material-ui/icons";
 import classNames from "classnames";
 
@@ -35,7 +35,7 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 import {
   useLayoutState,
   useLayoutDispatch,
-  toggleSidebar,
+  toggleSidebar
 } from "../../context/LayoutContext";
 // import { useUserDispatch, signOut } from "../../context/UserContext";
 
@@ -43,6 +43,10 @@ import { connect } from "react-redux";
 import { signOut, clearMsg } from "../../Redux/_actions/user.action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  isAuthenticated,
+  isAuthenticatedToken
+} from "../../common/isAuthenticated";
 
 const messages = [
   {
@@ -50,29 +54,29 @@ const messages = [
     variant: "warning",
     name: "Jane Hew",
     message: "Hey! How is it going?",
-    time: "9:32",
+    time: "9:32"
   },
   {
     id: 1,
     variant: "success",
     name: "Lloyd Brown",
     message: "Check out my new Dashboard",
-    time: "9:18",
+    time: "9:18"
   },
   {
     id: 2,
     variant: "primary",
     name: "Mark Winstein",
     message: "I want rearrange the appointment",
-    time: "9:15",
+    time: "9:15"
   },
   {
     id: 3,
     variant: "secondary",
     name: "Liana Dutti",
     message: "Good news from sale department",
-    time: "9:09",
-  },
+    time: "9:09"
+  }
 ];
 
 const notifications = [
@@ -81,20 +85,20 @@ const notifications = [
     id: 1,
     color: "success",
     type: "info",
-    message: "What is the best way to get ...",
+    message: "What is the best way to get ..."
   },
   {
     id: 2,
     color: "secondary",
     type: "notification",
-    message: "This is just a simple notification",
+    message: "This is just a simple notification"
   },
   {
     id: 3,
     color: "primary",
     type: "e-commerce",
-    message: "12 new orders has arrived today",
-  },
+    message: "12 new orders has arrived today"
+  }
 ];
 
 export function Header(props) {
@@ -114,12 +118,12 @@ export function Header(props) {
   var [profileMenu, setProfileMenu] = useState(null);
   var [isSearchOpen, setSearchOpen] = useState(false);
   const [isSmall, setSmall] = useState(false);
-  const isAuthenticatedUser = JSON.parse(localStorage.getItem("userData"));
+  const isAuthenticatedUser = isAuthenticated();
+  const authenticatedToken = isAuthenticatedToken();
 
   function logOut(props) {
     const dispatch = props.dispatch;
-    const isAuthenticatedToken = isAuthenticatedUser.token;
-    dispatch(signOut(isAuthenticatedToken));
+    dispatch(signOut(authenticatedToken));
   }
 
   function signOutSuccess(props) {
@@ -128,16 +132,17 @@ export function Header(props) {
     if (propsData.isSignOut) {
       props.history.push("/login");
       localStorage.removeItem("userData");
+      localStorage.removeItem("token");
       if (propsData.successMessage) {
         toast.success(propsData.successMessage, {
-          position: toast.POSITION.TOP_RIGHT,
+          position: toast.POSITION.TOP_RIGHT
         });
       }
       dispatch(clearMsg());
     }
     if (propsData.errorMessage) {
       toast.error(propsData.errorMessage, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_RIGHT
       });
     }
   }
@@ -175,26 +180,20 @@ export function Header(props) {
           onClick={() => toggleSidebar(layoutDispatch)}
           className={classNames(
             classes.headerMenuButton,
-            classes.headerMenuButtonCollapse,
+            classes.headerMenuButtonCollapse
           )}
         >
           {(!layoutState.isSidebarOpened && isSmall) ||
           (layoutState.isSidebarOpened && !isSmall) ? (
             <ArrowBackIcon
               classes={{
-                root: classNames(
-                  classes.headerIcon,
-                  classes.headerIconCollapse,
-                ),
+                root: classNames(classes.headerIcon, classes.headerIconCollapse)
               }}
             />
           ) : (
             <MenuIcon
               classes={{
-                root: classNames(
-                  classes.headerIcon,
-                  classes.headerIconCollapse,
-                ),
+                root: classNames(classes.headerIcon, classes.headerIconCollapse)
               }}
             />
           )}
@@ -205,12 +204,12 @@ export function Header(props) {
         <div className={classes.grow} />
         <div
           className={classNames(classes.search, {
-            [classes.searchFocused]: isSearchOpen,
+            [classes.searchFocused]: isSearchOpen
           })}
         >
           <div
             className={classNames(classes.searchIcon, {
-              [classes.searchIconOpened]: isSearchOpen,
+              [classes.searchIconOpened]: isSearchOpen
             })}
             onClick={() => setSearchOpen(!isSearchOpen)}
           >
@@ -220,7 +219,7 @@ export function Header(props) {
             placeholder="Search…"
             classes={{
               root: classes.inputRoot,
-              input: classes.inputInput,
+              input: classes.inputInput
             }}
           />
         </div>
@@ -314,7 +313,7 @@ export function Header(props) {
               <div
                 className={classNames(
                   classes.messageNotificationSide,
-                  classes.messageNotificationBodySide,
+                  classes.messageNotificationBodySide
                 )}
               >
                 <Typography weight="medium" gutterBottom>
@@ -379,7 +378,7 @@ export function Header(props) {
           <MenuItem
             className={classNames(
               classes.profileMenuItem,
-              classes.headerMenuItem,
+              classes.headerMenuItem
             )}
             onClick={goToProfile}
           >
@@ -388,7 +387,7 @@ export function Header(props) {
           <MenuItem
             className={classNames(
               classes.profileMenuItem,
-              classes.headerMenuItem,
+              classes.headerMenuItem
             )}
           >
             <AccountIcon className={classes.profileMenuIcon} /> Tasks
@@ -396,7 +395,7 @@ export function Header(props) {
           <MenuItem
             className={classNames(
               classes.profileMenuItem,
-              classes.headerMenuItem,
+              classes.headerMenuItem
             )}
           >
             <AccountIcon className={classes.profileMenuIcon} /> Messages
@@ -418,7 +417,7 @@ export function Header(props) {
 
 const mapStateToProps = function(state) {
   return {
-    userData: state.userData,
+    userData: state.userData
   };
 };
 

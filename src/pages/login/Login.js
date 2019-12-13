@@ -177,6 +177,7 @@ class SignInForm extends React.Component {
       (userData.userData !== "" || userData.signUp !== "")
     ) {
       localStorage.setItem("userData", JSON.stringify(userData.userData));
+      localStorage.setItem("token", JSON.stringify(userData.token));
       history.push("/");
       toast.success(userData.successMessage, {
         position: toast.POSITION.TOP_RIGHT,
