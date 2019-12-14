@@ -10,26 +10,45 @@ import { isAuthenticated } from "../../common/isAuthenticated";
 import { updateUserProfile, clearMsg } from "../../Redux/_actions/user.action";
 import qs from "qs";
 import { toast } from "react-toastify";
+import { ValidationHandler } from "../../ValidationHandler/validationHandler";
 
 export function Profile(props) {
   const classes = useStyles();
   const user = isAuthenticated();
-  var [firstName, setFirstName] = useState(user.first_name);
-  var [lastName, setLastName] = useState(user.last_name);
-  var [email, setEmail] = useState(user.email);
-  var [password, setPassword] = useState("");
-  var [confirmPassword, setConfirmPassword] = useState("");
+  var [state, setState] = useState({
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email,
+    password: "",
+    confirmPassword: "",
+    formErrors: { email: "", password: "" },
+    emailValid: "",
+    passwordValid: ""
+  });
+
   const dispatch = useDispatch();
   toast.configure({
     autoClose: 5000,
-    draggable: true,
+    draggable: true
   });
+
+  function setValue(e) {
+    const response = ValidationHandler(e);
+    setState({
+      ...state,
+      formErrors: response.formErrors,
+      emailValid: response.emailValid,
+      passwordValid: response.passwordValid,
+      [e.target.id]: response.name
+    });
+  }
+
   function updateProfile() {
     const formData = {
-      "user[first_name]": firstName,
-      "user[last_name]": lastName,
-      "user[email]": email,
-      "user[password]": password,
+      "user[first_name]": state.firstName,
+      "user[last_name]": state.lastName,
+      "user[email]": state.email,
+      "user[password]": state.password
     };
     dispatch(updateUserProfile(true, null, qs.parse(formData)));
   }
@@ -42,7 +61,7 @@ export function Profile(props) {
     ) {
       localStorage.setItem("userData", JSON.stringify(userData.userData));
       toast.success(userData.successMessage, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_RIGHT
       });
       dispatch(clearMsg());
     }
@@ -62,11 +81,11 @@ export function Profile(props) {
             </Grid>
             <Grid xs={8} item>
               <Input
+                id="firstName"
                 type={"text"}
                 style={{ width: "100%" }}
-                value={firstName}
-                type={"text"}
-                onChange={e => setFirstName(e.target.value)}
+                value={state.firstName}
+                onChange={e => setValue(e)}
               />
             </Grid>
           </Grid>
@@ -79,10 +98,11 @@ export function Profile(props) {
             </Grid>
             <Grid xs={8} item>
               <Input
+                id="lastName"
                 style={{ width: "100%" }}
-                value={lastName}
+                value={state.lastName}
                 type={"text"}
-                onChange={e => setLastName(e.target.value)}
+                onChange={e => setValue(e)}
               />
             </Grid>
           </Grid>
@@ -95,11 +115,18 @@ export function Profile(props) {
             </Grid>
             <Grid xs={8} item>
               <Input
+                id="email"
                 style={{ width: "100%" }}
-                value={email}
+                value={state.email}
                 type={"text"}
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => setValue(e)}
+                disabled
               />
+              {state.emailValid ? null : (
+                <span className={"text text-danger"}>
+                  {state.formErrors.email}
+                </span>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -111,10 +138,11 @@ export function Profile(props) {
             </Grid>
             <Grid xs={8} item>
               <Input
+                id="password"
                 style={{ width: "100%" }}
-                value={password}
+                value={state.password}
                 type={"password"}
-                onChange={e => setPassword(e.target.value)}
+                onChange={e => setValue(e)}
               />
             </Grid>
           </Grid>
@@ -127,10 +155,11 @@ export function Profile(props) {
             </Grid>
             <Grid xs={8} item>
               <Input
+                id="confirmPassword"
                 style={{ width: "100%" }}
-                value={confirmPassword}
+                value={state.confirmPassword}
                 type={"password"}
-                onChange={e => setConfirmPassword(e.target.value)}
+                onChange={e => setValue(e)}
               />
             </Grid>
           </Grid>
@@ -159,7 +188,7 @@ export function Profile(props) {
 }
 
 const mapStateToProps = state => ({
-  userData: state.userData,
+  userData: state.userData
 });
 
 export default connect(mapStateToProps, null)(Profile);

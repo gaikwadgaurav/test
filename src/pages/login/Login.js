@@ -30,6 +30,7 @@ import "react-toastify/dist/ReactToastify.css";
 import GoogleLogin from "react-google-login";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { axiosRequest } from "../../Redux/_requests";
+import { ValidationHandler } from "../../ValidationHandler/validationHandler";
 // import Loader from "react-loader-spinner";
 // context
 // import { useUserDispatch, loginUser } from "../../context/UserContext";
@@ -49,7 +50,10 @@ class SignInForm extends React.Component {
       email: "",
       showForgetPasswordForm: false,
       showNewPasswordForm: false,
-      resetPasswordToken: ""
+      resetPasswordToken: "",
+      formErrors: { email: "", password: "" },
+      emailValid: false,
+      passwordValid: false
     };
 
     toast.configure({
@@ -67,7 +71,13 @@ class SignInForm extends React.Component {
   }
 
   setValue(e) {
-    this.setState({ [e.target.id]: e.target.value });
+    const response = ValidationHandler(e);
+    this.setState({
+      formErrors: response.formErrors,
+      emailValid: response.emailValid,
+      passwordValid: response.passwordValid,
+      [e.target.id]: response.name
+    });
   }
 
   loginUser() {
@@ -228,7 +238,10 @@ class SignInForm extends React.Component {
       nameValue,
       email,
       showForgetPasswordForm,
-      showNewPasswordForm
+      showNewPasswordForm,
+      formErrors,
+      emailValid,
+      passwordValid
     } = this.state;
     const { classes } = this.props;
     return (
@@ -306,6 +319,11 @@ class SignInForm extends React.Component {
                     type="email"
                     fullWidth
                   />
+                  {emailValid ? null : (
+                    <span className={"text text-danger"}>
+                      {formErrors.email}
+                    </span>
+                  )}
                   <TextField
                     id="password"
                     InputProps={{
@@ -396,7 +414,7 @@ class SignInForm extends React.Component {
                     onChange={e => this.setValue(e)}
                     margin="normal"
                     placeholder="Full Name"
-                    type="email"
+                    type="text"
                     fullWidth
                   />
                   <TextField
@@ -414,6 +432,11 @@ class SignInForm extends React.Component {
                     type="email"
                     fullWidth
                   />
+                  {emailValid ? null : (
+                    <span className={"text text-danger"}>
+                      {formErrors.email}
+                    </span>
+                  )}
                   <TextField
                     id="password"
                     InputProps={{
