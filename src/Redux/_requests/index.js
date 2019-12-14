@@ -45,6 +45,13 @@ export const axiosRequest = (
         if (res.status === 200) {
           res.data["statusCode"] = true;
           resolve(res.data);
+          if (res.data.status === 400) {
+            dispatch(sessionExpired());
+          }
+        } else if (res.status === 400) {
+          dispatch(sessionExpired());
+          res.data["statusCode"] = false;
+          resolve(res.data);
         } else {
           res.data["statusCode"] = false;
           resolve(res.data);

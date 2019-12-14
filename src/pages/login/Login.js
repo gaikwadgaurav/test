@@ -8,7 +8,7 @@ import {
   Tabs,
   Tab,
   TextField,
-  Fade,
+  Fade
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 // import classnames from "classnames";
@@ -23,7 +23,7 @@ import {
   signIn,
   signUp,
   clearMsg,
-  signInWithGoogle,
+  signInWithGoogle
 } from "../../Redux/_actions/user.action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,12 +49,12 @@ class SignInForm extends React.Component {
       email: "",
       showForgetPasswordForm: false,
       showNewPasswordForm: false,
-      resetPasswordToken: "",
+      resetPasswordToken: ""
     };
 
     toast.configure({
       autoClose: 5000,
-      draggable: true,
+      draggable: true
     });
   }
 
@@ -73,7 +73,7 @@ class SignInForm extends React.Component {
   loginUser() {
     const { dispatch } = this.props;
     this.setState({
-      isLoading: true,
+      isLoading: true
     });
     const { loginValue, password } = this.state;
     let formData = new FormData();
@@ -103,26 +103,26 @@ class SignInForm extends React.Component {
         `forgot_password?email=${loginValue}`,
         false,
         null,
-        null,
+        null
       );
       if (response.is_success) {
         toast.success(response.messages, {
-          position: toast.POSITION.TOP_RIGHT,
+          position: toast.POSITION.TOP_RIGHT
         });
         this.setState({
           activeTabId: 0,
           showForgetPasswordForm: false,
           showNewPasswordForm: false,
           loginValue: "",
-          isLoading: false,
+          isLoading: false
         });
       }
     } catch (error) {
       toast.error(error.messages, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_RIGHT
       });
       this.setState({
-        isLoading: false,
+        isLoading: false
       });
     }
   }
@@ -132,7 +132,7 @@ class SignInForm extends React.Component {
     this.setState({ isLoading: true });
     const formData = {
       token: resetPasswordToken,
-      new_password: password,
+      new_password: password
     };
     try {
       const response = await axiosRequest(
@@ -140,11 +140,11 @@ class SignInForm extends React.Component {
         "reset_password",
         false,
         null,
-        formData,
+        formData
       );
       if (response.is_success) {
         toast.success(response.messages, {
-          position: toast.POSITION.TOP_RIGHT,
+          position: toast.POSITION.TOP_RIGHT
         });
         this.setState({
           activeTabId: 0,
@@ -152,16 +152,16 @@ class SignInForm extends React.Component {
           showNewPasswordForm: false,
           resetPasswordToken: "",
           password: "",
-          isLoading: false,
+          isLoading: false
         });
         window.location.replace("/login");
       }
     } catch (error) {
       toast.error(error.messages, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_RIGHT
       });
       this.setState({
-        isLoading: false,
+        isLoading: false
       });
     }
   }
@@ -180,20 +180,23 @@ class SignInForm extends React.Component {
       localStorage.setItem("token", JSON.stringify(userData.token));
       history.push("/");
       toast.success(userData.successMessage, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_RIGHT
       });
       this.setState({
-        isLoading: false,
+        isLoading: false
       });
       dispatch(clearMsg());
     }
 
-    if (userData.status === "FAILED" && userData.userData === "") {
+    if (
+      userData.status === ("FAILED" || "SESSION_EXPIRED_SUCCESS") &&
+      userData.userData === ""
+    ) {
       toast.error(userData.errorMessage, {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.TOP_RIGHT
       });
       this.setState({
-        isLoading: false,
+        isLoading: false
       });
       dispatch(clearMsg());
     }
@@ -204,7 +207,7 @@ class SignInForm extends React.Component {
       const { dispatch } = this.props;
       const formData = {
         token: response.tokenId,
-        googleid: response.googleId,
+        googleid: response.googleId
       };
       dispatch(signInWithGoogle(formData));
     }
@@ -225,7 +228,7 @@ class SignInForm extends React.Component {
       nameValue,
       email,
       showForgetPasswordForm,
-      showNewPasswordForm,
+      showNewPasswordForm
     } = this.state;
     const { classes } = this.props;
     return (
@@ -244,7 +247,7 @@ class SignInForm extends React.Component {
                   this.setState({
                     activeTabId: id,
                     password: "",
-                    loginValue: "",
+                    loginValue: ""
                   })
                 }
                 indicatorColor="primary"
@@ -293,8 +296,8 @@ class SignInForm extends React.Component {
                     InputProps={{
                       classes: {
                         underline: classes.textFieldUnderline,
-                        input: classes.textField,
-                      },
+                        input: classes.textField
+                      }
                     }}
                     value={loginValue}
                     onChange={e => this.setValue(e)}
@@ -308,8 +311,8 @@ class SignInForm extends React.Component {
                     InputProps={{
                       classes: {
                         underline: classes.textFieldUnderline,
-                        input: classes.textField,
-                      },
+                        input: classes.textField
+                      }
                     }}
                     value={password}
                     onChange={e => this.setValue(e)}
@@ -371,8 +374,8 @@ class SignInForm extends React.Component {
                     InputProps={{
                       classes: {
                         underline: classes.textFieldUnderline,
-                        input: classes.textField,
-                      },
+                        input: classes.textField
+                      }
                     }}
                     value={companyNameValue}
                     onChange={e => this.setValue(e)}
@@ -386,8 +389,8 @@ class SignInForm extends React.Component {
                     InputProps={{
                       classes: {
                         underline: classes.textFieldUnderline,
-                        input: classes.textField,
-                      },
+                        input: classes.textField
+                      }
                     }}
                     value={nameValue}
                     onChange={e => this.setValue(e)}
@@ -401,8 +404,8 @@ class SignInForm extends React.Component {
                     InputProps={{
                       classes: {
                         underline: classes.textFieldUnderline,
-                        input: classes.textField,
-                      },
+                        input: classes.textField
+                      }
                     }}
                     value={email}
                     onChange={e => this.setValue(e)}
@@ -416,8 +419,8 @@ class SignInForm extends React.Component {
                     InputProps={{
                       classes: {
                         underline: classes.textFieldUnderline,
-                        input: classes.textField,
-                      },
+                        input: classes.textField
+                      }
                     }}
                     value={password}
                     onChange={e => this.setValue(e)}
@@ -481,8 +484,8 @@ class SignInForm extends React.Component {
                   InputProps={{
                     classes: {
                       underline: classes.textFieldUnderline,
-                      input: classes.textField,
-                    },
+                      input: classes.textField
+                    }
                   }}
                   className="mt-5 pt-5"
                   value={loginValue}
@@ -517,7 +520,7 @@ class SignInForm extends React.Component {
                             showForgetPasswordForm: false,
                             loginValue: "",
                             password: "",
-                            activeTabId: 0,
+                            activeTabId: 0
                           })
                         }
                         variant="contained"
@@ -547,8 +550,8 @@ class SignInForm extends React.Component {
                   InputProps={{
                     classes: {
                       underline: classes.textFieldUnderline,
-                      input: classes.textField,
-                    },
+                      input: classes.textField
+                    }
                   }}
                   value={password}
                   onChange={e => this.setValue(e)}
@@ -563,8 +566,8 @@ class SignInForm extends React.Component {
                   InputProps={{
                     classes: {
                       underline: classes.textFieldUnderline,
-                      input: classes.textField,
-                    },
+                      input: classes.textField
+                    }
                   }}
                   value={confirm_password}
                   onChange={e => this.setValue(e)}
@@ -600,7 +603,7 @@ class SignInForm extends React.Component {
                           this.setState({
                             showNewPasswordForm: false,
                             showForgetPasswordForm: true,
-                            password: "",
+                            password: ""
                           })
                         }
                         variant="contained"
@@ -624,10 +627,10 @@ class SignInForm extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  userData: state.userData,
+  userData: state.userData
 });
 
 export default connect(
   mapStateToProps,
-  null,
+  null
 )(withStyles(styles, { withTheme: true })(SignInForm));
