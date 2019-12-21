@@ -8,6 +8,7 @@ import Documentation from "./Documentation";
 // pages
 import Error from "../pages/error";
 import Login from "../pages/login";
+import InvitedUserRegistration from "../pages/user/invitedUserregistration";
 
 // context
 // import { useUserState } from "../context/UserContext";
@@ -21,6 +22,11 @@ export default function App() {
       <Switch>
         <Route path="/documentation" component={Documentation} />
         <PublicRoute exact path="/login" component={Login} />
+        <Route
+          exact
+          path="/invited-user-registration/:token"
+          component={InvitedUserRegistration}
+        />
         <PrivateRoute path="/" component={Layout} />
         <Route component={Error} />
       </Switch>

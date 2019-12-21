@@ -4,7 +4,6 @@ export const ValidationHandler = (event, state) => {
   let fieldValidationErrors = { email: "", password: "" };
   let emailValid = true;
   let passwordValid = true;
-
   switch (name) {
     case "loginValue":
       emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);

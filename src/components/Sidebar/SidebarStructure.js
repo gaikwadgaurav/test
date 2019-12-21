@@ -22,6 +22,7 @@ import { useTheme, makeStyles } from "@material-ui/styles";
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import AppsIcon from '@material-ui/icons/Apps';
 import TouchAppIcon from '@material-ui/icons/TouchApp';
+import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
 // components
 // import { Typography } from "../Wrappers/Wrappers";
 import Dot from "./components/Dot";
@@ -33,6 +34,7 @@ const structure = [
   { id: 3, label: "Analytics", link: "/analytics", icon: <TrendingUpIcon /> },
   { id: 4, label: "Settings", link: "/settings", icon: <AppsIcon /> },
   { id: 5, label: "Installation", link: "/install", icon: <TouchAppIcon /> },
+  { id: 6, label: "User Invitation", link: "/user-invitation", icon: <InsertInvitationIcon /> },
   // {
   //   id: 1,
   //   label: "E-commerce",

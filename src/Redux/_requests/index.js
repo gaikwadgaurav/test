@@ -51,10 +51,10 @@ export const axiosRequest = (
         } else if (res.status === 400) {
           dispatch(sessionExpired());
           res.data["statusCode"] = false;
-          resolve(res.data);
+          resolve(res.data && res.data);
         } else {
           res.data["statusCode"] = false;
-          resolve(res.data);
+          resolve(res.data && res.data);
         }
       })
       .catch(err => {
@@ -67,7 +67,7 @@ export const axiosRequest = (
         ) {
           dispatch(sessionExpired());
         }
-        reject(err.response.data);
+        reject(err && err.response && err.response.data);
       });
   });
 

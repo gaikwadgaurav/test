@@ -16,6 +16,9 @@ import {
   UPDATE_USER_PROFILE_BEGIN,
   UPDATE_USER_PROFILE_SUCCESS,
   UPDATE_USER_PROFILE_FAILED,
+  INVITED_USER_REGISTER_BEGIN,
+  INVITED_USER_REGISTER_SUCCESS,
+  INVITED_USER_REGISTER_FAILED
 } from "../_constants";
 import { axiosRequest } from "../_requests";
 
@@ -121,6 +124,40 @@ export const signUp = payload => async dispatch => {
   }
 };
 
+export const invitedUserRegister = (payload,userId) => async dispatch => {
+  dispatch({ type: INVITED_USER_REGISTER_BEGIN });
+  if (payload) {
+    try {
+      const response = await axiosRequest(
+        "PATCH",
+        "user_invitations/" + userId + "",
+        false,
+        null,
+        payload,
+      );
+      if (response.status === 200) {
+        dispatch({
+          type: INVITED_USER_REGISTER_SUCCESS,
+          data: {
+            userData: response.data,
+            messages: response.message,
+          },
+        });
+      } else {
+        dispatch({
+          type: INVITED_USER_REGISTER_FAILED,
+          data: response.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: INVITED_USER_REGISTER_FAILED,
+        data: error.data,
+      });
+    }
+  }
+};
+
 export const signOut = payload => async dispatch => {
   dispatch({ type: SIGN_OUT_BEGIN });
   if (payload) {
@@ -156,6 +193,7 @@ export const signOut = payload => async dispatch => {
   }
 };
 
+
 export const updateUserProfile = (headers, params, body) => async dispatch => {
   if (headers) {
     dispatch({ type: UPDATE_USER_PROFILE_BEGIN });
@@ -187,6 +225,48 @@ export const updateUserProfile = (headers, params, body) => async dispatch => {
       dispatch({
         type: UPDATE_USER_PROFILE_FAILED,
         data: error.messages,
+      });
+    }
+  }
+};
+
+export const updateInvitedUserProfile = (
+  headers,
+  params,
+  body,
+  userToken
+) => async dispatch => {
+  if (headers) {
+    dispatch({ type: INVITED_USER_REGISTER_BEGIN });
+    try {
+      const updateProfileResponse = await axiosRequest(
+        "PATCH",
+        "users",
+        headers,
+        params,
+        body,
+        undefined,
+        dispatch
+      );
+      if (updateProfileResponse.status === 200) {
+        dispatch({
+          type: INVITED_USER_REGISTER_SUCCESS,
+          data: {
+            user: updateProfileResponse.data,
+            success: updateProfileResponse.message,
+            token: userToken
+          }
+        });
+      } else {
+        dispatch({
+          type: INVITED_USER_REGISTER_FAILED,
+          data: updateProfileResponse.data
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: INVITED_USER_REGISTER_FAILED,
+        data: error.messages
       });
     }
   }

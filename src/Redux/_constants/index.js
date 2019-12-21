@@ -22,6 +22,16 @@ export const SIGN_UP_FAILED = "SIGN_UP_FAILED";
 
 /**
 |--------------------------------------------------
+| INVITED USER REGISTER CONSTANTS
+|--------------------------------------------------
+*/
+
+export const INVITED_USER_REGISTER_BEGIN = "INVITED_USER_REGISTER_BEGIN";
+export const INVITED_USER_REGISTER_SUCCESS = "INVITED_USER_REGISTER_SUCCESS";
+export const INVITED_USER_REGISTER_FAILED = "INVITED_USER_REGISTER_FAILED";
+
+/**
+|--------------------------------------------------
 | LOGIN CONSTANTS
 |--------------------------------------------------
 */
@@ -109,12 +119,10 @@ export const DELETE_VARIABLE_FAILED = "DELETE_VARIABLE_FAILED";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
 export const SESSION_EXPIRED = "SESSION_EXPIRED";
 
-
 export const GOOGLEAUTH = {
-    AUTH_URL: `${process.env.REACT_APP_API_SERVER_URL}/users/auth/google_oauth2/callback`,
-    HEADERS: {
-        'Authorization': "Bearer ******",
-        'Content-Type': "application/x-www-form-urlencoded"
-    }
+  AUTH_URL: `${process.env.REACT_APP_API_SERVER_URL}/users/auth/google_oauth2/callback`,
+  HEADERS: {
+    Authorization: "Bearer ******",
+    "Content-Type": "application/x-www-form-urlencoded"
+  }
 };
-

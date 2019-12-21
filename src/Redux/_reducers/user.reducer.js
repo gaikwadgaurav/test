@@ -19,7 +19,10 @@ import {
   SIGN_OUT_FAILED,
   UPDATE_USER_PROFILE_BEGIN,
   UPDATE_USER_PROFILE_FAILED,
-  UPDATE_USER_PROFILE_SUCCESS
+  UPDATE_USER_PROFILE_SUCCESS,
+  INVITED_USER_REGISTER_BEGIN,
+  INVITED_USER_REGISTER_SUCCESS,
+  INVITED_USER_REGISTER_FAILED
 } from "../_constants";
 
 const initialState = {
@@ -111,11 +114,39 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         userData: action.data.userData,
+        token: action.data.userData.token,
         errorMessage: "",
         successMessage: "Sign in successfully...!"
       };
 
     case SIGN_UP_FAILED:
+      return {
+        ...state,
+        status: FAILED,
+        errorMessage: action.data,
+        successMessage: ""
+      };
+
+    case INVITED_USER_REGISTER_BEGIN:
+      return {
+        ...state,
+        status: PENDING,
+        userData: "",
+        errorMessage: "",
+        successMessage: ""
+      };
+
+    case INVITED_USER_REGISTER_SUCCESS:
+      return {
+        ...state,
+        status: SUCCESS,
+        userData: action.data.user,
+        token: action.data.token,
+        errorMessage: "",
+        successMessage: action.data.success
+      };
+
+    case INVITED_USER_REGISTER_FAILED:
       return {
         ...state,
         status: FAILED,

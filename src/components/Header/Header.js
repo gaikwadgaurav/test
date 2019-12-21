@@ -266,7 +266,7 @@ export function Header(props) {
         >
           <Avatar
             alt="Robert Cotton"
-            src={isAuthenticatedUser.picture}
+            src={isAuthenticatedUser && isAuthenticatedUser.picture}
             classes={{ root: classes.headerIcon }}
           />
         </IconButton>
@@ -277,7 +277,7 @@ export function Header(props) {
         >
           Hi,&nbsp;
           <Typography variant="body2" weight={"bold"}>
-            {isAuthenticatedUser.first_name}
+            {isAuthenticatedUser && isAuthenticatedUser.first_name}
           </Typography>
         </Typography>
         <Menu
@@ -364,7 +364,7 @@ export function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              {isAuthenticatedUser.first_name} {isAuthenticatedUser.last_name}
+              {isAuthenticatedUser && isAuthenticatedUser.first_name} {isAuthenticatedUser && isAuthenticatedUser.last_name}
             </Typography>
             <Typography
               className={classes.profileMenuLink}

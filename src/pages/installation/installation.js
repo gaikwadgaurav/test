@@ -161,19 +161,19 @@ export default function Installation(props) {
     window.ChurnAI.config({
       appId: ${10},                                  //*  App ID provided by ChurnAI
       firstName: ${
-        user.first_name
+        user && user.first_name
       },                           //   Users' First Name
       lastName: ${
-        user.last_name
+        user && user.last_name
       },                              //   Users' Last Name
-      email: ${user.email},                          //* Users' email address
+      email: ${user && user.email},                          //* Users' email address
       account: {
         companyName: ${
-          user.company_name
+          user && user.company_name
         },                  // * Display name of company for end-user facing content
         companyDomain: "acme.com",              //   Used for display and data enrichment
         companyId: ${
-          user.company_id
+          user && user.company_id
         },                          // * Unique company ID
         billingId: "091029130892",              //   Your user's billing ID used in your billing system
         plan: "enterprise",                     //   Plan type name used in your billing system
