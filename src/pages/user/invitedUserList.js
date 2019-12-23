@@ -23,22 +23,20 @@ import {
 // import { yellow } from "@material-ui/core/colors";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import useStyles from "./styles";
+import useStyles from "../ecommerce/styles";
 import { Link } from "react-router-dom";
 import cn from "classnames";
+import qs from "qs";
 
 // components
 import Widget from "../../components/Widget";
 // import Dot from "../../components/Sidebar/components/Dot";
 import { Typography, Button } from "../../components/Wrappers";
-import {
-  fetchVariables,
-  deleteVariable
-} from "../../Redux/_actions/variable.action";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
-import { clearMsgForVariable } from "../../Redux/_actions/variable.action";
 import Swal from "sweetalert2";
+import { fetchInvitedUsers } from "../../Redux/_actions/user.action";
+import { axiosRequest } from "../../Redux/_requests";
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -66,21 +64,6 @@ function getSorting(order, orderBy) {
     : (a, b) => -desc(a, b, orderBy);
 }
 
-// const headCells = [
-//   {
-//     id: "id",
-//     numeric: true,
-//     disablePadding: true,
-//     label: "ID"
-//   },
-//   { id: "image", numeric: true, disablePadding: false, label: "Image" },
-//   { id: "title", numeric: true, disablePadding: false, label: "Title" },
-//   { id: "subtitle", numeric: true, disablePadding: false, label: "Subtitle" },
-//   { id: "price", numeric: true, disablePadding: false, label: "Price" },
-//   { id: "rating", numeric: true, disablePadding: false, label: "Rating" },
-//   { id: "status", numeric: true, disablePadding: false, label: "Status" },
-//   { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
-// ];
 const headCells = [
   {
     id: "id",
@@ -88,14 +71,15 @@ const headCells = [
     disablePadding: true,
     label: "ID"
   },
-  { id: "name", numeric: true, disablePadding: false, label: "Variable Name" },
+  { id: "name", numeric: true, disablePadding: false, label: "User Name" },
   {
-    id: "defaultValue",
+    id: "email",
     numeric: true,
     disablePadding: false,
-    label: "Default Value"
+    label: "Email"
   },
-  { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
+  { id: "reSend", numeric: true, disablePadding: false, label: "Re-Send" },
+  { id: "delete", numeric: true, disablePadding: false, label: "Delete" }
 ];
 
 function EnhancedTableHead(props) {
@@ -200,7 +184,7 @@ const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle">
-          Variables
+          Users
         </Typography>
       )}
 
@@ -208,7 +192,7 @@ const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
         <Tooltip title="Delete">
           <IconButton
             aria-label="delete"
-            onClick={() => multiVariableDeletion(selected, dispatch)}
+            onClick={() => multiUserDeletion(selected, dispatch)}
           >
             <DeleteIcon />
           </IconButton>
@@ -241,9 +225,9 @@ const sweetAlert = (text, buttonText) => {
   });
 };
 
-const multiVariableDeletion = (selected, dispatch) => {
+const multiUserDeletion = (selected, dispatch) => {
   if (selected) {
-    const text = "You want to delete variables!";
+    const text = "You want to delete users!";
     const buttonText = "Yes, delete it!";
     let formData = new FormData();
     if (selected.length) {
@@ -253,14 +237,14 @@ const multiVariableDeletion = (selected, dispatch) => {
 
       sweetAlert(text, buttonText).then(result => {
         if (result.value) {
-          dispatch(deleteVariable(true, selected, null, formData));
+          //   dispatch(deleteVariable(true, selected, null, formData));
         }
       });
     }
   }
 };
 
-export function EcommercePage(props) {
+export function InvitedUserList(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("price");
@@ -268,28 +252,54 @@ export function EcommercePage(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const dispatch = useDispatch();
-  function fetchVariablesList(props) {
-    dispatch(fetchVariables(true, null, null));
+  const users = props && props.invitedUsersList;
+  toast.configure({
+    autoClose: 4000,
+    draggable: true
+  });
+
+  function fetchInvitedUserList() {
+    dispatch(fetchInvitedUsers(true, null, null));
   }
 
-  function editVariable(variableId) {
-    if (variableId) {
-      const { history } = props;
-      history.push("/variable/edit/" + variableId + "");
+  function goToUserInvitation() {
+    props.history.push("/invite-user");
+  }
+
+  async function inviteUser(index) {
+    if (index > -1) {
+      const invitedUser = users && users[index];
+      if (invitedUser) {
+        const formData = {
+          "user_invitation[email]": invitedUser.email,
+          "user_invitation[name]": invitedUser.name
+        };
+        const invitedUserResponse = await axiosRequest(
+          "POST",
+          "/user_invitations",
+          true,
+          undefined,
+          qs.parse(formData),
+          undefined,
+          null
+        );
+        if (invitedUserResponse && invitedUserResponse.status === 200) {
+          toast.success(invitedUserResponse.message);
+        } else {
+          toast.error(invitedUserResponse.message);
+        }
+      }
     }
   }
 
-  function showDeletePopUp(variableId) {
-    if (variableId) {
-      const text = "You want to delete variable!";
+  function showDeletePopUp(userId) {
+    if (userId) {
+      const text = "You want to delete user!";
       const buttonText = "Yes, delete it!";
-      let formData = new FormData();
-      formData.append("ids[]", variableId);
-      const variableIds = [variableId];
       sweetAlert(text, buttonText).then(result => {
-        if (result.value) {
-          dispatch(deleteVariable(true, variableIds, null, formData));
-        }
+        //   if (result.value) {
+        //     dispatch(deleteVariable(true, variableIds, null, formData));
+        //   }
       });
     }
   }
@@ -307,40 +317,38 @@ export function EcommercePage(props) {
     });
   }
 
-  function variableOperationSuccess() {
-    if (
-      props &&
-      props.variables &&
-      (props.variables.status === "SUCCESS" ||
-        props.variables.status === "DELETE_SUCCESS") &&
-      props.variables.successMessage &&
-      props.variables.successMessage !== ""
-    ) {
-      toast.success(props.variables.successMessage);
-      dispatch(clearMsgForVariable());
-      setSelected([]);
-    }
-    if (
-      props &&
-      props.variables &&
-      props.variables.status === "FAILED" &&
-      props.variables.errorMessage &&
-      props.variables.errorMessage !== ""
-    ) {
-      toast.error(props.variables.errorMessage);
-      dispatch(clearMsgForVariable());
-    }
-  }
-
-  const variables = props && props.variablesList;
+  //   function variableOperationSuccess() {
+  //     if (
+  //       props &&
+  //       props.variables &&
+  //       (props.variables.status === "SUCCESS" ||
+  //         props.variables.status === "DELETE_SUCCESS") &&
+  //       props.variables.successMessage &&
+  //       props.variables.successMessage !== ""
+  //     ) {
+  //       toast.success(props.variables.successMessage);
+  //       dispatch(clearMsgForVariable());
+  //       setSelected([]);
+  //     }
+  //     if (
+  //       props &&
+  //       props.variables &&
+  //       props.variables.status === "FAILED" &&
+  //       props.variables.errorMessage &&
+  //       props.variables.errorMessage !== ""
+  //     ) {
+  //       toast.error(props.variables.errorMessage);
+  //       dispatch(clearMsgForVariable());
+  //     }
+  //   }
 
   useEffect(() => {
-    fetchVariablesList(props);
-  }, [props && props.variableList && !props.variableList.length]);
+    fetchInvitedUserList(props);
+  }, []);
 
-  useEffect(() => {
-    variableOperationSuccess();
-  }, [props && props.variables]);
+  //   useEffect(() => {
+  //     variableOperationSuccess();
+  //   }, [props && props.variables]);
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === "desc";
@@ -350,7 +358,7 @@ export function EcommercePage(props) {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = variables.map(n => n.id);
+      const newSelecteds = users.map(n => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -389,27 +397,30 @@ export function EcommercePage(props) {
   const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, variables.length - page * rowsPerPage);
-  const type = "variableList";
+    rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
+  const type = "invitedUserListTable";
   return (
     <>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Widget
-            title="List of Variables"
-            subtitle={`(${variables.length} total)`}
+            title="List of Users"
+            subtitle={`(${users.length} total)`}
             disableWidgetMenu
             searchField
             filterType={type}
           >
-            <Button
-              variant={"contained"}
-              component={Link}
-              to={"/variable/create"}
-              color={"success"}
-            >
-              Create Variable
-            </Button>
+            <Box display="flex" justifyContent={"flex-end"}>
+              <Box m={1}>
+                <Button
+                  variant={"contained"}
+                  color={"primary"}
+                  onClick={goToUserInvitation}
+                >
+                  Invite User
+                </Button>
+              </Box>
+            </Box>
             <EnhancedTableToolbar
               numSelected={selected.length}
               selected={selected}
@@ -428,19 +439,19 @@ export function EcommercePage(props) {
                   orderBy={orderBy}
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
-                  rowCount={variables.length}
+                  rowCount={users.length}
                 />
 
                 <TableBody>
-                  {variables && variables.length
-                    ? stableSort(variables, getSorting(order, orderBy))
+                  {users && users.length
+                    ? stableSort(users, getSorting(order, orderBy))
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage
                         )
-                        .map((variable, variableIndex) => {
-                          const isItemSelected = isSelected(variable.id);
-                          const labelId = `enhanced-table-checkbox-${variableIndex}`;
+                        .map((user, userIndex) => {
+                          const isItemSelected = isSelected(user.id);
+                          const labelId = `enhanced-table-checkbox-${userIndex}`;
 
                           return (
                             <TableRow
@@ -448,7 +459,7 @@ export function EcommercePage(props) {
                               // onClick={event => handleClick(event, variable.id)}
                               role="checkbox"
                               aria-checked={isItemSelected}
-                              key={variable.id}
+                              key={user.id}
                               tabIndex={-1}
                               selected={isItemSelected}
                             >
@@ -456,7 +467,7 @@ export function EcommercePage(props) {
                                 <Checkbox
                                   checked={isItemSelected}
                                   onChange={event =>
-                                    handleClick(event, variable.id)
+                                    handleClick(event, user.id)
                                   }
                                   inputProps={{ "aria-labelledby": labelId }}
                                 />
@@ -467,10 +478,10 @@ export function EcommercePage(props) {
                                 scope="row"
                                 padding="none"
                               >
-                                {variable.id}
+                                {user.id}
                               </TableCell>
-                              <TableCell>{variable.name}</TableCell>
-                              <TableCell>${variable.default}</TableCell>
+                              <TableCell>{user.name}</TableCell>
+                              <TableCell>{user.email}</TableCell>
                               <TableCell>
                                 <Box display={"flex"} alignItems={"center"}>
                                   <Button
@@ -478,15 +489,19 @@ export function EcommercePage(props) {
                                     size="small"
                                     className={"mr-2"}
                                     variant="contained"
-                                    onClick={() => editVariable(variable.id)}
+                                    onClick={() => inviteUser(userIndex)}
                                   >
-                                    Edit
+                                    Re-send
                                   </Button>
+                                </Box>
+                              </TableCell>
+                              <TableCell>
+                                <Box display={"flex"} alignItems={"center"}>
                                   <Button
                                     color="secondary"
                                     size="small"
                                     variant="contained"
-                                    onClick={() => showDeletePopUp(variable.id)}
+                                    onClick={() => showDeletePopUp(user.id)}
                                   >
                                     Delete
                                   </Button>
@@ -504,10 +519,11 @@ export function EcommercePage(props) {
                 </TableBody>
               </Table>
             </div>
+
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={variables.length}
+              count={users.length}
               rowsPerPage={rowsPerPage}
               page={page}
               backIconButtonProps={{
@@ -527,8 +543,7 @@ export function EcommercePage(props) {
 }
 
 const mapStateToProps = state => ({
-  variablesList: state.variables.variableList,
-  variables: state.variables
+  invitedUsersList: state.userData.invitedUserList
 });
 
-export default connect(mapStateToProps, null)(EcommercePage);
+export default connect(mapStateToProps, null)(InvitedUserList);

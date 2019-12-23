@@ -34,7 +34,7 @@ const structure = [
   { id: 3, label: "Analytics", link: "/analytics", icon: <TrendingUpIcon /> },
   { id: 4, label: "Settings", link: "/settings", icon: <AppsIcon /> },
   { id: 5, label: "Installation", link: "/install", icon: <TouchAppIcon /> },
-  { id: 6, label: "User Invitation", link: "/user-invitation", icon: <InsertInvitationIcon /> },
+  { id: 6, label: "Invited Users", link: "/invited-users", icon: <InsertInvitationIcon /> },
   // {
   //   id: 1,
   //   label: "E-commerce",

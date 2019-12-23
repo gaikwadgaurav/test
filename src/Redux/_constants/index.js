@@ -32,6 +32,17 @@ export const INVITED_USER_REGISTER_FAILED = "INVITED_USER_REGISTER_FAILED";
 
 /**
 |--------------------------------------------------
+| INVITED USER REGISTER CONSTANTS
+|--------------------------------------------------
+*/
+
+export const FETCH_INVITED_USER_LIST_BEGIN = "FETCH_INVITED_USER_LIST_BEGIN";
+export const FETCH_INVITED_USER_LIST_SUCCESS = "FETCH_INVITED_USER_LIST_SUCCESS";
+export const FETCH_INVITED_USER_LIST_FAILED = "FETCH_INVITED_USER_LIST_FAILED";
+export const FILTER_INVITED_USER_LIST = "FILTER_INVITED_USER_LIST";
+
+/**
+|--------------------------------------------------
 | LOGIN CONSTANTS
 |--------------------------------------------------
 */
@@ -79,6 +90,7 @@ export const UPDATE_USER_PROFILE_FAILED = "UPDATE_USER_PROFILE_FAILED";
 export const FETCH_VARIABLE_LIST_BEGIN = "FETCH_VARIABLE_LIST_BEGIN";
 export const FETCH_VARIABLE_LIST_SUCCESS = "FETCH_VARIABLE_LIST_SUCCESS";
 export const FETCH_VARIABLE_LIST_FAILED = "FETCH_VARIABLE_LIST_FAILED";
+export const FILTER_VARIABLES_LIST = "FILTER_VARIABLES_LIST";
 
 /**
 |--------------------------------------------------

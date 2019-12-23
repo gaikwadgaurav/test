@@ -86,6 +86,7 @@ import { useThemeDispatch } from "../../context/ThemeContext";
 import structure from "../Sidebar/SidebarStructure";
 import Profile from "../../pages/profile/profile";
 import UserInvitation from "../../pages/user/invitation";
+import InvitedUserList from "../../pages/user/invitedUserList";
 
 // Tab styling
 
@@ -262,7 +263,8 @@ function Layout(props) {
           <Route path="/variable/edit/:id" component={CreateVariable} />
           <Route path="/install" component={Installation} />
           <Route path="/profile" component={Profile} />
-          <Route path="/user-invitation" component={UserInvitation} />
+          <Route path="/invite-user" component={UserInvitation} />
+          <Route path="/invited-users" component={InvitedUserList} />
           <Route path="/app/ecommerce/product/:id" component={Product} />
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid} />

@@ -16,13 +16,15 @@ import {
   DELETE_VARIABLE_SUCCESS,
   DELETE_VARIABLE_BEGIN,
   DELETE_VARIABLE_FAILED,
+  FILTER_VARIABLES_LIST
 } from "../_constants";
 
 const initialState = {
   status: "",
   variableList: [],
+  variableListClone: [],
   errorMessage: "",
-  successMessage: "",
+  successMessage: ""
 };
 
 export default (state = initialState, action) => {
@@ -34,7 +36,7 @@ export default (state = initialState, action) => {
         status: PENDING,
         variableList: "",
         errorMessage: "",
-        successMessage: "",
+        successMessage: ""
       };
 
     case FETCH_VARIABLE_LIST_SUCCESS:
@@ -42,8 +44,9 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         variableList: action.data.variableList,
+        variableListClone: action.data.variableList,
         errorMessage: "",
-        successMessage: action.data.messages,
+        successMessage: action.data.messages
       };
 
     case FETCH_VARIABLE_LIST_FAILED:
@@ -51,7 +54,31 @@ export default (state = initialState, action) => {
         ...state,
         status: FAILED,
         errorMessage: action.data,
-        successMessage: "",
+        successMessage: ""
+      };
+
+    case FILTER_VARIABLES_LIST:
+      const searchValue = action.data;
+      let updatedVariableList = state.variableListClone;
+      if (searchValue) {
+        updatedVariableList = updatedVariableList.filter(variable => {
+          return (
+            variable &&
+            variable.name &&
+            variable.name.toLowerCase().search(searchValue.toLowerCase()) !== -1
+          ) || (
+            variable &&
+            variable.default &&
+            variable.default.toLowerCase().search(searchValue.toLowerCase()) !== -1
+          )
+        });
+      } else {
+        updatedVariableList = state.variableListClone;
+      }
+      return {
+        ...state,
+        status: SUCCESS,
+        variableList: updatedVariableList
       };
 
     case ADD_VARIABLE_BEGIN:
@@ -59,7 +86,7 @@ export default (state = initialState, action) => {
         ...state,
         status: PENDING,
         errorMessage: "",
-        successMessage: "",
+        successMessage: ""
       };
 
     case ADD_VARIABLE_SUCCESS:
@@ -70,7 +97,7 @@ export default (state = initialState, action) => {
         status: SUCCESS,
         variableList: variableList,
         errorMessage: "",
-        successMessage: action.data.messages,
+        successMessage: action.data.messages
       };
 
     case ADD_VARIABLE_FAILED:
@@ -78,7 +105,7 @@ export default (state = initialState, action) => {
         ...state,
         status: FAILED,
         errorMessage: action.data,
-        successMessage: "",
+        successMessage: ""
       };
 
     case UPDATE_VARIABLE_BEGIN:
@@ -86,13 +113,13 @@ export default (state = initialState, action) => {
         ...state,
         status: PENDING,
         errorMessage: "",
-        successMessage: "",
+        successMessage: ""
       };
 
     case UPDATE_VARIABLE_SUCCESS:
       variableList = state.variableList;
       const variableIndex = variableList.findIndex(
-        variable => variable.id === parseInt(action.data.variableId),
+        variable => variable.id === parseInt(action.data.variableId)
       );
       if (variableIndex > -1) {
         variableList[variableIndex] = action.data.updatedVariable;
@@ -102,7 +129,7 @@ export default (state = initialState, action) => {
         status: SUCCESS,
         variableList: variableList,
         errorMessage: "",
-        successMessage: action.data.messages,
+        successMessage: action.data.messages
       };
 
     case UPDATE_VARIABLE_FAILED:
@@ -110,7 +137,7 @@ export default (state = initialState, action) => {
         ...state,
         status: FAILED,
         errorMessage: action.data,
-        successMessage: "",
+        successMessage: ""
       };
 
     case DELETE_VARIABLE_BEGIN:
@@ -118,7 +145,7 @@ export default (state = initialState, action) => {
         ...state,
         status: PENDING,
         errorMessage: "",
-        successMessage: "",
+        successMessage: ""
       };
 
     case DELETE_VARIABLE_SUCCESS:
@@ -131,7 +158,7 @@ export default (state = initialState, action) => {
             return variable.id === selectedVariable;
           });
           if (variableIndex > -1) {
-            variableList.splice(variableIndex, 1);
+            return variableList.splice(variableIndex, 1);
           }
         });
       }
@@ -140,7 +167,7 @@ export default (state = initialState, action) => {
         status: DELETE_SUCCESS,
         variableList: variableList,
         errorMessage: "",
-        successMessage: action.data.messages,
+        successMessage: action.data.messages
       };
 
     case DELETE_VARIABLE_FAILED:
@@ -148,7 +175,7 @@ export default (state = initialState, action) => {
         ...state,
         status: FAILED,
         errorMessage: action.data,
-        successMessage: "",
+        successMessage: ""
       };
 
     case CLEAR_MESSAGE:
@@ -156,7 +183,7 @@ export default (state = initialState, action) => {
         ...state,
         status: "",
         errorMessage: "",
-        successMessage: "",
+        successMessage: ""
       };
 
     default:

@@ -9,7 +9,6 @@ import { axiosRequest } from "../../Redux/_requests/index";
 import qs from "qs";
 
 export function UserInvitation(props) {
-  const classes = useStyles();
   toast.configure({
     autoClose: 4000,
     draggable: true
@@ -48,20 +47,24 @@ export function UserInvitation(props) {
       );
       if (invitedUserResponse && invitedUserResponse.status === 200) {
         toast.success(invitedUserResponse.message);
+        props.history.push("/invited-users");
       } else {
         toast.error(invitedUserResponse.message);
       }
     }
   }
 
-  function goToDashBoard() {
-    props.history.push("/");
+  function goToInvitedUserList() {
+    props.history.push("/invited-users");
   }
 
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Widget title="Invite User" disableWidgetMenu>
+        <Widget
+          title="User Invite"
+          disableWidgetMenu
+        >
           <Box display={"flex"} flexDirection="column">
             <Box display={"flex"} alignItems={"center"}>
               <Box width={300}>
@@ -112,8 +115,9 @@ export function UserInvitation(props) {
               </Button>
               <Button
                 variant={"contained"}
+                color={"primary"}
                 style={{ marginRight: 8, marginTop: 15 }}
-                onClick={goToDashBoard}
+                onClick={goToInvitedUserList}
               >
                 Back
               </Button>

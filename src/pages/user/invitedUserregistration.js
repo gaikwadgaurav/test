@@ -42,7 +42,7 @@ class InvitedUserRegistration extends React.Component {
       error: false,
       password: "",
       confirm_password: "",
-      isLoading: "",
+      isLoading: false,
       nameValue: "",
       email: "",
       formErrors: { email: "", password: "" },

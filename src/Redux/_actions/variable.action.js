@@ -11,7 +11,8 @@ import {
   DELETE_VARIABLE_BEGIN,
   DELETE_VARIABLE_SUCCESS,
   DELETE_VARIABLE_FAILED,
-  CLEAR_MESSAGE,
+  FILTER_VARIABLES_LIST,
+  CLEAR_MESSAGE
 } from "../_constants";
 import { axiosRequest } from "../_requests";
 
@@ -26,26 +27,26 @@ export const fetchVariables = (headers, params, body) => async dispatch => {
         params,
         body,
         undefined,
-        dispatch,
+        dispatch
       );
       if (variableListResponse.status === 200) {
         dispatch({
           type: FETCH_VARIABLE_LIST_SUCCESS,
           data: {
             variableList: variableListResponse.data,
-            messages: variableListResponse.messages,
-          },
+            messages: variableListResponse.messages
+          }
         });
       } else {
         dispatch({
           type: FETCH_VARIABLE_LIST_FAILED,
-          data: variableListResponse.data,
+          data: variableListResponse.data
         });
       }
     } catch (error) {
       dispatch({
         type: FETCH_VARIABLE_LIST_FAILED,
-        data: error.messages,
+        data: error.messages
       });
     }
   }
@@ -62,26 +63,26 @@ export const addVariable = (headers, params, body) => async dispatch => {
         params,
         body,
         undefined,
-        dispatch,
+        dispatch
       );
       if (addVariableResponse.status === 200) {
         dispatch({
           type: ADD_VARIABLE_SUCCESS,
           data: {
             variable: addVariableResponse.data,
-            messages: addVariableResponse.message,
-          },
+            messages: addVariableResponse.message
+          }
         });
       } else {
         dispatch({
           type: ADD_VARIABLE_FAILED,
-          data: addVariableResponse.data,
+          data: addVariableResponse.data
         });
       }
     } catch (error) {
       dispatch({
         type: ADD_VARIABLE_FAILED,
-        data: error.messages,
+        data: error.messages
       });
     }
   }
@@ -91,7 +92,7 @@ export const updateVariable = (
   headers,
   variableId,
   params,
-  body,
+  body
 ) => async dispatch => {
   if (headers) {
     dispatch({ type: UPDATE_VARIABLE_BEGIN });
@@ -103,7 +104,7 @@ export const updateVariable = (
         params,
         body,
         undefined,
-        dispatch,
+        dispatch
       );
       if (updateVariableResponse.status === 200) {
         dispatch({
@@ -111,19 +112,19 @@ export const updateVariable = (
           data: {
             updatedVariable: updateVariableResponse.data,
             messages: updateVariableResponse.message,
-            variableId,
-          },
+            variableId
+          }
         });
       } else {
         dispatch({
           type: UPDATE_VARIABLE_FAILED,
-          data: updateVariableResponse.data,
+          data: updateVariableResponse.data
         });
       }
     } catch (error) {
       dispatch({
         type: UPDATE_VARIABLE_FAILED,
-        data: error.messages,
+        data: error.messages
       });
     }
   }
@@ -133,7 +134,7 @@ export const deleteVariable = (
   headers,
   variableIds,
   params,
-  body,
+  body
 ) => async dispatch => {
   if (headers) {
     dispatch({ type: DELETE_VARIABLE_BEGIN });
@@ -145,33 +146,40 @@ export const deleteVariable = (
         params,
         body,
         "formData",
-        dispatch,
+        dispatch
       );
       if (deleteVariableResponse.status === 200) {
         dispatch({
           type: DELETE_VARIABLE_SUCCESS,
           data: {
             messages: deleteVariableResponse.message,
-            variableIds,
-          },
+            variableIds
+          }
         });
       } else {
         dispatch({
           type: DELETE_VARIABLE_FAILED,
-          data: deleteVariableResponse.data,
+          data: deleteVariableResponse.data
         });
       }
     } catch (error) {
       dispatch({
         type: DELETE_VARIABLE_FAILED,
-        data: error.messages,
+        data: error.messages
       });
     }
   }
 };
 
+export const filterVariableList = value => dispatch => {
+  dispatch({
+    type: FILTER_VARIABLES_LIST,
+    data: value
+  });
+};
+
 export const clearMsgForVariable = () => dispatch => {
   dispatch({
-    type: CLEAR_MESSAGE,
+    type: CLEAR_MESSAGE
   });
 };

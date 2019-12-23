@@ -18,7 +18,11 @@ import {
   UPDATE_USER_PROFILE_FAILED,
   INVITED_USER_REGISTER_BEGIN,
   INVITED_USER_REGISTER_SUCCESS,
-  INVITED_USER_REGISTER_FAILED
+  INVITED_USER_REGISTER_FAILED,
+  FETCH_INVITED_USER_LIST_BEGIN,
+  FETCH_INVITED_USER_LIST_SUCCESS,
+  FETCH_INVITED_USER_LIST_FAILED,
+  FILTER_INVITED_USER_LIST
 } from "../_constants";
 import { axiosRequest } from "../_requests";
 
@@ -31,7 +35,7 @@ export const signIn = payload => async dispatch => {
         "sign_in",
         false,
         undefined,
-        payload,
+        payload
       );
       if (response.status === 200) {
         dispatch({
@@ -39,19 +43,19 @@ export const signIn = payload => async dispatch => {
           data: {
             userData: response.data,
             token: response.token,
-            messages: response.message,
-          },
+            messages: response.message
+          }
         });
       } else {
         dispatch({
           type: SIGN_IN_FAILED,
-          data: response.data,
+          data: response.data
         });
       }
     } catch (error) {
       dispatch({
         type: SIGN_IN_FAILED,
-        data: error.messages,
+        data: error.messages
       });
     }
   }
@@ -65,27 +69,27 @@ export const signInWithGoogle = payload => async dispatch => {
       "auth/request",
       false,
       null,
-      payload,
+      payload
     );
     if (response) {
       dispatch({
         type: SIGN_IN_WITH_GOOGLE_SUCCESS,
         data: {
           userData: response.data,
-            token: response.token,
-            messages: response.message,
-        },
+          token: response.token,
+          messages: response.message
+        }
       });
     } else {
       dispatch({
         type: SIGN_IN_WITH_GOOGLE_FAILED,
-        data: response.messages,
+        data: response.messages
       });
     }
   } catch (error) {
     dispatch({
       type: SIGN_IN_WITH_GOOGLE_FAILED,
-      data: error.messages,
+      data: error.messages
     });
   }
 };
@@ -99,32 +103,32 @@ export const signUp = payload => async dispatch => {
         "sign_up",
         false,
         null,
-        payload,
+        payload
       );
       if (response.status === 200) {
         dispatch({
           type: SIGN_UP_SUCCESS,
           data: {
             userData: response.data,
-            messages: response.message,
-          },
+            messages: response.message
+          }
         });
       } else {
         dispatch({
           type: SIGN_UP_FAILED,
-          data: response.data,
+          data: response.data
         });
       }
     } catch (error) {
       dispatch({
         type: SIGN_UP_FAILED,
-        data: error.data,
+        data: error.data
       });
     }
   }
 };
 
-export const invitedUserRegister = (payload,userId) => async dispatch => {
+export const invitedUserRegister = (payload, userId) => async dispatch => {
   dispatch({ type: INVITED_USER_REGISTER_BEGIN });
   if (payload) {
     try {
@@ -133,29 +137,67 @@ export const invitedUserRegister = (payload,userId) => async dispatch => {
         "user_invitations/" + userId + "",
         false,
         null,
-        payload,
+        payload
       );
       if (response.status === 200) {
         dispatch({
           type: INVITED_USER_REGISTER_SUCCESS,
           data: {
             userData: response.data,
-            messages: response.message,
-          },
+            messages: response.message
+          }
         });
       } else {
         dispatch({
           type: INVITED_USER_REGISTER_FAILED,
-          data: response.data,
+          data: response.data
         });
       }
     } catch (error) {
       dispatch({
         type: INVITED_USER_REGISTER_FAILED,
-        data: error.data,
+        data: error.data
       });
     }
   }
+};
+
+export const fetchInvitedUsers = (header, params) => async dispatch => {
+  dispatch({ type: FETCH_INVITED_USER_LIST_BEGIN });
+  if (header) {
+    try {
+      const response = await axiosRequest(
+        "POST",
+        "user_invitations/invited_users_list",
+        header,
+        null,
+        null
+      );
+      if (response.status === 200) {
+        dispatch({
+          type: FETCH_INVITED_USER_LIST_SUCCESS,
+          data: response.data
+        });
+      } else {
+        dispatch({
+          type: FETCH_INVITED_USER_LIST_FAILED,
+          data: response.data
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: FETCH_INVITED_USER_LIST_FAILED,
+        data: error.data
+      });
+    }
+  }
+};
+
+export const filterInvitedUserList = value => dispatch => {
+  dispatch({
+    type: FILTER_INVITED_USER_LIST,
+    data: value
+  });
 };
 
 export const signOut = payload => async dispatch => {
@@ -168,31 +210,30 @@ export const signOut = payload => async dispatch => {
         "log_out",
         header,
         null,
-        null,
+        null
       );
       if (response) {
         dispatch({
           type: SIGN_OUT_SUCCESS,
           data: {
             userData: "",
-            message: response.messages,
-          },
+            message: response.messages
+          }
         });
       } else {
         dispatch({
           type: SIGN_IN_FAILED,
-          data: response.data,
+          data: response.data
         });
       }
     } catch (error) {
       dispatch({
         type: SIGN_OUT_FAILED,
-        data: error.messages,
+        data: error && error.messages && error.messages
       });
     }
   }
 };
-
 
 export const updateUserProfile = (headers, params, body) => async dispatch => {
   if (headers) {
@@ -205,26 +246,26 @@ export const updateUserProfile = (headers, params, body) => async dispatch => {
         params,
         body,
         undefined,
-        dispatch,
+        dispatch
       );
       if (updateProfileResponse.status === 200) {
         dispatch({
           type: UPDATE_USER_PROFILE_SUCCESS,
           data: {
             user: updateProfileResponse.data,
-            success: updateProfileResponse.message,
-          },
+            success: updateProfileResponse.message
+          }
         });
       } else {
         dispatch({
           type: UPDATE_USER_PROFILE_FAILED,
-          data: updateProfileResponse.data,
+          data: updateProfileResponse.data
         });
       }
     } catch (error) {
       dispatch({
         type: UPDATE_USER_PROFILE_FAILED,
-        data: error.messages,
+        data: error.messages
       });
     }
   }
@@ -274,12 +315,12 @@ export const updateInvitedUserProfile = (
 
 export const clearMsg = () => dispatch => {
   dispatch({
-    type: CLEAR_MESSAGE,
+    type: CLEAR_MESSAGE
   });
 };
 
 export const sessionExpired = () => dispatch => {
   dispatch({
-    type: SESSION_EXPIRED,
+    type: SESSION_EXPIRED
   });
 };

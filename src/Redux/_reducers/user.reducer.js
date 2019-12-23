@@ -22,13 +22,19 @@ import {
   UPDATE_USER_PROFILE_SUCCESS,
   INVITED_USER_REGISTER_BEGIN,
   INVITED_USER_REGISTER_SUCCESS,
-  INVITED_USER_REGISTER_FAILED
+  INVITED_USER_REGISTER_FAILED,
+  FETCH_INVITED_USER_LIST_BEGIN,
+  FETCH_INVITED_USER_LIST_SUCCESS,
+  FETCH_INVITED_USER_LIST_FAILED,
+  FILTER_INVITED_USER_LIST
 } from "../_constants";
 
 const initialState = {
   status: "",
   userData: "",
   token: "",
+  invitedUserList: [],
+  invitedUserListClone: [],
   errorMessage: "",
   successMessage: "",
   isAuthenticated: false,
@@ -152,6 +158,48 @@ export default (state = initialState, action) => {
         status: FAILED,
         errorMessage: action.data,
         successMessage: ""
+      };
+
+    case FETCH_INVITED_USER_LIST_BEGIN:
+      return {
+        ...state,
+        status: PENDING
+      };
+
+    case FETCH_INVITED_USER_LIST_SUCCESS:
+      return {
+        ...state,
+        status: SUCCESS,
+        invitedUserList: action.data,
+        invitedUserListClone: action.data
+      };
+
+    case FETCH_INVITED_USER_LIST_FAILED:
+      return {
+        ...state,
+        status: FAILED,
+        errorMessage: action.data,
+        successMessage: ""
+      };
+
+    case FILTER_INVITED_USER_LIST:
+      const searchValue = action.data;
+      let updatedUserList = state.invitedUserListClone;
+      if (searchValue) {
+        updatedUserList = updatedUserList.filter(user => {
+          return (
+            user &&
+            user.email &&
+            user.email.toLowerCase().search(searchValue.toLowerCase()) !== -1
+          );
+        });
+      } else {
+        updatedUserList = state.invitedUserListClone;
+      }
+      return {
+        ...state,
+        status: SUCCESS,
+        invitedUserList: updatedUserList
       };
 
     case SIGN_OUT_BEGIN:

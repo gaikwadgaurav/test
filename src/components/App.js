@@ -8,7 +8,7 @@ import Documentation from "./Documentation";
 // pages
 import Error from "../pages/error";
 import Login from "../pages/login";
-import InvitedUserRegistration from "../pages/user/invitedUserregistration";
+import InvitedUserRegistration from "../pages/user/invitedUserRegistration";
 
 // context
 // import { useUserState } from "../context/UserContext";
