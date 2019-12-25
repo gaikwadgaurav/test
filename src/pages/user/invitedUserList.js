@@ -35,7 +35,11 @@ import { Typography, Button } from "../../components/Wrappers";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { fetchInvitedUsers } from "../../Redux/_actions/user.action";
+import {
+  fetchInvitedUsers,
+  clearMsg,
+  deleteUserInvitation
+} from "../../Redux/_actions/user.action";
 import { axiosRequest } from "../../Redux/_requests";
 
 function desc(a, b, orderBy) {
@@ -71,7 +75,13 @@ const headCells = [
     disablePadding: true,
     label: "ID"
   },
-  { id: "name", numeric: true, disablePadding: false, label: "User Name" },
+  {
+    id: "first_name",
+    numeric: true,
+    disablePadding: false,
+    label: "First Name"
+  },
+  { id: "last_name", numeric: true, disablePadding: false, label: "Last Name" },
   {
     id: "email",
     numeric: true,
@@ -237,7 +247,7 @@ const multiUserDeletion = (selected, dispatch) => {
 
       sweetAlert(text, buttonText).then(result => {
         if (result.value) {
-          //   dispatch(deleteVariable(true, selected, null, formData));
+          dispatch(deleteUserInvitation(true, selected, null, formData));
         }
       });
     }
@@ -272,7 +282,8 @@ export function InvitedUserList(props) {
       if (invitedUser) {
         const formData = {
           "user_invitation[email]": invitedUser.email,
-          "user_invitation[name]": invitedUser.name
+          "user_invitation[first_name]": invitedUser.first_name,
+          "user_invitation[last_name]": invitedUser.last_name
         };
         const invitedUserResponse = await axiosRequest(
           "POST",
@@ -297,9 +308,12 @@ export function InvitedUserList(props) {
       const text = "You want to delete user!";
       const buttonText = "Yes, delete it!";
       sweetAlert(text, buttonText).then(result => {
-        //   if (result.value) {
-        //     dispatch(deleteVariable(true, variableIds, null, formData));
-        //   }
+        if (result.value) {
+          let formData = new FormData();
+          formData.append("ids[]", userId);
+          const userIds = [userId];
+          dispatch(deleteUserInvitation(true, userIds, null, formData));
+        }
       });
     }
   }
@@ -317,38 +331,38 @@ export function InvitedUserList(props) {
     });
   }
 
-  //   function variableOperationSuccess() {
-  //     if (
-  //       props &&
-  //       props.variables &&
-  //       (props.variables.status === "SUCCESS" ||
-  //         props.variables.status === "DELETE_SUCCESS") &&
-  //       props.variables.successMessage &&
-  //       props.variables.successMessage !== ""
-  //     ) {
-  //       toast.success(props.variables.successMessage);
-  //       dispatch(clearMsgForVariable());
-  //       setSelected([]);
-  //     }
-  //     if (
-  //       props &&
-  //       props.variables &&
-  //       props.variables.status === "FAILED" &&
-  //       props.variables.errorMessage &&
-  //       props.variables.errorMessage !== ""
-  //     ) {
-  //       toast.error(props.variables.errorMessage);
-  //       dispatch(clearMsgForVariable());
-  //     }
-  //   }
+  function userOperationSuccess() {
+    if (
+      props &&
+      props.users &&
+      (props.users.status === "SUCCESS" ||
+        props.users.status === "DELETE_SUCCESS") &&
+      props.users.successMessage &&
+      props.users.successMessage !== ""
+    ) {
+      toast.success(props.users.successMessage);
+      dispatch(clearMsg());
+      setSelected([]);
+    }
+    if (
+      props &&
+      props.users &&
+      props.users.status === "FAILED" &&
+      props.users.errorMessage &&
+      props.users.errorMessage !== ""
+    ) {
+      toast.error(props.users.errorMessage);
+      dispatch(clearMsg());
+    }
+  }
 
   useEffect(() => {
     fetchInvitedUserList(props);
   }, []);
 
-  //   useEffect(() => {
-  //     variableOperationSuccess();
-  //   }, [props && props.variables]);
+  useEffect(() => {
+    userOperationSuccess();
+  }, [props && props.users]);
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === "desc";
@@ -480,7 +494,8 @@ export function InvitedUserList(props) {
                               >
                                 {user.id}
                               </TableCell>
-                              <TableCell>{user.name}</TableCell>
+                              <TableCell>{user.first_name}</TableCell>
+                              <TableCell>{user.last_name}</TableCell>
                               <TableCell>{user.email}</TableCell>
                               <TableCell>
                                 <Box display={"flex"} alignItems={"center"}>
@@ -511,9 +526,11 @@ export function InvitedUserList(props) {
                           );
                         })
                     : null}
-                  {emptyRows > 0 && (
+                  {emptyRows > 0 && !users.length && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={3} />
+                      <TableCell colSpan={8} className={"text text-center"}>
+                        No User Invited.
+                      </TableCell>
                     </TableRow>
                   )}
                 </TableBody>
@@ -543,7 +560,8 @@ export function InvitedUserList(props) {
 }
 
 const mapStateToProps = state => ({
-  invitedUsersList: state.userData.invitedUserList
+  invitedUsersList: state.userData.invitedUserList,
+  users: state.userData
 });
 
 export default connect(mapStateToProps, null)(InvitedUserList);

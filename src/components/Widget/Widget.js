@@ -43,7 +43,6 @@ export default function Widget({
   const dispatch = useDispatch();
 
   function filterSearch(value) {
-    console.log('filterType', filterType)
     switch (filterType) {
       case "invitedUserListTable":
         dispatch(filterInvitedUserList(value));

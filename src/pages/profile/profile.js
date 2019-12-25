@@ -172,6 +172,13 @@ export function Profile(props) {
               color={"primary"}
               style={{ marginRight: 8 }}
               onClick={updateProfile}
+              disabled={
+                !state.firstName ||
+                !state.lastName ||
+                !state.email ||
+                !state.password ||
+                !state.confirmPassword
+              }
             >
               Save
             </Button>

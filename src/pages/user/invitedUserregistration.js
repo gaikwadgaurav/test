@@ -22,7 +22,8 @@ import {
   invitedUserRegister,
   clearMsg,
   updateUserProfile,
-  updateInvitedUserProfile
+  updateInvitedUserProfile,
+  signIn
 } from "../../Redux/_actions/user.action";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -102,13 +103,12 @@ class InvitedUserRegistration extends React.Component {
 
   logInSuccessAction() {
     const { userData, history, dispatch } = this.props;
-    if (
-      userData.status === "SUCCESS" &&
-      (userData.userData !== "" || userData.signUp !== "")
-    ) {
-      localStorage.setItem("userData", JSON.stringify(userData.userData));
-      localStorage.setItem("token", JSON.stringify(userData.token));
-      history.push("/");
+    if (userData.status === "SUCCESS" && userData.userData !== "") {
+      const { email, password } = this.state;
+      let formData = new FormData();
+      formData.append("sign_in[email]", email);
+      formData.append("sign_in[password]", password);
+      dispatch(signIn(formData));
       toast.success(userData.successMessage, {
         position: toast.POSITION.TOP_RIGHT
       });
@@ -136,14 +136,16 @@ class InvitedUserRegistration extends React.Component {
     const { email, nameValue, password, userToken } = this.state;
     const { dispatch } = this.props;
     let userName = nameValue.split(" ");
-    const headers = "Bearer " + userToken; 
+    const headers = "Bearer " + userToken;
     const formData = {
       "user[first_name]": userName[0],
-      "user[last_name]": userName.length > 1 ? userName[1] :"",
+      "user[last_name]": userName.length > 1 ? userName[1] : "",
       "user[email]": email,
       "user[password]": password
     };
-    dispatch(updateInvitedUserProfile(headers, null, qs.parse(formData),userToken));
+    dispatch(
+      updateInvitedUserProfile(headers, null, qs.parse(formData), userToken)
+    );
   }
 
   onAuthSuccess = async response => {

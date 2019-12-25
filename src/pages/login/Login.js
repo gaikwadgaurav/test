@@ -46,7 +46,8 @@ class SignInForm extends React.Component {
       confirm_password: "",
       isLoading: "",
       companyNameValue: "",
-      nameValue: "",
+      firstNameValue: "",
+      lastNameValue: "",
       email: "",
       showForgetPasswordForm: false,
       showNewPasswordForm: false,
@@ -94,14 +95,15 @@ class SignInForm extends React.Component {
 
   registerUser() {
     const { dispatch } = this.props;
-    const { companyNameValue, nameValue, email, password } = this.state;
+    const { companyNameValue, firstNameValue,lastNameValue, email, password } = this.state;
     this.setState({ isLoading: true });
     let formData = new FormData();
     formData.append("company[name]", companyNameValue);
-    formData.append("user[name]", nameValue);
+    formData.append("user[first_name]", firstNameValue);
+    formData.append("user[last_name]", lastNameValue);
     formData.append("user[email]", email);
     formData.append("user[password]", password);
-    dispatch(signUp(formData));
+    dispatch(signUp(formData,this.state));
   }
 
   async forgetPassword() {
@@ -184,7 +186,7 @@ class SignInForm extends React.Component {
     const { userData, history, dispatch } = this.props;
     if (
       userData.status === "SUCCESS" &&
-      (userData.userData !== "" || userData.signUp !== "")
+      (userData.userData !== "")
     ) {
       localStorage.setItem("userData", JSON.stringify(userData.userData));
       localStorage.setItem("token", JSON.stringify(userData.token));
@@ -235,7 +237,8 @@ class SignInForm extends React.Component {
       password,
       confirm_password,
       companyNameValue,
-      nameValue,
+      firstNameValue,
+      lastNameValue,
       email,
       showForgetPasswordForm,
       showNewPasswordForm,
@@ -403,17 +406,32 @@ class SignInForm extends React.Component {
                     fullWidth
                   />
                   <TextField
-                    id="nameValue"
+                    id="firstNameValue"
                     InputProps={{
                       classes: {
                         underline: classes.textFieldUnderline,
                         input: classes.textField
                       }
                     }}
-                    value={nameValue}
+                    value={firstNameValue}
                     onChange={e => this.setValue(e)}
                     margin="normal"
-                    placeholder="Full Name"
+                    placeholder="First Name"
+                    type="text"
+                    fullWidth
+                  />
+                  <TextField
+                    id="lastNameValue"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField
+                      }
+                    }}
+                    value={lastNameValue}
+                    onChange={e => this.setValue(e)}
+                    margin="normal"
+                    placeholder="Last Name"
                     type="text"
                     fullWidth
                   />
@@ -460,7 +478,8 @@ class SignInForm extends React.Component {
                         onClick={() => this.registerUser()}
                         disabled={
                           password.length === 0 ||
-                          nameValue.length === 0 ||
+                          firstNameValue.length === 0 ||
+                          lastNameValue.length === 0 ||
                           email.length === 0
                         }
                         size="large"

@@ -128,6 +128,7 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         variableList: variableList,
+        variableListClone: variableList,
         errorMessage: "",
         successMessage: action.data.messages
       };
@@ -166,6 +167,7 @@ export default (state = initialState, action) => {
         ...state,
         status: DELETE_SUCCESS,
         variableList: variableList,
+        variableListClone: variableList,
         errorMessage: "",
         successMessage: action.data.messages
       };

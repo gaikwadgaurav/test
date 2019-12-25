@@ -26,7 +26,10 @@ import {
   FETCH_INVITED_USER_LIST_BEGIN,
   FETCH_INVITED_USER_LIST_SUCCESS,
   FETCH_INVITED_USER_LIST_FAILED,
-  FILTER_INVITED_USER_LIST
+  FILTER_INVITED_USER_LIST,
+  DELETE_USER_INVITATION_BEGIN,
+  DELETE_USER_INVITATION_SUCCESS,
+  DELETE_USER_INVITATION_FAILED
 } from "../_constants";
 
 const initialState = {
@@ -106,24 +109,24 @@ export default (state = initialState, action) => {
         successMessage: ""
       };
 
-    case SIGN_UP_BEGIN:
-      return {
-        ...state,
-        status: PENDING,
-        userData: "",
-        errorMessage: "",
-        successMessage: ""
-      };
+    // case SIGN_UP_BEGIN:
+    //   return {
+    //     ...state,
+    //     status: PENDING,
+    //     userData: "",
+    //     errorMessage: "",
+    //     successMessage: ""
+    //   };
 
-    case SIGN_UP_SUCCESS:
-      return {
-        ...state,
-        status: SUCCESS,
-        userData: action.data.userData,
-        token: action.data.userData.token,
-        errorMessage: "",
-        successMessage: "Sign in successfully...!"
-      };
+    // case SIGN_UP_SUCCESS:
+    //   return {
+    //     ...state,
+    //     status: SUCCESS,
+    //     userData: action.data.userData,
+    //     token: action.data.userData.token,
+    //     errorMessage: "",
+    //     successMessage: "Sign in successfully...!"
+    //   };
 
     case SIGN_UP_FAILED:
       return {
@@ -153,6 +156,46 @@ export default (state = initialState, action) => {
       };
 
     case INVITED_USER_REGISTER_FAILED:
+      return {
+        ...state,
+        status: FAILED,
+        errorMessage: action.data,
+        successMessage: ""
+      };
+
+    case DELETE_USER_INVITATION_BEGIN:
+      return {
+        ...state,
+        status: PENDING,
+        errorMessage: "",
+        successMessage: ""
+      };
+
+    case DELETE_USER_INVITATION_SUCCESS:
+        let userList = state.invitedUserList;
+        userList.slice(0);
+        const selectedUsers = action.data.userIds;
+        if (selectedUsers.length) {
+          selectedUsers.map(selectedUser => {
+            const userIndex = userList.findIndex(user => {
+              return user.id === selectedUser;
+            });
+            if (userIndex > -1) {
+              return userList.splice(userIndex, 1);
+            }
+          });
+        }
+      return {
+        ...state,
+        status: SUCCESS,
+        invitedUserList: userList,
+        invitedUserListClone: userList,
+        token: action.data.token,
+        errorMessage: "",
+        successMessage: action.data.success
+      };
+
+    case DELETE_USER_INVITATION_FAILED:
       return {
         ...state,
         status: FAILED,

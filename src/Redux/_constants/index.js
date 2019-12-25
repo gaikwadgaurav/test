@@ -32,6 +32,16 @@ export const INVITED_USER_REGISTER_FAILED = "INVITED_USER_REGISTER_FAILED";
 
 /**
 |--------------------------------------------------
+| DELET INVITED USER CONSTANTS
+|--------------------------------------------------
+*/
+
+export const DELETE_USER_INVITATION_BEGIN = "DELETE_USER_INVITATION_BEGIN";
+export const DELETE_USER_INVITATION_SUCCESS = "DELETE_USER_INVITATION_SUCCESS";
+export const DELETE_USER_INVITATION_FAILED = "DELETE_USER_INVITATION_FAILED";
+
+/**
+|--------------------------------------------------
 | INVITED USER REGISTER CONSTANTS
 |--------------------------------------------------
 */

@@ -496,9 +496,10 @@ export function EcommercePage(props) {
                           );
                         })
                     : null}
-                  {emptyRows > 0 && (
+                  {emptyRows > 0 && !variables.length && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={3} />
+                      {/* <TableCell colSpan={3} /> */}
+                      <TableCell colSpan={6} className={"text text-center"}>No Variable Available.</TableCell>
                     </TableRow>
                   )}
                 </TableBody>

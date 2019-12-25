@@ -14,7 +14,8 @@ export function UserInvitation(props) {
     draggable: true
   });
   var [state, setState] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     email: "",
     formErrors: { email: "" },
     emailValid: ""
@@ -34,7 +35,8 @@ export function UserInvitation(props) {
     if (state.email) {
       const formData = {
         "user_invitation[email]": state.email,
-        "user_invitation[name]": state.fullName
+        "user_invitation[first_name]": state.firstName,
+        "user_invitation[last_name]": state.lastName
       };
       const invitedUserResponse = await axiosRequest(
         "POST",
@@ -68,15 +70,30 @@ export function UserInvitation(props) {
           <Box display={"flex"} flexDirection="column">
             <Box display={"flex"} alignItems={"center"}>
               <Box width={300}>
-                <Typography variant={"h6"}>Full Name</Typography>
+                <Typography variant={"h6"}>First Name</Typography>
               </Box>
               <Box flexGrow={1}>
                 <Input
-                  id="fullName"
-                  value={state.fullName}
+                  id="firstName"
+                  value={state.firstName}
                   onChange={e => setValue(e)}
                   margin="normal"
-                  placeholder="Enter Full Name"
+                  placeholder="Enter First Name"
+                  variant="outlined"
+                />
+              </Box>
+            </Box>
+            <Box display={"flex"} alignItems={"center"}>
+              <Box width={300}>
+                <Typography variant={"h6"}>Last Name</Typography>
+              </Box>
+              <Box flexGrow={1}>
+                <Input
+                  id="lastName"
+                  value={state.lastName}
+                  onChange={e => setValue(e)}
+                  margin="normal"
+                  placeholder="Enter Last Name"
                   variant="outlined"
                 />
               </Box>
@@ -109,7 +126,7 @@ export function UserInvitation(props) {
                 color={"success"}
                 style={{ marginRight: 8, marginTop: 15 }}
                 onClick={inviteUser}
-                disabled={!state.email || !state.fullName || !state.emailValid}
+                disabled={!state.email || !state.firstName || !state.lastName || !state.emailValid}
               >
                 Sent Invitation
               </Button>

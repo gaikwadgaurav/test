@@ -22,7 +22,10 @@ import {
   FETCH_INVITED_USER_LIST_BEGIN,
   FETCH_INVITED_USER_LIST_SUCCESS,
   FETCH_INVITED_USER_LIST_FAILED,
-  FILTER_INVITED_USER_LIST
+  FILTER_INVITED_USER_LIST,
+  DELETE_USER_INVITATION_BEGIN,
+  DELETE_USER_INVITATION_SUCCESS,
+  DELETE_USER_INVITATION_FAILED
 } from "../_constants";
 import { axiosRequest } from "../_requests";
 
@@ -94,8 +97,7 @@ export const signInWithGoogle = payload => async dispatch => {
   }
 };
 
-export const signUp = payload => async dispatch => {
-  dispatch({ type: SIGN_UP_BEGIN });
+export const signUp = (payload, user) => async dispatch => {
   if (payload) {
     try {
       const response = await axiosRequest(
@@ -106,13 +108,11 @@ export const signUp = payload => async dispatch => {
         payload
       );
       if (response.status === 200) {
-        dispatch({
-          type: SIGN_UP_SUCCESS,
-          data: {
-            userData: response.data,
-            messages: response.message
-          }
-        });
+        const { email, password } = user;
+        let formData = new FormData();
+        formData.append("sign_in[email]", email);
+        formData.append("sign_in[password]", password);
+        dispatch(signIn(formData));
       } else {
         dispatch({
           type: SIGN_UP_FAILED,
@@ -120,12 +120,12 @@ export const signUp = payload => async dispatch => {
         });
       }
     } catch (error) {
-      dispatch({
-        type: SIGN_UP_FAILED,
-        data: error.data
-      });
+        dispatch({
+          type: SIGN_UP_FAILED,
+          data: error.data
+        });
+      }
     }
-  }
 };
 
 export const invitedUserRegister = (payload, userId) => async dispatch => {
@@ -307,6 +307,47 @@ export const updateInvitedUserProfile = (
     } catch (error) {
       dispatch({
         type: INVITED_USER_REGISTER_FAILED,
+        data: error.messages
+      });
+    }
+  }
+};
+
+export const deleteUserInvitation = (
+  headers,
+  userIds,
+  params,
+  body
+) => async dispatch => {
+  if (headers) {
+    dispatch({ type: DELETE_USER_INVITATION_BEGIN });
+    try {
+      const deleteUserInvitationResponse = await axiosRequest(
+        "DELETE",
+        "user_invitations",
+        headers,
+        params,
+        body,
+        "formData",
+        dispatch
+      );
+      if (deleteUserInvitationResponse.status === 200) {
+        dispatch({
+          type: DELETE_USER_INVITATION_SUCCESS,
+          data: {
+            success: deleteUserInvitationResponse.message,
+            userIds
+          }
+        });
+      } else {
+        dispatch({
+          type: DELETE_USER_INVITATION_FAILED,
+          data: deleteUserInvitationResponse.data
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: DELETE_USER_INVITATION_FAILED,
         data: error.messages
       });
     }
