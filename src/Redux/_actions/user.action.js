@@ -275,6 +275,7 @@ export const updateInvitedUserProfile = (
   headers,
   params,
   body,
+  user,
   userToken
 ) => async dispatch => {
   if (headers) {
@@ -290,14 +291,19 @@ export const updateInvitedUserProfile = (
         dispatch
       );
       if (updateProfileResponse.status === 200) {
-        dispatch({
-          type: INVITED_USER_REGISTER_SUCCESS,
-          data: {
-            user: updateProfileResponse.data,
-            success: updateProfileResponse.message,
-            token: userToken
-          }
-        });
+        const { email, password } = user;
+        let formData = new FormData();
+        formData.append("sign_in[email]", email);
+        formData.append("sign_in[password]", password);
+        dispatch(signIn(formData));
+        // dispatch({
+        //   type: INVITED_USER_REGISTER_SUCCESS,
+        //   data: {
+        //     user: updateProfileResponse.data,
+        //     success: updateProfileResponse.message,
+        //     token: userToken
+        //   }
+        // });
       } else {
         dispatch({
           type: INVITED_USER_REGISTER_FAILED,

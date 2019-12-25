@@ -44,7 +44,8 @@ class InvitedUserRegistration extends React.Component {
       password: "",
       confirm_password: "",
       isLoading: false,
-      nameValue: "",
+      firstNameValue: "",
+      lastNameValue: "",
       email: "",
       formErrors: { email: "", password: "" },
       emailValid: false,
@@ -82,7 +83,8 @@ class InvitedUserRegistration extends React.Component {
       const userData = userTokenIsValid.data;
       this.setState({
         email: userData.email,
-        nameValue: userData.full_name,
+        firstNameValue: userData.first_name,
+        lastNameValue: userData.last_name,
         userId: userData.id,
         userToken: userData.token
       });
@@ -97,6 +99,7 @@ class InvitedUserRegistration extends React.Component {
       this.checkTokenIsValid(userToken);
     }
   }
+
   componentDidUpdate() {
     this.logInSuccessAction();
   }
@@ -104,11 +107,9 @@ class InvitedUserRegistration extends React.Component {
   logInSuccessAction() {
     const { userData, history, dispatch } = this.props;
     if (userData.status === "SUCCESS" && userData.userData !== "") {
-      const { email, password } = this.state;
-      let formData = new FormData();
-      formData.append("sign_in[email]", email);
-      formData.append("sign_in[password]", password);
-      dispatch(signIn(formData));
+      localStorage.setItem("userData", JSON.stringify(userData.userData));
+      localStorage.setItem("token", JSON.stringify(userData.token));
+      history.push("/");
       toast.success(userData.successMessage, {
         position: toast.POSITION.TOP_RIGHT
       });
@@ -133,18 +134,23 @@ class InvitedUserRegistration extends React.Component {
   }
 
   invitedUserRegister() {
-    const { email, nameValue, password, userToken } = this.state;
+    const {
+      email,
+      firstNameValue,
+      lastNameValue,
+      password,
+      userToken
+    } = this.state;
     const { dispatch } = this.props;
-    let userName = nameValue.split(" ");
     const headers = "Bearer " + userToken;
     const formData = {
-      "user[first_name]": userName[0],
-      "user[last_name]": userName.length > 1 ? userName[1] : "",
+      "user[first_name]": firstNameValue,
+      "user[last_name]": lastNameValue,
       "user[email]": email,
       "user[password]": password
     };
     dispatch(
-      updateInvitedUserProfile(headers, null, qs.parse(formData), userToken)
+      updateInvitedUserProfile(headers, null, qs.parse(formData),this.state, userToken)
     );
   }
 
@@ -168,7 +174,8 @@ class InvitedUserRegistration extends React.Component {
       isLoading,
       password,
       confirm_password,
-      nameValue,
+      firstNameValue,
+      lastNameValue,
       email,
       formErrors,
       emailValid,
@@ -193,16 +200,30 @@ class InvitedUserRegistration extends React.Component {
                 </Typography>
               </Fade>
               <TextField
-                id="nameValue"
+                id="firstNameValue"
                 InputProps={{
                   classes: {
                     underline: classes.textFieldUnderline,
                     input: classes.textField
                   }
                 }}
-                value={nameValue}
+                value={firstNameValue}
                 onChange={e => this.setValue(e)}
-                placeholder="Full Name"
+                placeholder="First Name"
+                type="text"
+                fullWidth
+              />
+              <TextField
+                id="lastNameValue"
+                InputProps={{
+                  classes: {
+                    underline: classes.textFieldUnderline,
+                    input: classes.textField
+                  }
+                }}
+                value={lastNameValue}
+                onChange={e => this.setValue(e)}
+                placeholder="Last Name"
                 type="text"
                 fullWidth
               />
@@ -244,7 +265,13 @@ class InvitedUserRegistration extends React.Component {
                 ) : (
                   <Button
                     onClick={() => this.invitedUserRegister()}
-                    disabled={!password || !nameValue || !email || !emailValid}
+                    disabled={
+                      !password ||
+                      !firstNameValue ||
+                      !lastNameValue ||
+                      !email ||
+                      !emailValid
+                    }
                     size="large"
                     variant="contained"
                     color="primary"
