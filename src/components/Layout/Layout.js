@@ -258,13 +258,13 @@ function Layout(props) {
           <Route path="/app/charts/line" component={LineCharts} />
           <Route path="/app/charts/bar" component={BarCharts} />
           <Route path="/app/charts/pie" component={PieCharts} />
-          <Route path="/variables" component={Ecommerce} />
+          <Route path="/variable/list" component={Ecommerce} />
           <Route path="/variable/create" component={CreateVariable} />
           <Route path="/variable/edit/:id" component={CreateVariable} />
           <Route path="/install" component={Installation} />
           <Route path="/profile" component={Profile} />
-          <Route path="/invite-user" component={UserInvitation} />
-          <Route path="/invited-users" component={InvitedUserList} />
+          <Route path="/user-invitation/invite-user" component={UserInvitation} />
+          <Route path="/user-invitation/invited-users-list" component={InvitedUserList} />
           <Route path="/app/ecommerce/product/:id" component={Product} />
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid} />

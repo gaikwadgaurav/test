@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import {
   Home as HomeIcon,
   // FilterNone as UIElementsIcon,
@@ -16,13 +16,13 @@ import {
   AddCircle as AddSectionIcon,
   // FolderOpen as FolderIcon,
   // Description as DocumentationIcon,
-  ShoppingCart as CartIcon,
+  ShoppingCart as CartIcon
 } from "@material-ui/icons";
 import { useTheme, makeStyles } from "@material-ui/styles";
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import AppsIcon from '@material-ui/icons/Apps';
-import TouchAppIcon from '@material-ui/icons/TouchApp';
-import InsertInvitationIcon from '@material-ui/icons/InsertInvitation';
+import TrendingUpIcon from "@material-ui/icons/TrendingUp";
+import AppsIcon from "@material-ui/icons/Apps";
+import TouchAppIcon from "@material-ui/icons/TouchApp";
+import InsertInvitationIcon from "@material-ui/icons/InsertInvitation";
 // components
 // import { Typography } from "../Wrappers/Wrappers";
 import Dot from "./components/Dot";
@@ -30,11 +30,41 @@ import Dot from "./components/Dot";
 const structure = [
   { id: 0, label: "Dashboard", link: "/", icon: <HomeIcon /> },
   { id: 1, label: "Retention Flows", link: "/flows", icon: <CartIcon /> },
-  { id: 2, label: "Variables", link: "/variables", icon: <DescriptionIcon /> },
+  {
+    id: 2,
+    label: "Variables",
+    link: "/variable",
+    icon: <DescriptionIcon />,
+    children: [
+      {
+        label: "Create Variable",
+        link: "/variable/create"
+      },
+      {
+        label: "Variable List",
+        link: "/variable/list"
+      }
+    ]
+  },
   { id: 3, label: "Analytics", link: "/analytics", icon: <TrendingUpIcon /> },
   { id: 4, label: "Settings", link: "/settings", icon: <AppsIcon /> },
   { id: 5, label: "Installation", link: "/install", icon: <TouchAppIcon /> },
-  { id: 6, label: "Invited Users", link: "/invited-users", icon: <InsertInvitationIcon /> },
+  {
+    id: 6,
+    label: "User Invitation",
+    link: "/user-invitation",
+    icon: <InsertInvitationIcon />,
+    children: [
+      {
+        label: "Invite User",
+        link: "/user-invitation/invite-user"
+      },
+      {
+        label: "User Invitation List",
+        link: "/user-invitation/invited-users-list"
+      }
+    ]
+  },
   // {
   //   id: 1,
   //   label: "E-commerce",
@@ -212,19 +242,19 @@ const structure = [
     id: 20,
     label: "My recent",
     link: "",
-    icon: <Dot size="medium" color="secondary" />,
+    icon: <Dot size="medium" color="secondary" />
   },
   {
     id: 21,
     label: "Starred",
     link: "",
-    icon: <Dot size="medium" color="primary" />,
+    icon: <Dot size="medium" color="primary" />
   },
   {
     id: 22,
     label: "Background",
     link: "",
-    icon: <Dot size="medium" color="secondary" />,
+    icon: <Dot size="medium" color="secondary" />
   },
   { id: 23, type: "divider" },
   {
@@ -239,7 +269,7 @@ const structure = [
         }
         return false;
       });
-    },
+    }
   },
   { id: 25, type: "divider" },
   { id: 26, type: "margin" },
@@ -256,8 +286,8 @@ const structure = [
         }
         return false;
       });
-    },
-  },
+    }
+  }
 ];
 
 function AddSection() {
@@ -279,8 +309,8 @@ function Chat() {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      color: "#fff",
-    },
+      color: "#fff"
+    }
   }));
 
   const classes = useStyles();

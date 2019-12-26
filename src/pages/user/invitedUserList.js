@@ -273,7 +273,7 @@ export function InvitedUserList(props) {
   }
 
   function goToUserInvitation() {
-    props.history.push("/invite-user");
+    props.history.push("/user-invitation/invite-user");
   }
 
   async function inviteUser(index) {
@@ -424,7 +424,7 @@ export function InvitedUserList(props) {
             searchField
             filterType={type}
           >
-            <Box display="flex" justifyContent={"flex-end"}>
+            <Box display="flex" justifyContent={"flex-start"}>
               <Box m={1}>
                 <Button
                   variant={"contained"}

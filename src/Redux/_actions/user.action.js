@@ -5,8 +5,6 @@ import {
   SIGN_IN_WITH_GOOGLE_BEGIN,
   SIGN_IN_WITH_GOOGLE_SUCCESS,
   SIGN_IN_WITH_GOOGLE_FAILED,
-  SIGN_UP_BEGIN,
-  SIGN_UP_SUCCESS,
   SIGN_UP_FAILED,
   CLEAR_MESSAGE,
   SIGN_OUT_BEGIN,
@@ -296,14 +294,6 @@ export const updateInvitedUserProfile = (
         formData.append("sign_in[email]", email);
         formData.append("sign_in[password]", password);
         dispatch(signIn(formData));
-        // dispatch({
-        //   type: INVITED_USER_REGISTER_SUCCESS,
-        //   data: {
-        //     user: updateProfileResponse.data,
-        //     success: updateProfileResponse.message,
-        //     token: userToken
-        //   }
-        // });
       } else {
         dispatch({
           type: INVITED_USER_REGISTER_FAILED,

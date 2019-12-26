@@ -5,8 +5,6 @@ import {
   SIGN_IN_BEGIN,
   SIGN_IN_SUCCESS,
   SIGN_IN_FAILED,
-  SIGN_UP_BEGIN,
-  SIGN_UP_SUCCESS,
   SIGN_UP_FAILED,
   CLEAR_MESSAGE,
   SESSION_EXPIRED,
@@ -108,25 +106,6 @@ export default (state = initialState, action) => {
         isAuthenticated: false,
         successMessage: ""
       };
-
-    // case SIGN_UP_BEGIN:
-    //   return {
-    //     ...state,
-    //     status: PENDING,
-    //     userData: "",
-    //     errorMessage: "",
-    //     successMessage: ""
-    //   };
-
-    // case SIGN_UP_SUCCESS:
-    //   return {
-    //     ...state,
-    //     status: SUCCESS,
-    //     userData: action.data.userData,
-    //     token: action.data.userData.token,
-    //     errorMessage: "",
-    //     successMessage: "Sign in successfully...!"
-    //   };
 
     case SIGN_UP_FAILED:
       return {

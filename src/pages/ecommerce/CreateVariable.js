@@ -22,7 +22,7 @@ const CreateVariable = props => {
   const dispatch = useDispatch();
   function goToVariableList() {
     const { history } = props;
-    history.push("/variables");
+    history.push("/variable/list");
   }
 
   function variableOperation() {
