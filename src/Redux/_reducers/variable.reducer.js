@@ -63,14 +63,16 @@ export default (state = initialState, action) => {
       if (searchValue) {
         updatedVariableList = updatedVariableList.filter(variable => {
           return (
-            variable &&
-            variable.name &&
-            variable.name.toLowerCase().search(searchValue.toLowerCase()) !== -1
-          ) || (
-            variable &&
-            variable.default &&
-            variable.default.toLowerCase().search(searchValue.toLowerCase()) !== -1
-          )
+            (variable &&
+              variable.name &&
+              variable.name.toLowerCase().search(searchValue.toLowerCase()) !==
+                -1) ||
+            (variable &&
+              variable.default &&
+              variable.default
+                .toLowerCase()
+                .search(searchValue.toLowerCase()) !== -1)
+          );
         });
       } else {
         updatedVariableList = state.variableListClone;
@@ -96,6 +98,7 @@ export default (state = initialState, action) => {
         ...state,
         status: SUCCESS,
         variableList: variableList,
+        variableListClone: variableList,
         errorMessage: "",
         successMessage: action.data.messages
       };

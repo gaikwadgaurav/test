@@ -29,7 +29,22 @@ import Dot from "./components/Dot";
 
 const structure = [
   { id: 0, label: "Dashboard", link: "/", icon: <HomeIcon /> },
-  { id: 1, label: "Retention Flows", link: "/flows", icon: <CartIcon /> },
+  {
+    id: 1,
+    label: "Retention Flows",
+    link: "/flows",
+    icon: <CartIcon />,
+    children: [
+      {
+        label: "Create Flow",
+        link: "/flows/create"
+      },
+      {
+        label: "Flows List",
+        link: "/flows/flows-list"
+      }
+    ]
+  },
   {
     id: 2,
     label: "Variables",

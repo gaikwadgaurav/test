@@ -118,12 +118,12 @@ export const signUp = (payload, user) => async dispatch => {
         });
       }
     } catch (error) {
-        dispatch({
-          type: SIGN_UP_FAILED,
-          data: error.data
-        });
-      }
+      dispatch({
+        type: SIGN_UP_FAILED,
+        data: error.data
+      });
     }
+  }
 };
 
 export const invitedUserRegister = (payload, userId) => async dispatch => {
@@ -208,7 +208,9 @@ export const signOut = payload => async dispatch => {
         "log_out",
         header,
         null,
-        null
+        null,
+        undefined,
+        dispatch
       );
       if (response) {
         dispatch({

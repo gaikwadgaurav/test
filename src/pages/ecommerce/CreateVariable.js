@@ -20,6 +20,7 @@ const CreateVariable = props => {
   const [variableId, setVariableId] = React.useState();
 
   const dispatch = useDispatch();
+  
   function goToVariableList() {
     const { history } = props;
     history.push("/variable/list");

@@ -6,7 +6,7 @@ import {
   mdiSettings as SettingsIcon,
   mdiFacebookBox as FacebookIcon,
   mdiTwitterBox as TwitterIcon,
-  mdiGithubBox as GithubIcon,
+  mdiGithubBox as GithubIcon
 } from "@mdi/js";
 import {
   Fab,
@@ -19,14 +19,14 @@ import {
   Grid,
   Breadcrumbs,
   Tabs,
-  Tab,
+  Tab
 } from "@material-ui/core";
 import {
   NavigateNext as NavigateNextIcon,
   CalendarToday as CalendarIcon,
   ChatBubbleOutline as ChatIcon,
   AddShoppingCart as AddIcon,
-  StarBorder as StarIcon,
+  StarBorder as StarIcon
 } from "@material-ui/icons";
 import { withStyles } from "@material-ui/styles";
 
@@ -87,13 +87,15 @@ import structure from "../Sidebar/SidebarStructure";
 import Profile from "../../pages/profile/profile";
 import UserInvitation from "../../pages/user/invitation";
 import InvitedUserList from "../../pages/user/invitedUserList";
+import RetentionFlowsList from "../../pages/retentionFlows/retentionFlowsList";
+import CreateFlow from "../../pages/retentionFlows/createFlow";
 
 // Tab styling
 
 const CustomTab = withStyles(theme => ({
   root: {
-    minWidth: 72,
-  },
+    minWidth: 72
+  }
 }))(props => <Tab {...props} />);
 
 function Layout(props) {
@@ -126,7 +128,7 @@ function Layout(props) {
   function a11yProps(index) {
     return {
       id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`
     };
   }
   return (
@@ -135,7 +137,7 @@ function Layout(props) {
       <Sidebar structure={structure} />
       <div
         className={classnames(classes.content, {
-          [classes.contentShift]: layoutState.isSidebarOpened,
+          [classes.contentShift]: layoutState.isSidebarOpened
         })}
       >
         <div className={classes.fakeToolbar} />
@@ -263,8 +265,17 @@ function Layout(props) {
           <Route path="/variable/edit/:id" component={CreateVariable} />
           <Route path="/install" component={Installation} />
           <Route path="/profile" component={Profile} />
-          <Route path="/user-invitation/invite-user" component={UserInvitation} />
-          <Route path="/user-invitation/invited-users-list" component={InvitedUserList} />
+          <Route
+            path="/user-invitation/invite-user"
+            component={UserInvitation}
+          />
+          <Route
+            path="/user-invitation/invited-users-list"
+            component={InvitedUserList}
+          />
+          <Route path="/flows/create" component={CreateFlow} />
+          <Route path="/flows/flows-list" component={RetentionFlowsList} />
+          <Route path="/flows/edit/:id" component={CreateFlow} />
           <Route path="/app/ecommerce/product/:id" component={Product} />
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid} />

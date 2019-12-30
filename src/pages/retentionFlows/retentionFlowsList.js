@@ -23,22 +23,25 @@ import {
 // import { yellow } from "@material-ui/core/colors";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import useStyles from "./styles";
-import { Link } from "react-router-dom";
+import useStyles from "../ecommerce/styles";
 import cn from "classnames";
+import qs from "qs";
 
 // components
-import Widget from "../../components/Widget";
+import Widget from "../../components/Widget/Widget";
 // import Dot from "../../components/Sidebar/components/Dot";
-import { Typography, Button } from "../../components/Wrappers";
-import {
-  fetchVariables,
-  deleteVariable
-} from "../../Redux/_actions/variable.action";
+import { Typography, Button } from "../../components/Wrappers/Wrappers";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
-import { clearMsgForVariable } from "../../Redux/_actions/variable.action";
 import Swal from "sweetalert2";
+import { axiosRequest } from "../../Redux/_requests";
+import {
+  fetchFlowList,
+  selectFlow,
+  clearFlowStateMsg,
+  deleteFlow
+} from "../../Redux/_actions/flow.action";
+import moment from "moment";
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -66,36 +69,21 @@ function getSorting(order, orderBy) {
     : (a, b) => -desc(a, b, orderBy);
 }
 
-// const headCells = [
-//   {
-//     id: "id",
-//     numeric: true,
-//     disablePadding: true,
-//     label: "ID"
-//   },
-//   { id: "image", numeric: true, disablePadding: false, label: "Image" },
-//   { id: "title", numeric: true, disablePadding: false, label: "Title" },
-//   { id: "subtitle", numeric: true, disablePadding: false, label: "Subtitle" },
-//   { id: "price", numeric: true, disablePadding: false, label: "Price" },
-//   { id: "rating", numeric: true, disablePadding: false, label: "Rating" },
-//   { id: "status", numeric: true, disablePadding: false, label: "Status" },
-//   { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
-// ];
 const headCells = [
   {
-    id: "id",
-    numeric: true,
-    disablePadding: true,
-    label: "ID"
-  },
-  { id: "name", numeric: true, disablePadding: false, label: "Variable Name" },
-  {
-    id: "defaultValue",
+    id: "name",
     numeric: true,
     disablePadding: false,
-    label: "Default Value"
+    label: "Name"
   },
-  { id: "actions", numeric: true, disablePadding: false, label: "Actions" }
+  {
+    id: "lastUpdated",
+    numeric: true,
+    disablePadding: false,
+    label: "Last Updated"
+  },
+  { id: "status", numeric: true, disablePadding: false, label: "Status" },
+  { id: "action", numeric: true, disablePadding: false, label: "Action" }
 ];
 
 function EnhancedTableHead(props) {
@@ -200,7 +188,7 @@ const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle">
-          Variables
+          Flows
         </Typography>
       )}
 
@@ -208,7 +196,7 @@ const EnhancedTableToolbar = ({ dispatch, selected, numSelected }) => {
         <Tooltip title="Delete">
           <IconButton
             aria-label="delete"
-            onClick={() => multiVariableDeletion(selected, dispatch)}
+            onClick={() => multiUserDeletion(selected, dispatch)}
           >
             <DeleteIcon />
           </IconButton>
@@ -241,9 +229,9 @@ const sweetAlert = (text, buttonText) => {
   });
 };
 
-const multiVariableDeletion = (selected, dispatch) => {
+const multiUserDeletion = (selected, dispatch) => {
   if (selected) {
-    const text = "You want to delete variables!";
+    const text = "You want to delete flows!";
     const buttonText = "Yes, delete it!";
     let formData = new FormData();
     if (selected.length) {
@@ -253,14 +241,14 @@ const multiVariableDeletion = (selected, dispatch) => {
 
       sweetAlert(text, buttonText).then(result => {
         if (result.value) {
-          dispatch(deleteVariable(true, selected, null, formData));
+          dispatch(deleteFlow(true, selected, null, formData));
         }
       });
     }
   }
 };
 
-export function EcommercePage(props) {
+export function RetentionFlowsList(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("price");
@@ -268,27 +256,34 @@ export function EcommercePage(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const dispatch = useDispatch();
-  function fetchVariablesList(props) {
-    dispatch(fetchVariables(true, null, null));
+  const flows = props && props.flowList;
+  toast.configure({
+    autoClose: 4000,
+    draggable: true
+  });
+
+  function fetchRetentionFlowList() {
+    dispatch(fetchFlowList(true, null, null));
   }
 
-  function editVariable(variableId) {
-    if (variableId) {
-      const { history } = props;
-      history.push("/variable/edit/" + variableId + "");
-    }
+  function goToCreateFlow() {
+    props.history.push("/flows/create");
   }
 
-  function showDeletePopUp(variableId) {
-    if (variableId) {
-      const text = "You want to delete variable!";
+  function editFlow(flowId) {
+    props.history.push("/flows/edit/" + flowId + "");
+  }
+
+  function showDeletePopUp(flowId) {
+    if (flowId) {
+      const text = "You want to delete flow!";
       const buttonText = "Yes, delete it!";
-      let formData = new FormData();
-      formData.append("ids[]", variableId);
-      const variableIds = [variableId];
       sweetAlert(text, buttonText).then(result => {
         if (result.value) {
-          dispatch(deleteVariable(true, variableIds, null, formData));
+          let formData = new FormData();
+          formData.append("ids[]", flowId);
+          const flowIds = [flowId];
+          dispatch(deleteFlow(true, flowIds, null, formData));
         }
       });
     }
@@ -307,40 +302,38 @@ export function EcommercePage(props) {
     });
   }
 
-  function variableOperationSuccess() {
+  function flowOperationSuccess() {
     if (
       props &&
-      props.variables &&
-      (props.variables.status === "SUCCESS" ||
-        props.variables.status === "DELETE_SUCCESS") &&
-      props.variables.successMessage &&
-      props.variables.successMessage !== ""
+      props.flows &&
+      (props.flows.status === "SUCCESS" ||
+        props.flows.status === "DELETE_SUCCESS") &&
+      props.flows.successMessage &&
+      props.flows.successMessage !== ""
     ) {
-      toast.success(props.variables.successMessage);
-      dispatch(clearMsgForVariable());
+      toast.success(props.flows.successMessage);
+      dispatch(clearFlowStateMsg());
       setSelected([]);
     }
     if (
       props &&
-      props.variables &&
-      props.variables.status === "FAILED" &&
-      props.variables.errorMessage &&
-      props.variables.errorMessage !== ""
+      props.flows &&
+      props.flows.status === "FAILED" &&
+      props.flows.errorMessage &&
+      props.flows.errorMessage !== ""
     ) {
-      toast.error(props.variables.errorMessage);
-      dispatch(clearMsgForVariable());
+      toast.error(props.flows.errorMessage);
+      dispatch(clearFlowStateMsg());
     }
   }
 
-  const variables = props && props.variablesList;
+  useEffect(() => {
+    fetchRetentionFlowList();
+  }, []);
 
   useEffect(() => {
-    fetchVariablesList(props);
-  }, [props && props.variableList && !props.variableList.length]);
-
-  useEffect(() => {
-    variableOperationSuccess();
-  }, [props && props.variables]);
+    flowOperationSuccess();
+  }, [props && props.flows]);
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === "desc";
@@ -350,7 +343,7 @@ export function EcommercePage(props) {
 
   const handleSelectAllClick = event => {
     if (event.target.checked) {
-      const newSelecteds = variables.map(n => n.id);
+      const newSelecteds = flows.map(n => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -389,27 +382,31 @@ export function EcommercePage(props) {
   const isSelected = name => selected.indexOf(name) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, variables.length - page * rowsPerPage);
-  const type = "variableListTable";
+    rowsPerPage - Math.min(rowsPerPage, flows.length - page * rowsPerPage);
+
+  const type = "retentionFlowsTable";
   return (
     <>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Widget
-            title="List of Variables"
-            subtitle={`(${variables.length} total)`}
+            title="List of Users"
+            subtitle={`(${flows.length} total)`}
             disableWidgetMenu
             searchField
             filterType={type}
           >
-            <Button
-              variant={"contained"}
-              component={Link}
-              to={"/variable/create"}
-              color={"success"}
-            >
-              Create Variable
-            </Button>
+            <Box display="flex" justifyContent={"flex-start"}>
+              <Box m={1}>
+                <Button
+                  variant={"contained"}
+                  color={"primary"}
+                  onClick={goToCreateFlow}
+                >
+                  Create Retention Flow
+                </Button>
+              </Box>
+            </Box>
             <EnhancedTableToolbar
               numSelected={selected.length}
               selected={selected}
@@ -428,19 +425,19 @@ export function EcommercePage(props) {
                   orderBy={orderBy}
                   onSelectAllClick={handleSelectAllClick}
                   onRequestSort={handleRequestSort}
-                  rowCount={variables.length}
+                  rowCount={flows.length}
                 />
 
                 <TableBody>
-                  {variables && variables.length
-                    ? stableSort(variables, getSorting(order, orderBy))
+                  {flows && flows.length
+                    ? stableSort(flows, getSorting(order, orderBy))
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage
                         )
-                        .map((variable, variableIndex) => {
-                          const isItemSelected = isSelected(variable.id);
-                          const labelId = `enhanced-table-checkbox-${variableIndex}`;
+                        .map((flow, flowIndex) => {
+                          const isItemSelected = isSelected(flow.id);
+                          const labelId = `enhanced-table-checkbox-${flowIndex}`;
 
                           return (
                             <TableRow
@@ -448,7 +445,7 @@ export function EcommercePage(props) {
                               // onClick={event => handleClick(event, variable.id)}
                               role="checkbox"
                               aria-checked={isItemSelected}
-                              key={variable.id}
+                              key={flow.id}
                               tabIndex={-1}
                               selected={isItemSelected}
                             >
@@ -456,21 +453,18 @@ export function EcommercePage(props) {
                                 <Checkbox
                                   checked={isItemSelected}
                                   onChange={event =>
-                                    handleClick(event, variable.id)
+                                    handleClick(event, flow.id)
                                   }
                                   inputProps={{ "aria-labelledby": labelId }}
                                 />
                               </TableCell>
-                              <TableCell
-                                component="th"
-                                id={labelId}
-                                scope="row"
-                                padding="none"
-                              >
-                                {variable.id}
+                              <TableCell>{flow.name}</TableCell>
+                              <TableCell>
+                                {moment(flow.updated_at).format("MMM D, YYYY")}
                               </TableCell>
-                              <TableCell>{variable.name}</TableCell>
-                              <TableCell>${variable.default}</TableCell>
+                              <TableCell>
+                                {flow.enabled ? "Active" : "InActive"}
+                              </TableCell>
                               <TableCell>
                                 <Box display={"flex"} alignItems={"center"}>
                                   <Button
@@ -478,7 +472,7 @@ export function EcommercePage(props) {
                                     size="small"
                                     className={"mr-2"}
                                     variant="contained"
-                                    onClick={() => editVariable(variable.id)}
+                                    onClick={() => editFlow(flow.id)}
                                   >
                                     Edit
                                   </Button>
@@ -486,7 +480,7 @@ export function EcommercePage(props) {
                                     color="secondary"
                                     size="small"
                                     variant="contained"
-                                    onClick={() => showDeletePopUp(variable.id)}
+                                    onClick={() => showDeletePopUp(flow.id)}
                                   >
                                     Delete
                                   </Button>
@@ -496,19 +490,21 @@ export function EcommercePage(props) {
                           );
                         })
                     : null}
-                  {emptyRows > 0 && !variables.length && (
+                  {emptyRows > 0 && !flows.length && (
                     <TableRow style={{ height: 53 * emptyRows }}>
-                      {/* <TableCell colSpan={3} /> */}
-                      <TableCell colSpan={6} className={"text text-center"}>No Variable Available.</TableCell>
+                      <TableCell colSpan={8} className={"text text-center"}>
+                        No Flow Available.
+                      </TableCell>
                     </TableRow>
                   )}
                 </TableBody>
               </Table>
             </div>
+
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={variables.length}
+              count={flows.length}
               rowsPerPage={rowsPerPage}
               page={page}
               backIconButtonProps={{
@@ -528,8 +524,8 @@ export function EcommercePage(props) {
 }
 
 const mapStateToProps = state => ({
-  variablesList: state.variables.variableList,
-  variables: state.variables
+  flowList: state.flows.flowList,
+  flows: state.flows
 });
 
-export default connect(mapStateToProps, null)(EcommercePage);
+export default connect(mapStateToProps, null)(RetentionFlowsList);

@@ -32,7 +32,7 @@ export const INVITED_USER_REGISTER_FAILED = "INVITED_USER_REGISTER_FAILED";
 
 /**
 |--------------------------------------------------
-| DELET INVITED USER CONSTANTS
+| DELETE INVITED USER CONSTANTS
 |--------------------------------------------------
 */
 
@@ -131,6 +131,60 @@ export const UPDATE_VARIABLE_FAILED = "UPDATE_VARIABLE_FAILED";
 export const DELETE_VARIABLE_BEGIN = "DELETE_VARIABLE_BEGIN";
 export const DELETE_VARIABLE_SUCCESS = "DELETE_VARIABLE_SUCCESS";
 export const DELETE_VARIABLE_FAILED = "DELETE_VARIABLE_FAILED";
+
+
+/**
+|--------------------------------------------------
+| FETCH FLOW LIST
+|--------------------------------------------------
+*/
+
+export const FETCH_RETENTION_FLOW_LIST_BEGIN = "FETCH_RETENTION_FLOW_LIST_BEGIN";
+export const FETCH_RETENTION_FLOW_LIST_SUCCESS = "FETCH_RETENTION_FLOW_LIST_SUCCESS";
+export const FETCH_RETENTION_FLOW_LIST_FAILED = "FETCH_RETENTION_FLOW_LIST_FAILED";
+export const FILTER_RETENTION_FLOW_LIST = "FILTER_RETENTION_FLOW_LIST";
+export const CLEAR_FLOW_STATE_MESSAGE = "CLEAR_FLOW_STATE_MESSAGE";
+
+/**
+|--------------------------------------------------
+| FETCH FLOW
+|--------------------------------------------------
+*/
+
+export const FETCH_RETENTION_FLOW_BEGIN = "FETCH_RETENTION_FLOW_BEGIN";
+export const FETCH_RETENTION_FLOW_SUCCESS = "FETCH_RETENTION_FLOW_SUCCESS";
+export const FETCH_RETENTION_FLOW_FAILED = "FETCH_RETENTION_FLOW_FAILED";
+
+
+/**
+|--------------------------------------------------
+| ADD FLOW
+|--------------------------------------------------
+*/
+
+export const ADD_RETENTION_FLOW_BEGIN = "ADD_RETENTION_FLOW_BEGIN";
+export const ADD_RETENTION_FLOW_SUCCESS = "ADD_RETENTION_FLOW_SUCCESS";
+export const ADD_RETENTION_FLOW_FAILED = "ADD_RETENTION_FLOW_FAILED";
+
+/**
+|--------------------------------------------------
+| UPDATE FLOW
+|--------------------------------------------------
+*/
+
+export const UPDATE_RETENTION_FLOW_BEGIN = "UPDATE_RETENTION_FLOW_BEGIN";
+export const UPDATE_RETENTION_FLOW_SUCCESS = "UPDATE_RETENTION_FLOW_SUCCESS";
+export const UPDATE_RETENTION_FLOW_FAILED = "UPDATE_RETENTION_FLOW_FAILED";
+
+/**
+|--------------------------------------------------
+| DELETE FLOW
+|--------------------------------------------------
+*/
+
+export const DELETE_RETENTION_FLOW_BEGIN = "DELETE_RETENTION_FLOW_BEGIN";
+export const DELETE_RETENTION_FLOW_SUCCESS = "DELETE_RETENTION_FLOW_SUCCESS";
+export const DELETE_RETENTION_FLOW_FAILED = "DELETE_RETENTION_FLOW_FAILED";
 
 /**
 |--------------------------------------------------

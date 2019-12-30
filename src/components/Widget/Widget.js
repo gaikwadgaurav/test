@@ -19,6 +19,7 @@ import { Typography } from "../../components/Wrappers";
 import useStyles from "./styles";
 import { filterInvitedUserList } from "../../Redux/_actions/user.action";
 import { filterVariableList } from "../../Redux/_actions/variable.action";
+import { filterRetentionFlowList } from "../../Redux/_actions/flow.action";
 
 export default function Widget({
   children,
@@ -47,8 +48,11 @@ export default function Widget({
       case "invitedUserListTable":
         dispatch(filterInvitedUserList(value));
         break;
-      case "variableList":
+      case "variableListTable":
         dispatch(filterVariableList(value));
+        break;
+      case "retentionFlowsTable":
+        dispatch(filterRetentionFlowList(value));
         break;
 
       default:
