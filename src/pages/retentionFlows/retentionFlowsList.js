@@ -20,12 +20,12 @@ import {
   Delete as DeleteIcon,
   FilterList as FilterListIcon
 } from "@material-ui/icons";
+
 // import { yellow } from "@material-ui/core/colors";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import useStyles from "../ecommerce/styles";
 import cn from "classnames";
-import qs from "qs";
 
 // components
 import Widget from "../../components/Widget/Widget";
@@ -34,7 +34,6 @@ import { Typography, Button } from "../../components/Wrappers/Wrappers";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { axiosRequest } from "../../Redux/_requests";
 import {
   fetchFlowList,
   selectFlow,
@@ -400,10 +399,10 @@ export function RetentionFlowsList(props) {
               <Box m={1}>
                 <Button
                   variant={"contained"}
-                  color={"primary"}
+                  color={"success"}
                   onClick={goToCreateFlow}
                 >
-                  Create Retention Flow
+                  + New Flow
                 </Button>
               </Box>
             </Box>
