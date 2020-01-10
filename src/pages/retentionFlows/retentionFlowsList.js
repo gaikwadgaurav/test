@@ -38,9 +38,12 @@ import {
   fetchFlowList,
   selectFlow,
   clearFlowStateMsg,
-  deleteFlow
+  deleteFlow,
+  addFlow
 } from "../../Redux/_actions/flow.action";
 import moment from "moment";
+import { isAuthenticated } from "../../common/isAuthenticated";
+import qs from "qs";
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -255,6 +258,7 @@ export function RetentionFlowsList(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const dispatch = useDispatch();
+  const user = isAuthenticated();
   const flows = props && props.flowList;
   toast.configure({
     autoClose: 4000,
@@ -266,11 +270,17 @@ export function RetentionFlowsList(props) {
   }
 
   function goToCreateFlow() {
-    props.history.push("/flows/create");
+    const company_id = user.company_id;
+    const formData = {
+      "flow[name]": "Flow " + (flows.length + 1),
+      "flow[enabled]": false,
+      "flow[company_id]": company_id
+    };
+    dispatch(addFlow(true, null, qs.parse(formData)));
   }
 
   function editFlow(flowId) {
-    props.history.push("/flows/edit/" + flowId + "");
+    props.history.push("/flow/edit/" + flowId + "");
   }
 
   function showDeletePopUp(flowId) {
@@ -306,10 +316,14 @@ export function RetentionFlowsList(props) {
       props &&
       props.flows &&
       (props.flows.status === "SUCCESS" ||
-        props.flows.status === "DELETE_SUCCESS") &&
+        props.flows.status === "DELETE_SUCCESS" ||
+        props.flows.status === "ADD_FLOW_SUCCESS") &&
       props.flows.successMessage &&
       props.flows.successMessage !== ""
     ) {
+      if (props.flows.status === "ADD_FLOW_SUCCESS") {
+        props.history.push("/flow/edit/" + props.selectedFlow.id);
+      }
       toast.success(props.flows.successMessage);
       dispatch(clearFlowStateMsg());
       setSelected([]);
@@ -389,7 +403,7 @@ export function RetentionFlowsList(props) {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Widget
-            title="List of Users"
+            title="List of Flows"
             subtitle={`(${flows.length} total)`}
             disableWidgetMenu
             searchField
@@ -524,7 +538,8 @@ export function RetentionFlowsList(props) {
 
 const mapStateToProps = state => ({
   flowList: state.flows.flowList,
-  flows: state.flows
+  flows: state.flows,
+  selectedFlow: state.flows.selectedFlow
 });
 
 export default connect(mapStateToProps, null)(RetentionFlowsList);

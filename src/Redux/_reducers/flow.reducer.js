@@ -16,7 +16,11 @@ import {
   UPDATE_RETENTION_FLOW_BEGIN,
   DELETE_RETENTION_FLOW_BEGIN,
   DELETE_RETENTION_FLOW_SUCCESS,
-  DELETE_RETENTION_FLOW_FAILED
+  DELETE_RETENTION_FLOW_FAILED,
+  SET_SELECTED_FLOW,
+  UPDATE_RETENTION_FLOW_STEP_BEGIN,
+  UPDATE_RETENTION_FLOW_STEP_SUCCESS,
+  UPDATE_RETENTION_FLOW_STEP_FAILED
 } from "../_constants";
 
 const initialState = {
@@ -57,6 +61,15 @@ export default (state = initialState, action) => {
         successMessage: ""
       };
 
+    case SET_SELECTED_FLOW:
+      return {
+        ...state,
+        status: SUCCESS,
+        selectedFlow: action.data,
+        errorMessage: "",
+        successMessage: ""
+      };
+
     case FILTER_RETENTION_FLOW_LIST:
       const searchValue = action.data;
       let updatedFlowList = state.flowListClone;
@@ -90,9 +103,10 @@ export default (state = initialState, action) => {
       flowList.push(action.data.flow);
       return {
         ...state,
-        status: SUCCESS,
+        status: "ADD_FLOW_SUCCESS",
         flowList: flowList,
         flowListClone: flowList,
+        selectedFlow: action.data.flow,
         errorMessage: "",
         successMessage: action.data.messages
       };
@@ -116,7 +130,7 @@ export default (state = initialState, action) => {
     case UPDATE_RETENTION_FLOW_SUCCESS:
       flowList = state.flowList;
       const flowIndex = flowList.findIndex(
-        flow => flow.id === action.data.flowId
+        flow => flow.id === parseInt(action.data.flowId)
       );
       if (flowIndex > -1) {
         flowList[flowIndex] = action.data.flow;
@@ -131,6 +145,36 @@ export default (state = initialState, action) => {
       };
 
     case UPDATE_RETENTION_FLOW_FAILED:
+      return {
+        ...state,
+        status: FAILED,
+        errorMessage: action.data,
+        successMessage: ""
+      };
+
+    case UPDATE_RETENTION_FLOW_STEP_BEGIN:
+      return {
+        ...state,
+        status: PENDING,
+        errorMessage: "",
+        successMessage: ""
+      };
+
+    case UPDATE_RETENTION_FLOW_STEP_SUCCESS:
+      const stepIndex = action.data.stepIndex;
+      let selectedFlow = state.selectedFlow;
+      if (stepIndex > -1) {
+        selectedFlow.steps[stepIndex] = action.data.flowStep;
+      }
+      return {
+        ...state,
+        status: SUCCESS,
+        selectedFlow,
+        errorMessage: "",
+        successMessage: action.data.messages
+      };
+
+    case UPDATE_RETENTION_FLOW_STEP_FAILED:
       return {
         ...state,
         status: FAILED,

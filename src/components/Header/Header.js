@@ -121,7 +121,7 @@ export function Header(props) {
   const isAuthenticatedUser = isAuthenticated();
   const authenticatedToken = isAuthenticatedToken();
 
-  function logOut(props) {
+  function logOut() {
     const dispatch = props.dispatch;
     dispatch(signOut(authenticatedToken));
   }
@@ -277,7 +277,7 @@ export function Header(props) {
         >
           Hi,&nbsp;
           <Typography variant="body2" weight={"bold"}>
-            {isAuthenticatedUser && isAuthenticatedUser.first_name}
+            {isAuthenticatedUser && isAuthenticatedUser.firstname}
           </Typography>
         </Typography>
         <Menu
@@ -364,7 +364,7 @@ export function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              {isAuthenticatedUser && isAuthenticatedUser.first_name} {isAuthenticatedUser && isAuthenticatedUser.last_name}
+              {isAuthenticatedUser && isAuthenticatedUser.firstname} {isAuthenticatedUser && isAuthenticatedUser.lastname}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
@@ -404,7 +404,7 @@ export function Header(props) {
             <Typography
               className={classes.profileMenuLink}
               color="primary"
-              onClick={() => logOut(props)}
+              onClick={() => logOut()}
             >
               Sign Out
             </Typography>

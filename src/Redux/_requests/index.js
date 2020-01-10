@@ -3,6 +3,7 @@ import qs from "qs";
 import { isAuthenticatedToken } from "../../common/isAuthenticated";
 import { GOOGLEAUTH } from "../_constants/index";
 import { sessionExpired } from "../_actions/user.action";
+import { toast } from "react-toastify";
 
 export const axiosRequest = (
   requestMethod,
@@ -58,6 +59,10 @@ export const axiosRequest = (
         }
       })
       .catch(err => {
+        toast.configure({
+          autoClose: 4000,
+          draggable: true
+        });
         if (
           err &&
           err.response &&
@@ -66,6 +71,14 @@ export const axiosRequest = (
           err.response.status === 401
         ) {
           dispatch(sessionExpired());
+        } else if (
+          err &&
+          err.response &&
+          err.response &&
+          err.response.status &&
+          err.response.status === 400
+        ) {
+          toast.error(err.response.data.message);
         }
         reject(err && err.response && err.response.data);
       });

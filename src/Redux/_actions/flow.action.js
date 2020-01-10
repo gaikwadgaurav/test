@@ -12,7 +12,11 @@ import {
   DELETE_RETENTION_FLOW_FAILED,
   DELETE_RETENTION_FLOW_SUCCESS,
   DELETE_RETENTION_FLOW_BEGIN,
-  FILTER_RETENTION_FLOW_LIST
+  FILTER_RETENTION_FLOW_LIST,
+  SET_SELECTED_FLOW,
+  UPDATE_RETENTION_FLOW_STEP_FAILED,
+  UPDATE_RETENTION_FLOW_STEP_SUCCESS,
+  UPDATE_RETENTION_FLOW_STEP_BEGIN
 } from "../_constants";
 import { axiosRequest } from "../_requests";
 
@@ -34,7 +38,7 @@ export const addFlow = (headers, params, body) => async dispatch => {
           type: ADD_RETENTION_FLOW_SUCCESS,
           data: {
             flow: addFlowResponse.data,
-            messages: addFlowResponse.message
+            messages: addFlowResponse.messages
           }
         });
       } else {
@@ -59,7 +63,7 @@ export const updateFlow = (headers, flowId, params, body) => async dispatch => {
       const updateFlowResponse = await axiosRequest(
         "PATCH",
         "flows/" + flowId + "",
-        false,
+        true,
         undefined,
         body,
         undefined,
@@ -83,6 +87,49 @@ export const updateFlow = (headers, flowId, params, body) => async dispatch => {
     } catch (error) {
       dispatch({
         type: UPDATE_RETENTION_FLOW_FAILED,
+        data: error.messages
+      });
+    }
+  }
+};
+
+export const updateFlowStep = (
+  headers,
+  stepId,
+  stepIndex,
+  params,
+  body
+) => async dispatch => {
+  dispatch({ type: UPDATE_RETENTION_FLOW_STEP_BEGIN });
+  if (headers) {
+    try {
+      const updateFlowStepResponse = await axiosRequest(
+        "PATCH",
+        "steps/" + stepId + "",
+        true,
+        params,
+        body,
+        undefined,
+        dispatch
+      );
+      if (updateFlowStepResponse.status === 200) {
+        dispatch({
+          type: UPDATE_RETENTION_FLOW_STEP_SUCCESS,
+          data: {
+            flowStep: updateFlowStepResponse.data,
+            messages: updateFlowStepResponse.messages,
+            stepIndex
+          }
+        });
+      } else {
+        dispatch({
+          type: UPDATE_RETENTION_FLOW_STEP_FAILED,
+          data: updateFlowStepResponse.data
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: UPDATE_RETENTION_FLOW_STEP_FAILED,
         data: error.messages
       });
     }
@@ -175,5 +222,12 @@ export const filterRetentionFlowList = value => dispatch => {
 export const clearFlowStateMsg = () => dispatch => {
   dispatch({
     type: CLEAR_FLOW_STATE_MESSAGE
+  });
+};
+
+export const setSelectedFlow = flow => dispatch => {
+  dispatch({
+    type: SET_SELECTED_FLOW,
+    data: flow
   });
 };

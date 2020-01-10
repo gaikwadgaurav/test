@@ -88,7 +88,7 @@ import Profile from "../../pages/profile/profile";
 import UserInvitation from "../../pages/user/invitation";
 import InvitedUserList from "../../pages/user/invitedUserList";
 import RetentionFlowsList from "../../pages/retentionFlows/retentionFlowsList";
-import CreateFlow from "../../pages/retentionFlows/createFlow";
+import FlowStep from "../../pages/retentionFlows/flowStep";
 
 // Tab styling
 
@@ -266,16 +266,16 @@ function Layout(props) {
           <Route path="/install" component={Installation} />
           <Route path="/profile" component={Profile} />
           <Route
-            path="/user-invitation/invite-user"
+            path="/invite-user"
             component={UserInvitation}
           />
           <Route
-            path="/user-invitation/invited-users-list"
+            path="/invited-users-list"
             component={InvitedUserList}
           />
-          <Route path="/flows/create" component={CreateFlow} />
-          <Route path="/flows/flows-list" component={RetentionFlowsList} />
-          <Route path="/flows/edit/:id" component={CreateFlow} />
+          <Route path="/flow/create" component={FlowStep} />
+          <Route path="/flows-list" component={RetentionFlowsList} />
+          <Route path="/flow/edit/:id" component={FlowStep} />
           <Route path="/app/ecommerce/product/:id" component={Product} />
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid} />

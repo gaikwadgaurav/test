@@ -12,7 +12,7 @@ import qs from "qs";
 import { isAuthenticated } from "../../common/isAuthenticated";
 import { addFlow, updateFlow } from "../../Redux/_actions/flow.action";
 
-const CreateFlow = props => {
+const Flow = props => {
   const [flowId, setFlowId] = React.useState("");
   const [flowName, setFlowName] = React.useState("");
   const [enabled, setEnabled] = React.useState(false);
@@ -22,7 +22,7 @@ const CreateFlow = props => {
 
   function goToFlowList() {
     const { history } = props;
-    history.push("/flows/flows-list");
+    history.push("/flows-list");
   }
 
   function flowOperation() {
@@ -174,4 +174,4 @@ const mapStateToProps = state => ({
   flows: state.flows
 });
 
-export default connect(mapStateToProps, null)(CreateFlow);
+export default connect(mapStateToProps, null)(Flow);

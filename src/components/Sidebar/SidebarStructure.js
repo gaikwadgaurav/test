@@ -31,35 +31,15 @@ const structure = [
   { id: 0, label: "Dashboard", link: "/", icon: <HomeIcon /> },
   {
     id: 1,
-    label: "Retention Flows",
-    link: "/flows",
-    icon: <CartIcon />,
-    children: [
-      {
-        label: "Create Flow",
-        link: "/flows/create"
-      },
-      {
-        label: "Flows List",
-        link: "/flows/flows-list"
-      }
-    ]
+    label: "Flows",
+    link: "/flows-list",
+    icon: <CartIcon />
   },
   {
     id: 2,
     label: "Variables",
-    link: "/variable",
-    icon: <DescriptionIcon />,
-    children: [
-      {
-        label: "Create Variable",
-        link: "/variable/create"
-      },
-      {
-        label: "Variable List",
-        link: "/variable/list"
-      }
-    ]
+    link: "/variable/list",
+    icon: <DescriptionIcon />
   },
   { id: 3, label: "Analytics", link: "/analytics", icon: <TrendingUpIcon /> },
   { id: 4, label: "Settings", link: "/settings", icon: <AppsIcon /> },
@@ -67,18 +47,8 @@ const structure = [
   {
     id: 6,
     label: "User Invitation",
-    link: "/user-invitation",
-    icon: <InsertInvitationIcon />,
-    children: [
-      {
-        label: "Invite User",
-        link: "/user-invitation/invite-user"
-      },
-      {
-        label: "User Invitation List",
-        link: "/user-invitation/invited-users-list"
-      }
-    ]
+    link: "/invited-users-list",
+    icon: <InsertInvitationIcon />
   },
   // {
   //   id: 1,
