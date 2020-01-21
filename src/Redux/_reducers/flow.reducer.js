@@ -128,18 +128,13 @@ export default (state = initialState, action) => {
       };
 
     case UPDATE_RETENTION_FLOW_SUCCESS:
-      flowList = state.flowList;
-      const flowIndex = flowList.findIndex(
-        flow => flow.id === parseInt(action.data.flowId)
-      );
-      if (flowIndex > -1) {
-        flowList[flowIndex] = action.data.flow;
-      }
+      let flow = state.selectedFlow;
+      flow.name = action.data.flow.name;
+      flow.enabled = action.data.flow.enabled;
       return {
         ...state,
         status: SUCCESS,
-        flowList: flowList,
-        flowListClone: flowList,
+        selectedFlow: flow,
         errorMessage: "",
         successMessage: action.data.messages
       };
@@ -162,9 +157,14 @@ export default (state = initialState, action) => {
 
     case UPDATE_RETENTION_FLOW_STEP_SUCCESS:
       const stepIndex = action.data.stepIndex;
+      const reasonIndex = action.data.reasonIndex;
       let selectedFlow = state.selectedFlow;
-      if (stepIndex > -1) {
+      if (stepIndex > -1 && !reasonIndex) {
         selectedFlow.steps[stepIndex] = action.data.flowStep;
+      }
+      if (reasonIndex) {
+        selectedFlow.steps[stepIndex].step_reasons =
+          action.data.flowStep.step_reasons;
       }
       return {
         ...state,

@@ -32,13 +32,13 @@ const structure = [
   {
     id: 1,
     label: "Flows",
-    link: "/flows-list",
+    link: "/flows",
     icon: <CartIcon />
   },
   {
     id: 2,
     label: "Variables",
-    link: "/variable/list",
+    link: "/variables",
     icon: <DescriptionIcon />
   },
   { id: 3, label: "Analytics", link: "/analytics", icon: <TrendingUpIcon /> },
@@ -46,8 +46,8 @@ const structure = [
   { id: 5, label: "Installation", link: "/install", icon: <TouchAppIcon /> },
   {
     id: 6,
-    label: "User Invitation",
-    link: "/invited-users-list",
+    label: "Teammates",
+    link: "/users",
     icon: <InsertInvitationIcon />
   },
   // {

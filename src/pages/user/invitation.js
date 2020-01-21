@@ -49,7 +49,7 @@ export function UserInvitation(props) {
       );
       if (invitedUserResponse && invitedUserResponse.status === 200) {
         toast.success(invitedUserResponse.message);
-        props.history.push("/invited-users-list");
+        props.history.push("/users");
       } else {
         toast.error(invitedUserResponse.message);
       }
@@ -57,7 +57,7 @@ export function UserInvitation(props) {
   }
 
   function goToInvitedUserList() {
-    props.history.push("/invited-users-list");
+    props.history.push("/users");
   }
 
   return (

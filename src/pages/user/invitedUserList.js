@@ -273,7 +273,7 @@ export function InvitedUserList(props) {
   }
 
   function goToUserInvitation() {
-    props.history.push("/invite-user");
+    props.history.push("/users/new");
   }
 
   async function inviteUser(index) {

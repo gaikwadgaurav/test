@@ -280,7 +280,7 @@ export function RetentionFlowsList(props) {
   }
 
   function editFlow(flowId) {
-    props.history.push("/flow/edit/" + flowId + "");
+    props.history.push("/flows/" + flowId + "/edit");
   }
 
   function showDeletePopUp(flowId) {
@@ -322,7 +322,7 @@ export function RetentionFlowsList(props) {
       props.flows.successMessage !== ""
     ) {
       if (props.flows.status === "ADD_FLOW_SUCCESS") {
-        props.history.push("/flow/edit/" + props.selectedFlow.id);
+        props.history.push("/flows/" + props.selectedFlow.id + "/edit");
       }
       toast.success(props.flows.successMessage);
       dispatch(clearFlowStateMsg());

@@ -97,6 +97,7 @@ export const updateFlowStep = (
   headers,
   stepId,
   stepIndex,
+  reasonIndex = null,
   params,
   body
 ) => async dispatch => {
@@ -118,7 +119,8 @@ export const updateFlowStep = (
           data: {
             flowStep: updateFlowStepResponse.data,
             messages: updateFlowStepResponse.messages,
-            stepIndex
+            stepIndex,
+            reasonIndex
           }
         });
       } else {
@@ -135,6 +137,50 @@ export const updateFlowStep = (
     }
   }
 };
+
+// export const updateFlowStepReason = (
+//   headers,
+//   stepId,
+//   stepIndex,
+//   reasonIndex,
+//   params,
+//   body
+// ) => async dispatch => {
+//   dispatch({ type: UPDATE_RETENTION_FLOW_STEP_REASON_BEGIN });
+//   if (headers) {
+//     try {
+//       const updateFlowStepResponse = await axiosRequest(
+//         "PATCH",
+//         "steps/" + stepId + "",
+//         true,
+//         params,
+//         body,
+//         undefined,
+//         dispatch
+//       );
+//       if (updateFlowStepResponse.status === 200) {
+//         dispatch({
+//           type: UPDATE_RETENTION_FLOW_STEP_SUCCESS,
+//           data: {
+//             flowStep: updateFlowStepResponse.data,
+//             messages: updateFlowStepResponse.messages,
+//             stepIndex
+//           }
+//         });
+//       } else {
+//         dispatch({
+//           type: UPDATE_RETENTION_FLOW_STEP_FAILED,
+//           data: updateFlowStepResponse.data
+//         });
+//       }
+//     } catch (error) {
+//       dispatch({
+//         type: UPDATE_RETENTION_FLOW_STEP_FAILED,
+//         data: error.messages
+//       });
+//     }
+//   }
+// };
 
 export const deleteFlow = (
   headers,

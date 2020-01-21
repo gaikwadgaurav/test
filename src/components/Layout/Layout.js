@@ -230,11 +230,11 @@ function Layout(props) {
                     <AddIcon className={classes.ecommerceIcon} />
                   </IconButton>
                 </Box>
-                <Box>
+                {/* <Box>
                   <IconButton aria-label="rate">
                     <StarIcon className={classes.ecommerceIcon} />
                   </IconButton>
-                </Box>
+                </Box> */}
               </Box>
             )}
           </Grid>
@@ -260,22 +260,16 @@ function Layout(props) {
           <Route path="/app/charts/line" component={LineCharts} />
           <Route path="/app/charts/bar" component={BarCharts} />
           <Route path="/app/charts/pie" component={PieCharts} />
-          <Route path="/variable/list" component={Ecommerce} />
-          <Route path="/variable/create" component={CreateVariable} />
-          <Route path="/variable/edit/:id" component={CreateVariable} />
+          <Route path="/variables/new" component={CreateVariable} />
+          <Route path="/variables/:id/edit" component={CreateVariable} />
+          <Route path="/variables" component={Ecommerce} />
           <Route path="/install" component={Installation} />
           <Route path="/profile" component={Profile} />
-          <Route
-            path="/invite-user"
-            component={UserInvitation}
-          />
-          <Route
-            path="/invited-users-list"
-            component={InvitedUserList}
-          />
-          <Route path="/flow/create" component={FlowStep} />
-          <Route path="/flows-list" component={RetentionFlowsList} />
-          <Route path="/flow/edit/:id" component={FlowStep} />
+          <Route path="/users/new" component={UserInvitation} />
+          <Route path="/users" component={InvitedUserList} />
+          <Route path="/flows/new" component={FlowStep} />
+          <Route path="/flows/:id/edit" component={FlowStep} />
+          <Route path="/flows" component={RetentionFlowsList} />
           <Route path="/app/ecommerce/product/:id" component={Product} />
           <Route path="/app/ecommerce/product" component={Product} />
           <Route path="/app/ecommerce/gridproducts" component={ProductsGrid} />

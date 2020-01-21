@@ -169,7 +169,9 @@ export const fetchInvitedUsers = (header, params) => async dispatch => {
         "user_invitations/invited_users_list",
         header,
         null,
-        null
+        null,
+        undefined,
+        dispatch
       );
       if (response.status === 200) {
         dispatch({

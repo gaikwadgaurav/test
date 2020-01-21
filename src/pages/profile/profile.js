@@ -16,9 +16,9 @@ export function Profile(props) {
   const classes = useStyles();
   const user = isAuthenticated();
   var [state, setState] = useState({
-    firstName: user && user.first_name,
-    lastName: user && user.last_name,
-    email: user && user.email,
+    firstName: user && user.first_name ? user.first_name : "",
+    lastName: user && user.last_name ? user.last_name : "",
+    email: user && user.email ? user.email : "",
     password: "",
     confirmPassword: "",
     formErrors: { email: "", password: "" },

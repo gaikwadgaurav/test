@@ -277,7 +277,7 @@ export function Header(props) {
         >
           Hi,&nbsp;
           <Typography variant="body2" weight={"bold"}>
-            {isAuthenticatedUser && isAuthenticatedUser.firstname}
+            {isAuthenticatedUser && isAuthenticatedUser.first_name}
           </Typography>
         </Typography>
         <Menu
@@ -364,7 +364,8 @@ export function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              {isAuthenticatedUser && isAuthenticatedUser.firstname} {isAuthenticatedUser && isAuthenticatedUser.lastname}
+              {isAuthenticatedUser && isAuthenticatedUser.first_name}{" "}
+              {isAuthenticatedUser && isAuthenticatedUser.last_name}
             </Typography>
             <Typography
               className={classes.profileMenuLink}
@@ -380,17 +381,17 @@ export function Header(props) {
               classes.profileMenuItem,
               classes.headerMenuItem
             )}
-            onClick={goToProfile}
           >
-            <AccountIcon className={classes.profileMenuIcon} /> Profile
+            <AccountIcon className={classes.profileMenuIcon} /> Tasks
           </MenuItem>
           <MenuItem
             className={classNames(
               classes.profileMenuItem,
               classes.headerMenuItem
             )}
+            onClick={goToProfile}
           >
-            <AccountIcon className={classes.profileMenuIcon} /> Tasks
+            <AccountIcon className={classes.profileMenuIcon} /> Profile
           </MenuItem>
           <MenuItem
             className={classNames(

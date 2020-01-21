@@ -275,7 +275,7 @@ export function EcommercePage(props) {
   function editVariable(variableId) {
     if (variableId) {
       const { history } = props;
-      history.push("/variable/edit/" + variableId + "");
+      history.push("/variables/" + variableId + "/edit");
     }
   }
 
@@ -405,7 +405,7 @@ export function EcommercePage(props) {
             <Button
               variant={"contained"}
               component={Link}
-              to={"/variable/create"}
+              to={"/variables/new"}
               color={"success"}
             >
               Create Variable
@@ -499,7 +499,9 @@ export function EcommercePage(props) {
                   {emptyRows > 0 && !variables.length && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       {/* <TableCell colSpan={3} /> */}
-                      <TableCell colSpan={6} className={"text text-center"}>No Variable Available.</TableCell>
+                      <TableCell colSpan={6} className={"text text-center"}>
+                        No Variable Available.
+                      </TableCell>
                     </TableRow>
                   )}
                 </TableBody>

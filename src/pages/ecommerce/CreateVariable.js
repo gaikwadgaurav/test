@@ -23,7 +23,7 @@ const CreateVariable = props => {
   
   function goToVariableList() {
     const { history } = props;
-    history.push("/variable/list");
+    history.push("/variables");
   }
 
   function variableOperation() {
