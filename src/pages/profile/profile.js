@@ -21,9 +21,10 @@ export function Profile(props) {
     email: user && user.email ? user.email : "",
     password: "",
     confirmPassword: "",
-    formErrors: { email: "", password: "" },
+    formErrors: { email: "", password: "", confirmPassword: "" },
     emailValid: "",
-    passwordValid: ""
+    passwordValid: "",
+    confirmPasswordValid: "",
   });
 
   const dispatch = useDispatch();
@@ -34,11 +35,13 @@ export function Profile(props) {
 
   function setValue(e) {
     const response = ValidationHandler(e);
+    console.log('response', response)
     setState({
       ...state,
       formErrors: response.formErrors,
       emailValid: response.emailValid,
       passwordValid: response.passwordValid,
+      confirmPasswordValid: response.confirmPasswordValid,
       [e.target.id]: response.name
     });
   }
@@ -48,7 +51,8 @@ export function Profile(props) {
       "user[first_name]": state.firstName,
       "user[last_name]": state.lastName,
       "user[email]": state.email,
-      "user[password]": state.password
+      "user[password]": state.password,
+      "user[confirmPassword]": state.confirmPassword
     };
     dispatch(updateUserProfile(true, null, qs.parse(formData)));
   }
@@ -144,6 +148,11 @@ export function Profile(props) {
                 type={"password"}
                 onChange={e => setValue(e)}
               />
+              {state.passwordValid ? null : (
+                <span className={"text text-danger"}>
+                  {state.formErrors.password}
+                </span>
+              )}
             </Grid>
           </Grid>
         </Grid>
@@ -161,6 +170,11 @@ export function Profile(props) {
                 type={"password"}
                 onChange={e => setValue(e)}
               />
+              {state.confirmPasswordValid ? null : (
+                <span className={"text text-danger"}>
+                  {state.formErrors.confirmPassword}
+                </span>
+              )}
             </Grid>
           </Grid>
         </Grid>

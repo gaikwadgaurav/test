@@ -95,7 +95,7 @@ class SignInForm extends React.Component {
 
   registerUser() {
     const { dispatch } = this.props;
-    const { companyNameValue, firstNameValue,lastNameValue, email, password } = this.state;
+    const { companyNameValue, firstNameValue, lastNameValue, email, password } = this.state;
     this.setState({ isLoading: true });
     let formData = new FormData();
     formData.append("company[name]", companyNameValue);
@@ -103,7 +103,7 @@ class SignInForm extends React.Component {
     formData.append("user[last_name]", lastNameValue);
     formData.append("user[email]", email);
     formData.append("user[password]", password);
-    dispatch(signUp(formData,this.state));
+    dispatch(signUp(formData, this.state));
   }
 
   async forgetPassword() {
@@ -349,18 +349,18 @@ class SignInForm extends React.Component {
                         className={classes.loginLoader}
                       />
                     ) : (
-                      <Button
-                        disabled={
-                          loginValue.length === 0 || password.length === 0
-                        }
-                        onClick={() => this.loginUser()}
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                      >
-                        Login
+                        <Button
+                          disabled={
+                            loginValue.length === 0 || password.length === 0
+                          }
+                          onClick={() => this.loginUser()}
+                          variant="contained"
+                          color="primary"
+                          size="large"
+                        >
+                          Login
                       </Button>
-                    )}
+                      )}
                     <Button
                       color="primary"
                       size="large"
@@ -474,23 +474,23 @@ class SignInForm extends React.Component {
                     {isLoading ? (
                       <CircularProgress size={26} />
                     ) : (
-                      <Button
-                        onClick={() => this.registerUser()}
-                        disabled={
-                          password.length === 0 ||
-                          firstNameValue.length === 0 ||
-                          lastNameValue.length === 0 ||
-                          email.length === 0
-                        }
-                        size="large"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        className={classes.createAccountButton}
-                      >
-                        Create your account
+                        <Button
+                          onClick={() => this.registerUser()}
+                          disabled={
+                            password.length === 0 ||
+                            firstNameValue.length === 0 ||
+                            lastNameValue.length === 0 ||
+                            email.length === 0
+                          }
+                          size="large"
+                          variant="contained"
+                          color="primary"
+                          fullWidth
+                          className={classes.createAccountButton}
+                        >
+                          Create your account
                       </Button>
-                    )}
+                      )}
                   </div>
                   <div className={classes.formDividerContainer}>
                     <div className={classes.formDivider} />
@@ -544,35 +544,35 @@ class SignInForm extends React.Component {
                       className={classes.loginLoader}
                     />
                   ) : (
-                    <div>
-                      <Button
-                        disabled={loginValue.length === 0}
-                        onClick={() => this.forgetPassword()}
-                        variant="contained"
-                        color="primary"
-                        size="medium"
-                      >
-                        Reset Password
+                      <div>
+                        <Button
+                          disabled={loginValue.length === 0}
+                          onClick={() => this.forgetPassword()}
+                          variant="contained"
+                          color="primary"
+                          size="medium"
+                        >
+                          Reset Password
                       </Button>
 
-                      <Button
-                        className={classes.cancelButton}
-                        onClick={() =>
-                          this.setState({
-                            showForgetPasswordForm: false,
-                            loginValue: "",
-                            password: "",
-                            activeTabId: 0
-                          })
-                        }
-                        variant="contained"
-                        color="secondary"
-                        size="medium"
-                      >
-                        Cancel
+                        <Button
+                          className={classes.cancelButton}
+                          onClick={() =>
+                            this.setState({
+                              showForgetPasswordForm: false,
+                              loginValue: "",
+                              password: "",
+                              activeTabId: 0
+                            })
+                          }
+                          variant="contained"
+                          color="secondary"
+                          size="medium"
+                        >
+                          Cancel
                       </Button>
-                    </div>
-                  )}
+                      </div>
+                    )}
                 </div>
               </React.Fragment>
             )}
@@ -626,36 +626,36 @@ class SignInForm extends React.Component {
                       className={classes.loginLoader}
                     />
                   ) : (
-                    <div>
-                      <Button
-                        disabled={
-                          password.length === 0 || confirm_password.length === 0
-                        }
-                        onClick={() => this.resetPassword()}
-                        variant="contained"
-                        color="primary"
-                        size="medium"
-                      >
-                        Save
+                      <div>
+                        <Button
+                          disabled={
+                            password.length === 0 || confirm_password.length === 0
+                          }
+                          onClick={() => this.resetPassword()}
+                          variant="contained"
+                          color="primary"
+                          size="medium"
+                        >
+                          Save
                       </Button>
 
-                      <Button
-                        className={classes.cancelButton}
-                        onClick={() =>
-                          this.setState({
-                            showNewPasswordForm: false,
-                            showForgetPasswordForm: true,
-                            password: ""
-                          })
-                        }
-                        variant="contained"
-                        color="secondary"
-                        size="medium"
-                      >
-                        Cancel
+                        <Button
+                          className={classes.cancelButton}
+                          onClick={() =>
+                            this.setState({
+                              showNewPasswordForm: false,
+                              showForgetPasswordForm: true,
+                              password: ""
+                            })
+                          }
+                          variant="contained"
+                          color="secondary"
+                          size="medium"
+                        >
+                          Cancel
                       </Button>
-                    </div>
-                  )}
+                      </div>
+                    )}
                 </div>
               </React.Fragment>
             )}
